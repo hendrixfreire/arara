@@ -1,10 +1,10 @@
-// The push relay: how a Tucano (on a server or on a computer) reaches the Tucano app on an iPhone that
+// The push relay: how an Arara (on a server or on a computer) reaches the Arara app on an iPhone that
 // is closed. Apple delivers only for whoever holds the app's push key (APNs), and that key stays here:
-// no Tucano gets it. So:
+// no Arara gets it. So:
 //   1. The app gives its device token to /api/push/register and gets back a handle: the token sealed
-//      with a key only this worker has (AES-GCM). It hands the handle to its Tucano.
-//   2. The Tucano posts the handle and the notification to /api/push/send; this opens the handle and
-//      asks Apple to deliver. A Tucano can reach only the phones that gave it a handle.
+//      with a key only this worker has (AES-GCM). It hands the handle to its Arara.
+//   2. The Arara posts the handle and the notification to /api/push/send; this opens the handle and
+//      asks Apple to deliver. An Arara can reach only the phones that gave it a handle.
 // Nothing is stored here. The worker's secrets (`npx wrangler secret put <name>`):
 //   APNS_KEY      the .p8 key from developer.apple.com (Keys › Apple Push Notifications service), whole
 //   APNS_KEY_ID   its Key ID
@@ -57,7 +57,7 @@ async function bearer(env, now = Date.now()) {
 }
 
 // What Apple shows: the title and the text, grouped by conversation; the rest is for the app (a tap
-// opens that conversation, on that Tucano).
+// opens that conversation, on that Arara).
 export function payload(n, tag) {
   return {
     aps: { alert: { title: clip(n.title, 120), body: clip(n.body, 1000) }, sound: 'default', ...(n.conversationId ? { 'thread-id': clip(n.conversationId, 100) } : {}) },
@@ -98,7 +98,7 @@ export async function send(request, env, fetcher = fetch) {
       const handle = typeof x?.handle === 'string' ? x.handle : ''
       const t = handle && (await open(handle, env))
       if (!t) return void gone.push(handle)
-      // At most so many a minute per phone (a Tucano gone wrong doesn't flood it).
+      // At most so many a minute per phone (an Arara gone wrong doesn't flood it).
       if (env.PUSH_LIMIT && !(await env.PUSH_LIMIT.limit({ key: handle.slice(0, 64) })).success) return
       const r = await fetcher(`${HOSTS[t.e]}/3/device/${t.t}`, {
         method: 'POST',

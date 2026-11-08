@@ -58,7 +58,7 @@ becomes the shared preference. Server mode keeps its single-workspace settings.
 The selector shares only names, unread counts and pending approval counts.
 Conversations, memory and credentials are not combined. Default webhook/git
 ports remain 47717/47718; other workspaces have persistent separate assignments.
-A port already taken (another Tucano open, say) is logged and that workspace keeps
+A port already taken (another Arara open, say) is logged and that workspace keeps
 running without it: a call there reaches a server that doesn't know its tokens.
 
 At the end of **Settings > General**, the **Danger area** contains backup controls
@@ -80,7 +80,7 @@ the manager or the backend. Its backup and duplication actions remain available.
   workspace. Every workspace starts together at application startup.
   In other workspaces, the Telegram settings notice shows the default workspace's
   name as a link that switches there. The link is hidden in the default workspace.
-- Server mode is unchanged: one workspace per `TUCANO_DATA`, with no desktop
+- Server mode is unchanged: one workspace per `ARARA_DATA`, with no desktop
   workspace selector or registry management.
 - Failed cores can be retried from the selector. Automatic crash backoff and
   comprehensive multi-platform/native lifecycle verification are still pending.

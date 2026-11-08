@@ -9,7 +9,7 @@
 // Opened as a file there is only one page, so the language switches in place, as before.
 (function () {
   var l
-  try { l = localStorage.getItem('tucano-lang') } catch (e) {}
+  try { l = localStorage.getItem('arara-lang') } catch (e) {}
   if (location.protocol === 'file:') {
     if (l !== 'en' && l !== 'pt-BR') l = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase().indexOf('pt') === 0 ? 'pt-BR' : 'en'
     document.documentElement.lang = l
@@ -18,14 +18,14 @@
   }
 })()
 </script>
-<title>Tucano · Seu time de agentes de IA, com as suas regras</title>
+<title>Arara · Seu time de agentes de IA, com as suas regras</title>
 <meta name="description" id="metaDesc" content="Agentes de IA trabalhando juntos em canais, no seu computador, com Claude Code, Codex, Gemini, OpenCode ou Pi. Você decide o que cada um pode fazer. Grátis e open source.">
-<meta property="og:title" id="ogTitle" content="Tucano · Seu time de agentes de IA, com as suas regras">
+<meta property="og:title" id="ogTitle" content="Arara · Seu time de agentes de IA, com as suas regras">
 <meta property="og:description" id="ogDesc" content="Um time de agentes de IA no seu computador, na assinatura que você já tem. Você decide até onde cada um vai.">
 <meta property="og:image" content="https://tucano.sh/assets/brand/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Tucano: Seu time de agentes de IA. Suas regras.">
+<meta property="og:image:alt" content="Arara: Seu time de agentes de IA. Suas regras.">
 <meta property="og:url" content="https://tucano.sh/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -481,7 +481,7 @@ footer a:hover { color: #EDE7DA; }
   .rv { opacity: 1; transform: none; }
   .hero h1 .swoosh svg path { stroke-dashoffset: 0; }
 }
-/* ---------- Tucano Pro (beta) ---------- */
+/* ---------- Arara Pro (beta) ---------- */
 nav.links a .beta, .beta { display: inline-grid; place-items: center; height: 18px; padding: 0 7px; margin-left: 6px; border-radius: 99px; background: var(--beak); color: var(--ink); font: 700 10.5px/1 var(--sans); letter-spacing: .04em; vertical-align: 2px; }
 .hero .pro-line { margin-top: 10px; font-size: 14px; color: var(--ink-3); }
 .hero .pro-line a { color: var(--ink-2); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(20, 15, 5, .25); }
@@ -608,7 +608,7 @@ if (/(^|\.)tucano\.sh$/.test(location.hostname)) {
 
 <header class="top" id="top">
   <div class="wrap">
-    <a class="brand" href="#"><svg><use href="#mark"/></svg><span>tucano</span></a>
+    <a class="brand" href="#"><svg><use href="#mark"/></svg><span>arara</span></a>
     <nav class="links">
       <a href="#ao-vivo"><span lang="pt-BR">Ao vivo</span><span lang="en">Live</span></a>
       <a href="#faz"><span lang="pt-BR">O que faz</span><span lang="en">What it does</span></a>
@@ -631,14 +631,14 @@ if (/(^|\.)tucano\.sh$/.test(location.hostname)) {
 <section class="hero">
   <div class="wrap hero__grid">
     <div>
-      <a class="news rv" href="#pro" data-pro-where="pill"><span class="beta">BETA</span><span lang="pt-BR">Tucano Pro: seu time na nuvem</span><span lang="en">Tucano Pro: your team in the cloud</span><span class="go"><span lang="pt-BR">Entrar na lista →</span><span lang="en">Join the waitlist →</span></span></a>
+      <a class="news rv" href="#pro" data-pro-where="pill"><span class="beta">BETA</span><span lang="pt-BR">Arara Pro: seu time na nuvem</span><span lang="en">Arara Pro: your team in the cloud</span><span class="go"><span lang="pt-BR">Entrar na lista →</span><span lang="en">Join the waitlist →</span></span></a>
       <div class="eyebrow rv"><span lang="pt-BR">Grátis, open source, no Mac, no Linux e no Windows</span><span lang="en">Free, open source, on Mac, Linux and Windows</span></div>
       <h1 class="display rv"><span lang="pt-BR">Seu time de agentes de IA. </span><span lang="en">Your AI agent team. </span><span class="swoosh"><span lang="pt-BR">Suas regras.</span><span lang="en">Your rules.</span><svg viewBox="0 0 300 30" preserveAspectRatio="none"><path pathLength="1" d="M4 22 C 80 6, 200 4, 296 14" stroke="#FF8C24" stroke-width="9" stroke-linecap="round" fill="none"/></svg></span></h1>
       <p class="lead rv"><span lang="pt-BR">Agentes que conversam em canais, programam, revisam um ao outro e usam as ferramentas do seu time. Eles fazem o trabalho; o que mexe no mundo espera o seu sim.</span><span lang="en">Agents that talk in channels, write code, review each other and use your team’s tools. They do the work; anything that touches the real world waits for your yes.</span></p>
       <div class="actions rv">
-        <a class="btn btn--beak" data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-arm64.dmg"><span lang="pt-BR">Baixar pro Mac</span><span lang="en">Download for Mac</span></a>
-        <button type="button" class="btn pro-btn" data-pro-open aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 9.5 4.75 4.75 0 0 0 6.75 19z"/></svg><span lang="pt-BR">Tucano Pro, na nuvem</span><span lang="en">Tucano Pro, in the cloud</span><span class="beta">BETA</span></button>
-        <p class="also"><span lang="pt-BR">Também pra </span><span lang="en">Also for </span><a data-dl data-os="windows" href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-win-x64.exe">Windows</a><span lang="pt-BR"> e </span><span lang="en"> and </span><a data-dl data-os="linux" href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-amd64.deb">Linux</a></p>
+        <a class="btn btn--beak" data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-arm64.dmg"><span lang="pt-BR">Baixar pro Mac</span><span lang="en">Download for Mac</span></a>
+        <button type="button" class="btn pro-btn" data-pro-open aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 9.5 4.75 4.75 0 0 0 6.75 19z"/></svg><span lang="pt-BR">Arara Pro, na nuvem</span><span lang="en">Arara Pro, in the cloud</span><span class="beta">BETA</span></button>
+        <p class="also"><span lang="pt-BR">Também pra </span><span lang="en">Also for </span><a data-dl data-os="windows" href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-win-x64.exe">Windows</a><span lang="pt-BR"> e </span><span lang="en"> and </span><a data-dl data-os="linux" href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-amd64.deb">Linux</a></p>
         <div class="hero-join" hidden><form class="join" novalidate>
   <input type="email" name="email" autocomplete="email" aria-label="E-mail" required>
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px">
@@ -872,15 +872,15 @@ if (/(^|\.)tucano\.sh$/.test(location.hostname)) {
   </div>
 </section>
 
-<!-- ============ Tucano Pro (beta) ============ -->
+<!-- ============ Arara Pro (beta) ============ -->
 <section class="pro" id="pro">
   <div class="glow" aria-hidden="true"></div>
   <div class="stars" id="proStars" aria-hidden="true"></div>
   <div class="wrap grid">
     <div class="rv">
-      <div class="eyebrow"><span lang="pt-BR">Tucano Pro · beta</span><span lang="en">Tucano Pro · beta</span></div>
+      <div class="eyebrow"><span lang="pt-BR">Arara Pro · beta</span><span lang="en">Arara Pro · beta</span></div>
       <h2 class="h2" style="margin-top:18px"><span lang="pt-BR">Feche o notebook. <em>O time continua.</em></span><span lang="en">Close the laptop. <em>The team keeps going.</em></span></h2>
-      <p class="lead"><span lang="pt-BR">No Tucano Pro, o seu Tucano roda na nuvem, 24 horas. Use a assinatura de IA que você já tem, ou deixe a IA com a gente. Sem instalar nada: você usa no navegador ou no iPhone, de qualquer lugar.</span><span lang="en">With Tucano Pro, your Tucano runs in the cloud, around the clock. Use the AI subscription you already have, or leave the AI to us. Nothing to install: use it in the browser or on your iPhone, from anywhere.</span></p>
+      <p class="lead"><span lang="pt-BR">Na Arara Pro, a sua Arara roda na nuvem, 24 horas. Use a assinatura de IA que você já tem, ou deixe a IA com a gente. Sem instalar nada: você usa no navegador ou no iPhone, de qualquer lugar.</span><span lang="en">With Arara Pro, your Arara runs in the cloud, around the clock. Use the AI subscription you already have, or leave the AI to us. Nothing to install: use it in the browser or on your iPhone, from anywhere.</span></p>
       <form class="join" novalidate>
   <input type="email" name="email" autocomplete="email" aria-label="E-mail" required>
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px">
@@ -891,7 +891,7 @@ if (/(^|\.)tucano\.sh$/.test(location.hostname)) {
 <p class="join-fine"><span lang="pt-BR">Acesso antecipado, pago e com vagas limitadas: quando chegar a sua vez, o convite traz o link pra assinar. 7 dias pra desistir com reembolso. Ao entrar, você concorda com os <a href="/pro/#termos">termos do beta</a> e a <a href="/privacidade/">privacidade</a>.</span><span lang="en">Paid early access, with limited spots: when it's your turn, the invite comes with the link to subscribe. 7 days to cancel for a full refund. By joining, you agree to the <a href="/en/pro/#termos">beta terms</a> and the <a href="/en/privacy/">privacy policy</a>.</span></p>
 
       <div class="profacts plans3">
-        <div><small><span lang="pt-BR">Grátis</span><span lang="en">Free</span></small><b><span lang="pt-BR">No seu computador</span><span lang="en">On your computer</span></b><span lang="pt-BR">O Tucano de sempre, com a sua IA.</span><span lang="en">The Tucano you know, with your AI.</span><span class="price"><span lang="pt-BR">R$ 0<small>/mês</small></span><span lang="en">US$0<small>/mo</small></span></span></div>
+        <div><small><span lang="pt-BR">Grátis</span><span lang="en">Free</span></small><b><span lang="pt-BR">No seu computador</span><span lang="en">On your computer</span></b><span lang="pt-BR">A Arara de sempre, com a sua IA.</span><span lang="en">The Arara you know, with your AI.</span><span class="price"><span lang="pt-BR">R$ 0<small>/mês</small></span><span lang="en">US$0<small>/mo</small></span></span></div>
         <div><small>Beta</small><b><span lang="pt-BR">Na nuvem, com a sua IA</span><span lang="en">In the cloud, with your AI</span></b><span lang="pt-BR">Claude, ChatGPT, Gemini e outros: você conecta a que já paga.</span><span lang="en">Claude, ChatGPT, Gemini and more: connect the one you pay for.</span><span class="price"><span lang="pt-BR">R$ 79<small>/mês</small></span><span lang="en">US$15<small>/mo</small></span></span></div>
         <div class="on"><small>Beta</small><b><span lang="pt-BR">Na nuvem, com a IA inclusa</span><span lang="en">In the cloud, AI included</span></b><span lang="pt-BR">Nada pra configurar: abre e usa.</span><span lang="en">Nothing to set up: open it and go.</span><span class="price"><span lang="pt-BR">R$ 169<small>/mês</small></span><span lang="en">US$32<small>/mo</small></span></span></div>
       </div>
@@ -915,8 +915,8 @@ if (/(^|\.)tucano\.sh$/.test(location.hostname)) {
         <li><div><b><span lang="pt-BR">Baixe e instale</span><span lang="en">Download and install it</span></b><span><span lang="pt-BR">No Mac, arraste pra Aplicativos: assinado e notarizado pela Apple, abre sem aviso. No Linux, o .deb (Ubuntu, Debian) ou o AppImage. Ou cole o comando ao lado. No Windows, o comando é no PowerShell: instala sem pedir administrador.</span><span lang="en">On a Mac, drag it to Applications: signed and notarized by Apple, it opens with no warning. On Linux, the .deb (Ubuntu, Debian) or the AppImage. Or paste the command alongside. On Windows, the command goes in PowerShell: no admin rights needed.</span></span></div></li>
         <li><div><b><span lang="pt-BR">Monte o time com o Tuca</span><span lang="en">Build the team with Tuca</span></b><span><span lang="pt-BR">A introdução te leva até o primeiro agente.</span><span lang="en">The introduction walks you to your first agent.</span></span></div></li>
       </ol>
-      <div style="margin-top:30px"><a class="btn btn--beak" data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-arm64.dmg"><span lang="pt-BR">Baixar pro Mac</span><span lang="en">Download for Mac</span></a></div>
-      <p class="fine" style="margin-top:12px"><span lang="pt-BR">Todos os formatos:</span><span lang="en">Every format:</span> <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-arm64.dmg">Mac (.dmg)</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-x64.dmg">Mac Intel (.dmg)</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-amd64.deb">Linux .deb</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-x86_64.AppImage">Linux AppImage</a> · <span lang="pt-BR">ARM64:</span><span lang="en">ARM64:</span> <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-arm64.deb">.deb</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-arm64.AppImage">AppImage</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-win-x64.exe">Windows (.exe)</a></p>
+      <div style="margin-top:30px"><a class="btn btn--beak" data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-arm64.dmg"><span lang="pt-BR">Baixar pro Mac</span><span lang="en">Download for Mac</span></a></div>
+      <p class="fine" style="margin-top:12px"><span lang="pt-BR">Todos os formatos:</span><span lang="en">Every format:</span> <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-arm64.dmg">Mac (.dmg)</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-x64.dmg">Mac Intel (.dmg)</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-amd64.deb">Linux .deb</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-x86_64.AppImage">Linux AppImage</a> · <span lang="pt-BR">ARM64:</span><span lang="en">ARM64:</span> <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-arm64.deb">.deb</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-arm64.AppImage">AppImage</a> · <a data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-win-x64.exe">Windows (.exe)</a></p>
       <div class="free"><span><span lang="pt-BR">Grátis</span><span lang="en">Free</span></span><span>Open source · Apache-2.0</span><span><span lang="pt-BR">Sem conta, sem servidor nosso</span><span lang="en">No account, no servers of ours</span></span></div>
     </div>
     <div class="tty rv" id="tty"><div class="tb"><i></i><i></i><i></i></div><pre id="ttyText"></pre></div>
@@ -928,8 +928,8 @@ if (/(^|\.)tucano\.sh$/.test(location.hostname)) {
   <div class="wrap grid">
     <div class="rv"><div class="eyebrow"><span lang="pt-BR">Perguntas</span><span lang="en">FAQ</span></div><h2 class="h2" style="margin-top:18px"><span lang="pt-BR">O que todo mundo <em>pergunta primeiro.</em></span><span lang="en">What everyone <em>asks first.</em></span></h2></div>
     <div class="qa rv">
-      <details open><summary><span lang="pt-BR">Quanto custa?</span><span lang="en">How much does it cost?</span></summary><p><span lang="pt-BR">Nada. O Tucano é grátis, sem recurso trancado. Você usa o plano do Claude ou do ChatGPT que já paga, os seus provedores, ou o gateway da empresa. Se preferir na nuvem, sem deixar o computador ligado, o <a href="/pro/">Tucano Pro</a> custa R$ 79/mês com a sua IA, ou R$ 169/mês com a IA inclusa.</span><span lang="en">Nothing. Tucano is free, with no locked features. You use the Claude or ChatGPT plan you already pay for, your own providers, or your company’s gateway. If you’d rather run it in the cloud, without keeping your computer on, <a href="/en/pro/">Tucano Pro</a> is US$15/mo with your AI, or US$32/mo with the AI included.</span></p></details>
-      <details><summary><span lang="pt-BR">E se eu não quiser instalar nada?</span><span lang="en">What if I don’t want to install anything?</span></summary><p><span lang="pt-BR">Entre na lista do <a href="#pro">Tucano Pro</a>, em beta: a gente hospeda o seu Tucano, e você usa a assinatura de IA que já tem ou a IA inclusa. No navegador ou no iPhone, de qualquer lugar.</span><span lang="en">Join the waitlist for <a href="#pro">Tucano Pro</a>, in beta: we host your Tucano, and you use the AI subscription you already have or the AI included. In the browser or on your iPhone, from anywhere.</span></p></details>
+      <details open><summary><span lang="pt-BR">Quanto custa?</span><span lang="en">How much does it cost?</span></summary><p><span lang="pt-BR">Nada. A Arara é grátis, sem recurso trancado. Você usa o plano do Claude ou do ChatGPT que já paga, os seus provedores, ou o gateway da empresa. Se preferir na nuvem, sem deixar o computador ligado, a <a href="/pro/">Arara Pro</a> custa R$ 79/mês com a sua IA, ou R$ 169/mês com a IA inclusa.</span><span lang="en">Nothing. Arara is free, with no locked features. You use the Claude or ChatGPT plan you already pay for, your own providers, or your company’s gateway. If you’d rather run it in the cloud, without keeping your computer on, <a href="/en/pro/">Arara Pro</a> is US$15/mo with your AI, or US$32/mo with the AI included.</span></p></details>
+      <details><summary><span lang="pt-BR">E se eu não quiser instalar nada?</span><span lang="en">What if I don’t want to install anything?</span></summary><p><span lang="pt-BR">Entre na lista do <a href="#pro">Arara Pro</a>, em beta: a gente hospeda a sua Arara, e você usa a assinatura de IA que já tem ou a IA inclusa. No navegador ou no iPhone, de qualquer lugar.</span><span lang="en">Join the waitlist for <a href="#pro">Arara Pro</a>, in beta: we host your Arara, and you use the AI subscription you already have or the AI included. In the browser or on your iPhone, from anywhere.</span></p></details>
       <details><summary><span lang="pt-BR">Preciso de chave de API?</span><span lang="en">Do I need an API key?</span></summary><p><span lang="pt-BR">Não. Ele roda o Claude Code, o Codex, o Cursor, o Gemini, o Grok, o OpenCode ou o Pi já configurados no seu computador. O app nunca vê nem guarda a sua senha.</span><span lang="en">No. It runs Claude Code, Codex, Cursor, Gemini, Grok, OpenCode or Pi as they’re already set up on your computer. The app never sees or stores your password.</span></p></details>
       <details><summary><span lang="pt-BR">É seguro deixar agentes mexendo nas coisas?</span><span lang="en">Is it safe to let agents touch things?</span></summary><p><span lang="pt-BR">Cada agente só usa o que recebeu, ações sensíveis pedem o seu sim (amarrado àquela ação exata) e os comandos rodam num Linux isolado, a não ser que você escolha dar o seu computador.</span><span lang="en">Each agent only uses what it was given, sensitive actions need your yes (tied to that exact action), and commands run on an isolated Linux machine, unless you choose to hand over your own computer.</span></p></details>
       <details><summary><span lang="pt-BR">Onde ficam os meus dados?</span><span lang="en">Where does my data live?</span></summary><p><span lang="pt-BR">No seu computador: conversas, memória, arquivos e logins. O modelo recebe só o que os agentes mandam pra ele, pelo caminho que o seu harness já usa.</span><span lang="en">On your computer: conversations, memory, files and logins. The model only receives what the agents send it, through the path your harness already uses.</span></p></details>
@@ -946,14 +946,14 @@ if (/(^|\.)tucano\.sh$/.test(location.hostname)) {
     <div class="top2">
       <h2 class="h2 rv"><span lang="pt-BR">Bote o time pra <em>voar.</em></span><span lang="en">Let the team <em>take flight.</em></span></h2>
       <div class="acts rv">
-        <a class="btn btn--beak" data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-arm64.dmg"><span lang="pt-BR">Baixar pro Mac</span><span lang="en">Download for Mac</span></a>
-        <p class="also"><span lang="pt-BR">Também pra </span><span lang="en">Also for </span><a data-dl data-os="windows" href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-win-x64.exe">Windows</a><span lang="pt-BR"> e </span><span lang="en"> and </span><a data-dl data-os="linux" href="https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-amd64.deb">Linux</a></p>
+        <a class="btn btn--beak" data-dl href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-arm64.dmg"><span lang="pt-BR">Baixar pro Mac</span><span lang="en">Download for Mac</span></a>
+        <p class="also"><span lang="pt-BR">Também pra </span><span lang="en">Also for </span><a data-dl data-os="windows" href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-win-x64.exe">Windows</a><span lang="pt-BR"> e </span><span lang="en"> and </span><a data-dl data-os="linux" href="https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-amd64.deb">Linux</a></p>
         <div class="cmd"><code><b>curl</b> -fsSL <span>…/releases/latest/download/</span>install.sh | sh</code><button class="copy" data-copy="curl -fsSL https://github.com/eduwxyz/tucano/releases/latest/download/install.sh | sh">Copiar</button></div>
         <a class="btn btn--ghost" style="color:#EDE7DA;box-shadow:inset 0 0 0 1.5px #3A3631" href="https://github.com/eduwxyz/tucano"><img src="assets/logos/github.svg" alt="" style="filter:invert(1)"><span lang="pt-BR">Ver no GitHub</span><span lang="en">View on GitHub</span></a>
       </div>
     </div>
     <div class="word" aria-hidden="true">
-      <span class="big">tucano</span>
+      <span class="big">arara</span>
       <svg viewBox="0 0 100 100" id="endBird"><circle cx="27" cy="73" r="48" fill="#EDE7DA" opacity=".08"/><circle cx="38" cy="47" r="14" fill="#fff"/><circle id="endPupil" cx="43" cy="47" r="5.5" fill="#141210"/><path d="M53 24 Q84 25 93 44 L96 57 L53 57 Z" fill="#FF8C24"/><path d="M53 57 L95 57 Q86 70 53 71 Z" fill="#E5531F"/><path d="M83 57 A9 12 0 0 1 97 47 L97 57 Z" fill="#141210"/></svg>
     </div>
     <footer>
@@ -976,12 +976,12 @@ let LANG = document.documentElement.lang === 'en' ? 'en' : 'pt-BR'
 const T = (pt, en) => (LANG === 'en' ? en : pt)
 const META = {
   'pt-BR': {
-    title: 'Tucano · Seu time de agentes de IA, com as suas regras',
+    title: 'Arara · Seu time de agentes de IA, com as suas regras',
     desc: 'Agentes de IA trabalhando juntos em canais, no seu computador, com Claude Code, Codex, Gemini, OpenCode ou Pi. Você decide o que cada um pode fazer. Grátis e open source.',
     og: 'Um time de agentes de IA no seu computador, na assinatura que você já tem. Você decide até onde cada um vai.'
   },
   en: {
-    title: 'Tucano · Your AI agent team, on your terms',
+    title: 'Arara · Your AI agent team, on your terms',
     desc: 'AI agents working together in channels, on your computer, with Claude Code, Codex, Gemini, OpenCode or Pi. You decide what each one can do. Free and open source.',
     og: 'A team of AI agents on your computer, on the subscription you already have. You decide how far each one goes.'
   }
@@ -990,7 +990,7 @@ const relabel = [] // what the scripts below draw, drawn again in the new langua
 function setLang(l, save) {
   LANG = l
   document.documentElement.lang = l
-  if (save) try { localStorage.setItem('tucano-lang', l) } catch {}
+  if (save) try { localStorage.setItem('arara-lang', l) } catch {}
   const m = META[l]
   document.title = m.title
   $('#metaDesc').content = m.desc; $('#ogTitle').content = m.title; $('#ogDesc').content = m.og
@@ -1002,13 +1002,13 @@ $$('.lang button').forEach((b) => b.addEventListener('click', () => {
   const l = b.dataset.set
   if (l === LANG) return
   if (location.protocol === 'file:') return setLang(l, true)
-  try { localStorage.setItem('tucano-lang', l) } catch {}
+  try { localStorage.setItem('arara-lang', l) } catch {}
   location.href = (l === 'en' ? '/en/' : '/') + location.search + location.hash
 }))
 // Someone whose browser speaks the other language, and who never picked one here, gets a link to it.
 ;(() => {
   let saved
-  try { saved = localStorage.getItem('tucano-lang') } catch {}
+  try { saved = localStorage.getItem('arara-lang') } catch {}
   const pt = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase().startsWith('pt')
   if (saved || location.protocol === 'file:' || pt === (LANG === 'pt-BR')) return
   const hint = document.createElement('div')
@@ -1016,8 +1016,8 @@ $$('.lang button').forEach((b) => b.addEventListener('click', () => {
   hint.innerHTML = pt
     ? '<a href="/" hreflang="pt-BR">Ver em português →</a><button type="button" aria-label="Fechar">×</button>'
     : '<a href="/en/" hreflang="en">Read in English →</a><button type="button" aria-label="Close">×</button>'
-  hint.querySelector('a').addEventListener('click', () => { try { localStorage.setItem('tucano-lang', pt ? 'pt-BR' : 'en') } catch {} })
-  hint.querySelector('button').addEventListener('click', () => { hint.remove(); try { localStorage.setItem('tucano-lang', LANG) } catch {} })
+  hint.querySelector('a').addEventListener('click', () => { try { localStorage.setItem('arara-lang', pt ? 'pt-BR' : 'en') } catch {} })
+  hint.querySelector('button').addEventListener('click', () => { hint.remove(); try { localStorage.setItem('arara-lang', LANG) } catch {} })
   document.body.append(hint)
 })()
 
@@ -1226,8 +1226,8 @@ relabel.push(render)
 // ---------- install: the terminal types itself ----------
 const TTY = () => [
   ['p', '$ '], ['', 'curl -fsSL …/install.sh | sh\n', 28],
-  ['p', T('Baixando a última versão do Tucano…\n', 'Downloading the latest Tucano…\n'), 0, 500],
-  ['g', '✓ '], ['', T('Instalado em /Applications/Tucano.app\n', 'Installed in /Applications/Tucano.app\n'), 0, 450],
+  ['p', T('Baixando a última versão da Arara…\n', 'Downloading the latest Arara…\n'), 0, 500],
+  ['g', '✓ '], ['', T('Instalado em /Applications/Arara.app\n', 'Installed in /Applications/Arara.app\n'), 0, 450],
   ['g', '✓ '], ['', T('Claude Code: plano Claude Max\n', 'Claude Code: Claude Max plan\n'), 0, 300],
   ['g', '✓ '], ['', T('Codex: plano ChatGPT\n', 'Codex: ChatGPT plan\n'), 0, 300],
   ['o', '◆ '], ['', T('Abrindo… o Tuca te espera pra montar o time.\n', 'Opening… Tuca is waiting to build your team.\n'), 0, 300]
@@ -1258,13 +1258,13 @@ setLang(LANG)
 ;(() => {
   const ua = navigator.userAgent
   const mac = (os) => document.querySelectorAll(`.also a[data-os="${os}"]`).forEach((a) => {
-    a.href = 'https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-arm64.dmg'
+    a.href = 'https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-arm64.dmg'
     a.textContent = 'Mac'
   })
   if (/Windows NT/.test(ua)) {
     mac('windows')
     document.querySelectorAll('a.btn[data-dl]').forEach((a) => {
-      a.href = a.href.replace('tucano-mac-arm64.dmg', 'tucano-win-x64.exe')
+      a.href = a.href.replace('arara-mac-arm64.dmg', 'arara-win-x64.exe')
       a.querySelector('[lang="pt-BR"]').textContent = 'Baixar pro Windows'
       a.querySelector('[lang="en"]').textContent = 'Download for Windows'
     })
@@ -1277,9 +1277,9 @@ setLang(LANG)
   }
   if (!/Linux|X11/.test(ua) || /Android/.test(ua)) return
   mac('linux')
-  const file = /aarch64|arm64/i.test(ua) ? 'tucano-linux-arm64.deb' : 'tucano-linux-amd64.deb'
+  const file = /aarch64|arm64/i.test(ua) ? 'arara-linux-arm64.deb' : 'arara-linux-amd64.deb'
   document.querySelectorAll('a.btn[data-dl]').forEach((a) => {
-    a.href = a.href.replace('tucano-mac-arm64.dmg', file)
+    a.href = a.href.replace('arara-mac-arm64.dmg', file)
     a.querySelector('[lang="pt-BR"]').textContent = 'Baixar pro Linux (.deb)'
     a.querySelector('[lang="en"]').textContent = 'Download for Linux (.deb)'
   })
@@ -1322,7 +1322,7 @@ setLang(LANG)
 </script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <script>
-// ---------- Tucano Pro: the waitlist (only the email) and the phone at 3 a.m. ----------
+// ---------- Arara Pro: the waitlist (only the email) and the phone at 3 a.m. ----------
 ;(() => {
   const T = (pt, en) => (document.documentElement.lang === 'en' ? en : pt)
   // The anti-robot check (Cloudflare Turnstile), only when a form is sent: invisible unless Cloudflare asks.
@@ -1384,7 +1384,7 @@ setLang(LANG)
   const note = (time, title, body, extra = '') => {
     const n = document.createElement('div')
     n.className = 'note'
-    n.innerHTML = `<div class="hd">${icon}TUCANO<span>${time}</span></div><b>${title}</b><p>${body}</p>${extra}`
+    n.innerHTML = `<div class="hd">${icon}ARARA<span>${time}</span></div><b>${title}</b><p>${body}</p>${extra}`
     notes.append(n)
     return n
   }

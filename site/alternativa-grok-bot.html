@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- build.mjs publishes this page twice: as is at /alternativa-grok-bot/, and with the data-en texts at /en/grok-bot-alternative/ -->
-<title data-en="Grok Bot alternative: Tucano, free and open source, on your computer">Alternativa ao Grok Bot: Tucano, grátis e open source, no seu computador</title>
-<meta name="description" content="O Tucano é uma alternativa grátis e open source ao Grok Bot: um time de agentes de IA no seu computador, com a assinatura que você já tem. Comparamos com Grok Bot, MausBot, OpenBot e Rerun." data-en="Tucano is a free, open-source Grok Bot alternative: a team of AI agents on your computer, on the subscription you already have. Compared with Grok Bot, MausBot, OpenBot and Rerun.">
-<meta property="og:title" content="Alternativa ao Grok Bot: Tucano, grátis e open source, no seu computador" data-en="Grok Bot alternative: Tucano, free and open source, on your computer">
+<title data-en="Grok Bot alternative: Arara, free and open source, on your computer">Alternativa ao Grok Bot: Arara, grátis e open source, no seu computador</title>
+<meta name="description" content="A Arara é uma alternativa grátis e open source ao Grok Bot: um time de agentes de IA no seu computador, com a assinatura que você já tem. Comparamos com Grok Bot, MausBot, OpenBot e Rerun." data-en="Arara is a free, open-source Grok Bot alternative: a team of AI agents on your computer, on the subscription you already have. Compared with Grok Bot, MausBot, OpenBot and Rerun.">
+<meta property="og:title" content="Alternativa ao Grok Bot: Arara, grátis e open source, no seu computador" data-en="Grok Bot alternative: Arara, free and open source, on your computer">
 <meta property="og:description" content="Um time de agentes de IA no seu computador, com a assinatura que você já tem. Comparado com Grok Bot, MausBot, OpenBot e Rerun." data-en="A team of AI agents on your computer, on the subscription you already have. Compared with Grok Bot, MausBot, OpenBot and Rerun.">
 <meta property="og:image" content="https://tucano.sh/assets/brand/og.png">
 <meta property="og:image:width" content="1200">
@@ -28,7 +28,7 @@
 // A visitor who picked the other language on tucano.sh goes to this page in that language.
 ;(() => {
   let l
-  try { l = localStorage.getItem('tucano-lang') } catch {}
+  try { l = localStorage.getItem('arara-lang') } catch {}
   const other = (l === 'en' || l === 'pt-BR') && l !== document.documentElement.lang && document.querySelector(`link[rel="alternate"][hreflang="${l}"]`)
   if (other) location.replace(other.href)
 })()
@@ -52,16 +52,16 @@
 
 <div class="wrap">
 <header>
-  <a class="brand" href="/" data-en-href="/en/"><svg><use href="#mark"/></svg><span>tucano</span></a>
+  <a class="brand" href="/" data-en-href="/en/"><svg><use href="#mark"/></svg><span>arara</span></a>
   <div class="lang" role="group" aria-label="Idioma / Language"><a href="/alternativa-grok-bot/" hreflang="pt-BR" data-lang>PT</a><a href="/en/grok-bot-alternative/" hreflang="en" data-lang>EN</a></div>
-  <a class="btn btn--beak" href="/#instalar" data-en-href="/en/#instalar"><span lang="pt-BR">Baixar o Tucano</span><span lang="en">Get Tucano</span></a>
+  <a class="btn btn--beak" href="/#instalar" data-en-href="/en/#instalar"><span lang="pt-BR">Baixar a Arara</span><span lang="en">Get Arara</span></a>
 </header>
 
 <main>
 <div class="hero">
   <div class="eyebrow"><span lang="pt-BR">Comparação · atualizada em 6 de novembro de 2026</span><span lang="en">Comparison · updated November 6, 2026</span></div>
   <h1><span lang="pt-BR">Uma alternativa ao Grok Bot que roda <em>no seu computador.</em></span><span lang="en">A Grok Bot alternative that runs <em>on your computer.</em></span></h1>
-  <p class="answer"><span lang="pt-BR">O <b>Tucano</b> é uma alternativa <b>grátis e open source</b> (Apache-2.0) ao Grok Bot. Em vez de um computador na nuvem, ele roda no seu Mac, Windows ou Linux, com a <b>assinatura que você já tem</b> (Claude, ChatGPT, Grok, Cursor…), e você decide o que cada agente pode ler, escrever e o que espera o seu sim.</span><span lang="en"><b>Tucano</b> is a <b>free, open-source</b> (Apache-2.0) alternative to Grok Bot. Instead of a computer in the cloud, it runs on your Mac, Windows or Linux PC, on the <b>subscription you already have</b> (Claude, ChatGPT, Grok, Cursor…), and you decide what each agent can read, write, and what waits for your yes.</span></p>
+  <p class="answer"><span lang="pt-BR">A <b>Arara</b> é uma alternativa <b>grátis e open source</b> (Apache-2.0) ao Grok Bot. Em vez de um computador na nuvem, ele roda no seu Mac, Windows ou Linux, com a <b>assinatura que você já tem</b> (Claude, ChatGPT, Grok, Cursor…), e você decide o que cada agente pode ler, escrever e o que espera o seu sim.</span><span lang="en"><b>Arara</b> is a <b>free, open-source</b> (Apache-2.0) alternative to Grok Bot. Instead of a computer in the cloud, it runs on your Mac, Windows or Linux PC, on the <b>subscription you already have</b> (Claude, ChatGPT, Grok, Cursor…), and you decide what each agent can read, write, and what waits for your yes.</span></p>
   <div class="ctas">
     <a class="btn btn--beak" href="/#instalar" data-en-href="/en/#instalar"><span lang="pt-BR">Baixar grátis</span><span lang="en">Download free</span></a>
     <a class="btn btn--ghost" href="https://github.com/eduwxyz/tucano"><span lang="pt-BR">Ver o código no GitHub</span><span lang="en">See the code on GitHub</span></a>
@@ -69,11 +69,11 @@
 </div>
 
 <section>
-  <h2><span lang="pt-BR">Tucano e as alternativas, <em>lado a lado.</em></span><span lang="en">Tucano and the alternatives, <em>side by side.</em></span></h2>
+  <h2><span lang="pt-BR">Arara e as alternativas, <em>lado a lado.</em></span><span lang="en">Arara and the alternatives, <em>side by side.</em></span></h2>
   <p class="sub"><span lang="pt-BR">O que cada um diz no próprio site, na documentação ou no README, com as fontes no fim da página. O OpenBot aqui é o do openbot.run.</span><span lang="en">What each one says on its own site, docs or README, with the sources at the end of the page. OpenBot here is the one at openbot.run.</span></p>
   <div class="table">
     <table>
-      <thead><tr><th></th><th class="us">Tucano</th><th>Grok Bot</th><th>MausBot <small>(OpenMausBot)</small></th><th>OpenBot</th><th>Rerun</th></tr></thead>
+      <thead><tr><th></th><th class="us">Arara</th><th>Grok Bot</th><th>MausBot <small>(OpenMausBot)</small></th><th>OpenBot</th><th>Rerun</th></tr></thead>
       <tbody>
         <tr><th><span lang="pt-BR">Preço</span><span lang="en">Price</span></th>
           <td class="us"><span lang="pt-BR">Grátis, sem plano pago</span><span lang="en">Free, no paid plan</span></td>
@@ -138,22 +138,22 @@
   <h2><span lang="pt-BR">Onde cada um <em>se sai melhor.</em></span><span lang="en">Where each one <em>does better.</em></span></h2>
   <div class="cols">
     <div class="card">
-      <h3><span lang="pt-BR">Onde o Tucano se sai melhor</span><span lang="en">Where Tucano does better</span></h3>
+      <h3><span lang="pt-BR">Onde a Arara se sai melhor</span><span lang="en">Where Arara does better</span></h3>
       <ul>
         <li><span lang="pt-BR"><b>Controle por agente e por ferramenta.</b> Cada agente recebe, pra cada ferramenta, sem acesso, ler, ou ler e escrever. Merge, compra, post, e-mail e exclusão viram um pedido de aprovação com a chamada exata na sua frente.</span><span lang="en"><b>Control per agent and per tool.</b> Each agent gets, for each tool, no access, read, or read and write. Merges, purchases, posts, emails and deletes become an approval with the exact call in front of you.</span></li>
         <li><span lang="pt-BR"><b>Agentes que trabalham juntos.</b> Eles conversam em canais e passam o trabalho com @menções: um acha o bug, outro corrige, um terceiro revisa.</span><span lang="en"><b>Agents that work together.</b> They talk in channels and hand work over with @mentions: one finds the bug, another fixes it, a third reviews it.</span></li>
         <li><span lang="pt-BR"><b>Grátis de verdade.</b> Sem plano pago, sem recurso trancado, sem cobrança por token. Você paga só a assinatura de IA que já tem.</span><span lang="en"><b>Actually free.</b> No paid plan, no locked features, no per-token bill. You only pay the AI subscription you already have.</span></li>
-        <li><span lang="pt-BR"><b>Seus dados ficam com você.</b> Conversas, memória, arquivos e logins ficam no seu computador. Não existe servidor do Tucano.</span><span lang="en"><b>Your data stays with you.</b> Conversations, memory, files and logins live on your computer. There is no Tucano server.</span></li>
+        <li><span lang="pt-BR"><b>Seus dados ficam com você.</b> Conversas, memória, arquivos e logins ficam no seu computador. Não existe servidor da Arara.</span><span lang="en"><b>Your data stays with you.</b> Conversations, memory, files and logins live on your computer. There is na Arara server.</span></li>
         <li><span lang="pt-BR"><b>Misture modelos no mesmo time.</b> Um agente no Claude, outro no Codex, outro no Grok.</span><span lang="en"><b>Mix models in one team.</b> One agent on Claude, another on Codex, another on Grok.</span></li>
       </ul>
     </div>
     <div class="card">
       <h3><span lang="pt-BR">Onde os outros se saem melhor hoje</span><span lang="en">Where the others do better today</span></h3>
       <ul>
-        <li><span lang="pt-BR"><b>Rodar 24 horas sem montar servidor:</b> o Grok Bot, o Rerun e a nuvem do MausBot já vêm assim. No Tucano, isso é o modo servidor, ainda experimental.</span><span lang="en"><b>Running around the clock without setting up a server:</b> Grok Bot, Rerun and MausBot's cloud come that way. In Tucano, that's server mode, still experimental.</span></li>
-        <li><span lang="pt-BR"><b>App de celular:</b> Grok Bot, MausBot e OpenBot têm. O Tucano manda as aprovações pelo Telegram.</span><span lang="en"><b>A phone app:</b> Grok Bot, MausBot and OpenBot have one. Tucano sends approvals through Telegram.</span></li>
+        <li><span lang="pt-BR"><b>Rodar 24 horas sem montar servidor:</b> o Grok Bot, o Rerun e a nuvem do MausBot já vêm assim. Na Arara, isso é o modo servidor, ainda experimental.</span><span lang="en"><b>Running around the clock without setting up a server:</b> Grok Bot, Rerun and MausBot's cloud come that way. In Arara, that's server mode, still experimental.</span></li>
+        <li><span lang="pt-BR"><b>App de celular:</b> Grok Bot, MausBot e OpenBot têm. A Arara manda as aprovações pelo Telegram.</span><span lang="en"><b>A phone app:</b> Grok Bot, MausBot and OpenBot have one. Arara sends approvals through Telegram.</span></li>
         <li><span lang="pt-BR"><b>Várias pessoas com os mesmos agentes:</b> OpenBot, Rerun, Grok Bot (Team Bots) e os planos de time do MausBot.</span><span lang="en"><b>Several people sharing agents:</b> OpenBot, Rerun, Grok Bot (Team Bots) and MausBot's team plans.</span></li>
-        <li><span lang="pt-BR"><b>Milhares de apps prontos:</b> Rerun e MausBot trazem catálogos via Composio. O Tucano conecta pelo MCP: os conectores da loja, ou o endereço de qualquer servidor MCP.</span><span lang="en"><b>Thousands of ready-made apps:</b> Rerun and MausBot ship catalogs through Composio. Tucano connects over MCP: the connectors in its store, or any MCP server's address.</span></li>
+        <li><span lang="pt-BR"><b>Milhares de apps prontos:</b> Rerun e MausBot trazem catálogos via Composio. A Arara conecta pelo MCP: os conectores da loja, ou o endereço de qualquer servidor MCP.</span><span lang="en"><b>Thousands of ready-made apps:</b> Rerun and MausBot ship catalogs through Composio. Arara connects over MCP: the connectors in its store, or any MCP server's address.</span></li>
       </ul>
     </div>
   </div>
@@ -164,17 +164,17 @@
   <ul class="pick">
     <li><span lang="pt-BR"><b>Você já paga o X ou o Cursor e quer tudo pronto na nuvem:</b> o Grok Bot.</span><span lang="en"><b>You already pay for X or Cursor and want it all ready in the cloud:</b> Grok Bot.</span></li>
     <li><span lang="pt-BR"><b>Seu time não é técnico e quer agentes 24 horas sem instalar nada:</b> o Rerun.</span><span lang="en"><b>Your team isn't technical and wants agents around the clock without installing anything:</b> Rerun.</span></li>
-    <li><span lang="pt-BR"><b>Você quer um time de agentes no seu computador, com a assinatura que já tem, decidindo o que cada um pode fazer:</b> o Tucano.</span><span lang="en"><b>You want a team of agents on your computer, on the subscription you already have, deciding what each one can do:</b> Tucano.</span></li>
+    <li><span lang="pt-BR"><b>Você quer um time de agentes no seu computador, com a assinatura que já tem, decidindo o que cada um pode fazer:</b> a Arara.</span><span lang="en"><b>You want a team of agents on your computer, on the subscription you already have, deciding what each one can do:</b> Arara.</span></li>
   </ul>
 </section>
 
 <section>
   <h2><span lang="pt-BR">Perguntas</span><span lang="en">Questions</span></h2>
   <div class="qa" data-faq>
-    <details open><summary><span lang="pt-BR">O Tucano é uma alternativa ao Grok Bot?</span><span lang="en">Is Tucano a Grok Bot alternative?</span></summary><p><span lang="pt-BR">Sim. Os dois dão a você um time de agentes de IA com memória, rotinas, ferramentas e aprovação antes de ações sensíveis. A diferença é que o Tucano roda no seu computador, é grátis e open source, e usa a assinatura de IA que você já tem.</span><span lang="en">Yes. Both give you a team of AI agents with memory, routines, tools and approval before sensitive actions. The difference is that Tucano runs on your computer, is free and open source, and uses the AI subscription you already have.</span></p></details>
-    <details><summary><span lang="pt-BR">Dá pra usar o Grok no Tucano?</span><span lang="en">Can I use Grok in Tucano?</span></summary><p><span lang="pt-BR">Sim. O Tucano roda o Grok CLI com o seu login do grok.com, sem chave de API. Cada agente escolhe o seu motor, então dá pra ter um no Grok e outro no Claude Code ou no Codex.</span><span lang="en">Yes. Tucano runs the Grok CLI with your grok.com sign-in, no API key needed. Each agent picks its engine, so one can run on Grok and another on Claude Code or Codex.</span></p></details>
-    <details><summary><span lang="pt-BR">Preciso deixar o computador ligado?</span><span lang="en">Do I need to keep my computer on?</span></summary><p><span lang="pt-BR">Pras rotinas agendadas, sim: o Tucano fica perto do relógio e trabalha enquanto o computador está ligado. Pra rodar com ele desligado, existe o modo servidor, num VPS seu, ainda experimental.</span><span lang="en">For scheduled routines, yes: Tucano sits by the clock and works while your computer is on. To run with it off, there's server mode, on a VPS of your own, still experimental.</span></p></details>
-    <details><summary><span lang="pt-BR">Quanto custa o Tucano?</span><span lang="en">How much does Tucano cost?</span></summary><p><span lang="pt-BR">Nada. Não existe plano pago. Você usa o plano do Claude, do ChatGPT, do Grok ou do Cursor que já paga, ou o gateway de IA da sua empresa.</span><span lang="en">Nothing. There is no paid plan. You use the Claude, ChatGPT, Grok or Cursor plan you already pay for, or your company's AI gateway.</span></p></details>
+    <details open><summary><span lang="pt-BR">A Arara é uma alternativa ao Grok Bot?</span><span lang="en">Is Arara a Grok Bot alternative?</span></summary><p><span lang="pt-BR">Sim. Os dois dão a você um time de agentes de IA com memória, rotinas, ferramentas e aprovação antes de ações sensíveis. A diferença é que a Arara roda no seu computador, é grátis e open source, e usa a assinatura de IA que você já tem.</span><span lang="en">Yes. Both give you a team of AI agents with memory, routines, tools and approval before sensitive actions. The difference is that Arara runs on your computer, is free and open source, and uses the AI subscription you already have.</span></p></details>
+    <details><summary><span lang="pt-BR">Dá pra usar o Grok na Arara?</span><span lang="en">Can I use Grok in Arara?</span></summary><p><span lang="pt-BR">Sim. A Arara roda o Grok CLI com o seu login do grok.com, sem chave de API. Cada agente escolhe o seu motor, então dá pra ter um no Grok e outro no Claude Code ou no Codex.</span><span lang="en">Yes. Arara runs the Grok CLI with your grok.com sign-in, no API key needed. Each agent picks its engine, so one can run on Grok and another on Claude Code or Codex.</span></p></details>
+    <details><summary><span lang="pt-BR">Preciso deixar o computador ligado?</span><span lang="en">Do I need to keep my computer on?</span></summary><p><span lang="pt-BR">Pras rotinas agendadas, sim: a Arara fica perto do relógio e trabalha enquanto o computador está ligado. Pra rodar com ele desligado, existe o modo servidor, num VPS seu, ainda experimental.</span><span lang="en">For scheduled routines, yes: Arara sits by the clock and works while your computer is on. To run with it off, there's server mode, on a VPS of your own, still experimental.</span></p></details>
+    <details><summary><span lang="pt-BR">Quanto custa a Arara?</span><span lang="en">How much does Arara cost?</span></summary><p><span lang="pt-BR">Nada. Não existe plano pago. Você usa o plano do Claude, do ChatGPT, do Grok ou do Cursor que já paga, ou o gateway de IA da sua empresa.</span><span lang="en">Nothing. There is no paid plan. You use the Claude, ChatGPT, Grok or Cursor plan you already pay for, or your company's AI gateway.</span></p></details>
   </div>
 </section>
 
@@ -189,7 +189,7 @@
     <li><a href="https://www.producthunt.com/p/openbot-3/openbot-4">OpenBot: Product Hunt</a></li>
     <li><a href="https://rerun.build/pricing">Rerun: rerun.build/pricing</a></li>
     <li><a href="https://github.com/rerun-build/rerun">Rerun: GitHub</a></li>
-    <li><a href="https://github.com/eduwxyz/tucano">Tucano: GitHub</a></li>
+    <li><a href="https://github.com/eduwxyz/tucano">Arara: GitHub</a></li>
   </ul>
 </section>
 </main>
@@ -201,7 +201,7 @@
 </div>
 <script>
 // PT | EN remembers the choice, as on the home page.
-document.querySelectorAll('.lang a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('tucano-lang', a.hreflang) } catch {} }))
+document.querySelectorAll('.lang a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('arara-lang', a.hreflang) } catch {} }))
 </script>
 </body>
 </html>

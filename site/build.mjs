@@ -35,9 +35,9 @@ function faqOf(html, file) {
 const ORG = {
   '@type': 'Organization',
   '@id': `${SITE}/#org`,
-  name: 'Tucano',
+  name: 'Arara',
   url: `${SITE}/`,
-  logo: `${SITE}/assets/brand/tucano-512.png`,
+  logo: `${SITE}/assets/brand/arara-512.png`,
   sameAs: ['https://x.com/tucanosh', 'https://github.com/eduwxyz/tucano', 'https://discord.gg/uQp4x7wUgT'],
 }
 const faqPage = (faq, lang, url) => ({
@@ -85,7 +85,7 @@ if (TURNSTILE_SITE_KEY.startsWith('1x0000')) console.warn('build.mjs: the waitli
     {
       '@type': 'SoftwareApplication',
       '@id': `${SITE}/#app`,
-      name: 'Tucano',
+      name: 'Arara',
       url: urls[lang],
       description: META[lang].desc,
       inLanguage: lang,
@@ -108,7 +108,7 @@ if (TURNSTILE_SITE_KEY.startsWith('1x0000')) console.warn('build.mjs: the waitli
   e = swap(e, `id="metaDesc" content="${META['pt-BR'].desc}"`, `id="metaDesc" content="${META.en.desc}"`, file)
   e = swap(e, `id="ogTitle" content="${META['pt-BR'].title}"`, `id="ogTitle" content="${META.en.title}"`, file)
   e = e.replace(/id="ogDesc" content="[^"]+"/, `id="ogDesc" content="${META.en.og}"`)
-  e = e.replace(/property="og:image:alt" content="[^"]+"/, 'property="og:image:alt" content="Tucano: Your AI agent team. Your rules."')
+  e = e.replace(/property="og:image:alt" content="[^"]+"/, 'property="og:image:alt" content="Arara: Your AI agent team. Your rules."')
   e = swap(e, `<meta property="og:url" content="${SITE}/">`, `<meta property="og:url" content="${SITE}/en/">`, file)
   e = swap(e, '<meta property="og:locale" content="pt_BR">\n<meta property="og:locale:alternate" content="en_US">', '<meta property="og:locale" content="en_US">\n<meta property="og:locale:alternate" content="pt_BR">', file)
   e = swap(e, `<link rel="canonical" href="${SITE}/">`, `<link rel="canonical" href="${SITE}/en/">`, file)
@@ -127,7 +127,7 @@ const PAGES = [
   { file: 'pro.html', 'pt-BR': 'pro/', en: 'en/pro/' },
 ]
 
-// The home page's look and its Tucano Pro script, for the pages that ask for them (pro.html):
+// The home page's look and its Arara Pro script, for the pages that ask for them (pro.html):
 // one source for the styles and the waitlist form, so the two pages can't drift apart.
 const home = read('index.html')
 const HOME_STYLE = home.slice(home.indexOf('<style>'), home.indexOf('</style>') + '</style>'.length)
