@@ -59,7 +59,7 @@ function fakeCore(dir: string): HomeCore & { keys: string[]; posted: unknown[]; 
 type Reply = { status: number; body: string; fp: string }
 function call(port: number, path: string, o: { method?: string; body?: string; cookie?: string } = {}): Promise<Reply> {
   return new Promise((resolve, reject) => {
-    const req = request({ host: '127.0.0.1', port, path, method: o.method ?? 'GET', rejectUnauthorized: false, agent: false, headers: { ...(o.cookie ? { cookie: `arara=${o.cookie}` } : {}), 'content-type': 'application/json' } }, (res) => {
+    const req = request({ host: '127.0.0.1', port, path, method: o.method ?? 'GET', rejectUnauthorized: false, agent: false, headers: { ...(o.cookie ? { cookie: `tucano=${o.cookie}` } : {}), 'content-type': 'application/json' } }, (res) => {
       const fp = createHash('sha256').update((res.socket as TLSSocket).getPeerCertificate().raw).digest('base64url')
       let text = ''
       res.on('data', (c) => (text += c))
@@ -73,7 +73,7 @@ function call(port: number, path: string, o: { method?: string; body?: string; c
 // The first lines of an event stream, then it hangs up.
 function listen(port: number, key: string, until: (text: string) => boolean): Promise<string> {
   return new Promise((resolve, reject) => {
-    const req = request({ host: '127.0.0.1', port, path: '/events', rejectUnauthorized: false, headers: { cookie: `arara=${key}` } }, (res) => {
+    const req = request({ host: '127.0.0.1', port, path: '/events', rejectUnauthorized: false, headers: { cookie: `tucano=${key}` } }, (res) => {
       let text = ''
       res.on('data', (c) => {
         text += c
@@ -105,7 +105,7 @@ describe('HomeLink', () => {
     const port = await link.start(47350, '127.0.0.1')
     const { link: qr } = link.makeCode()
     const u = new URL(qr)
-    expect(u.protocol).toBe('arara:')
+    expect(u.protocol).toBe('tucano:')
     expect(u.searchParams.get('url')).toBe(`https://127.0.0.1:${port}`)
     expect(u.searchParams.get('fp')).toBe(tls.fingerprint)
     const code = u.searchParams.get('code')!
@@ -194,7 +194,7 @@ describe('HomeLink, a phone disconnected from the computer', () => {
     // On the line; then disconnected from the computer, as the core's removeDevice does.
     let ended = false
     const stream = new Promise<string>((resolve) => {
-      const req = request({ host: '127.0.0.1', port, path: '/events', rejectUnauthorized: false, headers: { cookie: `arara=${key}` } }, (res) => {
+      const req = request({ host: '127.0.0.1', port, path: '/events', rejectUnauthorized: false, headers: { cookie: `tucano=${key}` } }, (res) => {
         let text = ''
         res.on('data', (c) => (text += c))
         res.on('end', () => ((ended = true), resolve(text)))

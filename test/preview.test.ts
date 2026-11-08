@@ -79,7 +79,7 @@ describe("an agent's page at an address of its own", () => {
     const host = `${sitePort}-ana.example.com`
     expect((await ask(host, '/app')).status).toBe(401)
     const cookie = await signIn(sitePort)
-    const r = await ask(host, '/app?x=1', `${cookie}; arara=the-servers-token; theirs=1`)
+    const r = await ask(host, '/app?x=1', `${cookie}; tucano=the-servers-token; theirs=1`)
     expect(r.status).toBe(200)
     expect(r.body).toBe('site:/app?x=1')
     expect(seen.cookie).toBe('theirs=1') // the page never sees Arara's cookies
@@ -133,8 +133,8 @@ describe("an agent's page at an address of its own", () => {
   })
 
   it('keeps only the page’s own cookies', () => {
-    expect(withoutOurCookies('a=1; arara=x; arara_preview=y; b=2')).toBe('a=1; b=2')
-    expect(withoutOurCookies('arara=x')).toBeUndefined()
+    expect(withoutOurCookies('a=1; tucano=x; tucano_preview=y; b=2')).toBe('a=1; b=2')
+    expect(withoutOurCookies('tucano=x')).toBeUndefined()
     expect(withoutOurCookies(undefined)).toBeUndefined()
   })
 })

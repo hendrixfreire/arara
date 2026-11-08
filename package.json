@@ -61,7 +61,7 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "eduwxyz",
+        "owner": "hendrixfreire",
         "repo": "arara"
       }
     ],

@@ -6,7 +6,7 @@
 // push relay APNS_KEY, APNS_KEY_ID, APNS_TEAM_ID, PUSH_SEAL
 // (`npx wrangler secret put <name>`).
 {
-  "name": "arara-site",
+  "name": "tucano-site",
   "compatibility_date": "2026-10-01",
   "main": "worker.js",
   "build": { "command": "node build.mjs" },

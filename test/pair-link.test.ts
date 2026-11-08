@@ -102,7 +102,7 @@ describe('a pairing link opened before its person opens it', () => {
     const r = await fetch(`${base}/pair`, form(host, code))
     expect(r.status).toBe(302)
     expect(r.headers.get('location')).toBe('/')
-    const key = /arara=(p_[\w-]{43})/.exec(r.headers.get('set-cookie') ?? '')?.[1]
+    const key = /tucano=(p_[\w-]{43})/.exec(r.headers.get('set-cookie') ?? '')?.[1]
     expect(key).toBeDefined()
     expect(people.authenticate(key!)?.id).toBe(db.ownerId())
     expect(devices(db)).toBe(1)
@@ -164,8 +164,8 @@ describe('the other ways a code is spent', () => {
   })
 
   it('the desktop app pairs by the server token, never a code (nothing it opens spends one)', () => {
-    expect(parsePairing(`arara://connect?url=https%3A%2F%2Fana.example.com&token=${'t'.repeat(32)}`)).toEqual({ origin: 'https://ana.example.com', token: 't'.repeat(32) })
-    expect(parsePairing(`arara://connect?url=https%3A%2F%2Fana.example.com&code=${'c'.repeat(24)}`)).toBeNull()
+    expect(parsePairing(`tucano://connect?url=https%3A%2F%2Fana.example.com&token=${'t'.repeat(32)}`)).toEqual({ origin: 'https://ana.example.com', token: 't'.repeat(32) })
+    expect(parsePairing(`tucano://connect?url=https%3A%2F%2Fana.example.com&code=${'c'.repeat(24)}`)).toBeNull()
   })
 })
 

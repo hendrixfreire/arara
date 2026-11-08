@@ -16,7 +16,7 @@ describe('the app window only shows the app', () => {
     expect(isAppPage('file:///Users/x/report.html', BUILT)).toBe(false)
     expect(isAppPage('file:///Applications/Arara.app/Contents/Resources/app.asar/out/renderer/other.html', BUILT)).toBe(false)
     expect(isAppPage('file:///Users/x/report.html', DEV)).toBe(false)
-    expect(isAppPage('arara://artifact/x/a.html', BUILT)).toBe(false)
+    expect(isAppPage('tucano://artifact/x/a.html', BUILT)).toBe(false)
   })
 
   it('takes the dev server for the app while developing, and nothing else', () => {
@@ -35,7 +35,7 @@ describe('links handed to the system', () => {
     expect(isOutsideLink('https://linear.app/x')).toBe(true)
     expect(isOutsideLink('http://localhost:3000')).toBe(true)
     expect(isOutsideLink('mailto:a@b.co')).toBe(true)
-    for (const url of ['file:///etc/passwd', 'javascript:alert(1)', 'smb://host/share', 'x-apple.systempreferences:', 'arara://artifact/x', '/Users/x/report.html'])
+    for (const url of ['file:///etc/passwd', 'javascript:alert(1)', 'smb://host/share', 'x-apple.systempreferences:', 'tucano://artifact/x', '/Users/x/report.html'])
       expect(isOutsideLink(url)).toBe(false)
   })
 })

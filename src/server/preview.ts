@@ -11,7 +11,7 @@ import { request, type IncomingMessage, type ServerResponse } from 'node:http'
 import { connect, type Socket } from 'node:net'
 
 const GRANT_MS = 5 * 60_000
-const COOKIE = 'arara_preview'
+const COOKIE = 'tucano_preview'
 const ENTER = '/__arara/enter'
 
 const safeEqual = (a: string, b: string): boolean => a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b))
@@ -21,7 +21,7 @@ export function withoutOurCookies(cookie: string | undefined): string | undefine
   const kept = (cookie ?? '')
     .split(';')
     .map((c) => c.trim())
-    .filter((c) => c && !/^(arara|arara_preview)=/.test(c))
+    .filter((c) => c && !/^(tucano|tucano_preview)=/.test(c))
   return kept.length ? kept.join('; ') : undefined
 }
 
@@ -67,7 +67,7 @@ export class Preview {
   }
 
   signedIn(req: IncomingMessage, port: number): boolean {
-    const got = /(?:^|;\s*)arara_preview=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
+    const got = /(?:^|;\s*)tucano_preview=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
     return !!got && safeEqual(got, this.cookieValue(port))
   }
 

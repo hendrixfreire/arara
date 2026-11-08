@@ -32,7 +32,7 @@ export function prefetching(req: Pick<IncomingMessage, 'headers'>): boolean {
 }
 
 export const cookieFor = (req: Pick<IncomingMessage, 'headers'>, key: string): string =>
-  `arara=${key}; HttpOnly; SameSite=Lax; Path=/; Max-Age=31536000${req.headers['x-forwarded-proto'] === 'https' ? '; Secure' : ''}`
+  `tucano=${key}; HttpOnly; SameSite=Lax; Path=/; Max-Age=31536000${req.headers['x-forwarded-proto'] === 'https' ? '; Secure' : ''}`
 
 // Same-origin, not no-referrer: with no-referrer the browser sends a form's POST with `Origin: null`,
 // which /join and /pair (rightly) refuse as another site's.

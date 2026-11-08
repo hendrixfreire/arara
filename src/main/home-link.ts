@@ -145,7 +145,7 @@ export class HomeLink {
       const url = new URL(req.url ?? '/', 'https://x')
       const ip = req.socket.remoteAddress ?? ''
       if (url.pathname === '/pair' && req.method === 'POST') return void this.pair(req, res, ip)
-      const key = /(?:^|;\s*)arara=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
+      const key = /(?:^|;\s*)tucano=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
       if (this.doors.blocked('signin', ip)) return void res.writeHead(429, { ...BASE_HEADERS, 'retry-after': '600' }).end()
       const core = this.o.core()
       if (!core) return void res.writeHead(503, BASE_HEADERS).end()

@@ -5,23 +5,23 @@ const token = 'Zx9-abc_DEF0123456789xyzQ'
 
 describe('pairing with a Arara on a server', () => {
   it('reads the link `server.js link` prints, down to the origin', () => {
-    expect(parsePairing(`arara://connect?url=https://ana.example.com&token=${token}`)).toEqual({ origin: 'https://ana.example.com', token })
-    expect(parsePairing(`arara://connect?url=${encodeURIComponent('https://ana.example.com/some/path?x=1')}&token=${token}`)?.origin).toBe('https://ana.example.com')
+    expect(parsePairing(`tucano://connect?url=https://ana.example.com&token=${token}`)).toEqual({ origin: 'https://ana.example.com', token })
+    expect(parsePairing(`tucano://connect?url=${encodeURIComponent('https://ana.example.com/some/path?x=1')}&token=${token}`)?.origin).toBe('https://ana.example.com')
     // A server under test, on this machine.
-    expect(parsePairing(`arara://connect?url=http://127.0.0.1:7400&token=${token}`)?.origin).toBe('http://127.0.0.1:7400')
+    expect(parsePairing(`tucano://connect?url=http://127.0.0.1:7400&token=${token}`)?.origin).toBe('http://127.0.0.1:7400')
   })
 
   it('refuses what a page could send to take the app somewhere else', () => {
     for (const bad of [
-      `arara://connect?url=http://ana.example.com&token=${token}`, // plain http on the internet
-      `arara://connect?url=file:///etc/passwd&token=${token}`,
-      `arara://connect?url=javascript:alert(1)&token=${token}`,
-      `arara://connect?url=https://user:pw@ana.example.com&token=${token}`,
-      `arara://artifact/x?url=https://ana.example.com&token=${token}`, // the app's own pages, not a pairing
+      `tucano://connect?url=http://ana.example.com&token=${token}`, // plain http on the internet
+      `tucano://connect?url=file:///etc/passwd&token=${token}`,
+      `tucano://connect?url=javascript:alert(1)&token=${token}`,
+      `tucano://connect?url=https://user:pw@ana.example.com&token=${token}`,
+      `tucano://artifact/x?url=https://ana.example.com&token=${token}`, // the app's own pages, not a pairing
       `https://connect?url=https://ana.example.com&token=${token}`,
-      'arara://connect?url=https://ana.example.com&token=short',
-      'arara://connect?url=https://ana.example.com&token=has spaces and <tags>',
-      'arara://connect?url=https://ana.example.com',
+      'tucano://connect?url=https://ana.example.com&token=short',
+      'tucano://connect?url=https://ana.example.com&token=has spaces and <tags>',
+      'tucano://connect?url=https://ana.example.com',
       'not a link'
     ])
       expect(parsePairing(bad), bad).toBeNull()

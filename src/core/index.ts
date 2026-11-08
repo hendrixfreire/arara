@@ -1154,7 +1154,7 @@ const api: Handlers = {
     db.markRead(conversationId, ctx.person.id)
     emitConversations([conversationId])
   },
-  // The page loads from file://, which can't fetch arara:// (CORS); text comes through the core instead.
+  // The page loads from file://, which can't fetch tucano:// (CORS); text comes through the core instead.
   artifactText: ({ id }, ctx) => {
     const a = db.artifact(id)
     if (!a || !people.canSeeConversation(ctx.person, db.conversation(a.conversationId)) || !people.artifactVisible(ctx.person, a)) return null

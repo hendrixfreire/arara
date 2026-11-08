@@ -10,7 +10,7 @@ import { updateSettings, useStore, workingAgents } from '../store'
 import { Modal } from './Modal'
 import { ago, Icon } from './ui'
 
-const RELEASES = 'https://github.com/eduwxyz/tucano/releases'
+const RELEASES = 'https://github.com/hendrixfreire/arara/releases'
 
 let current: UpdateState | null = null
 const listeners = new Set<() => void>()

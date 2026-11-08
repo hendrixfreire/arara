@@ -820,7 +820,7 @@ export const MAX_IMAGES_PER_MESSAGE = 10
 
 // In a browser (Arara as a server) the server itself serves them, under /artifact.
 export const artifactUrl = (a: Pick<Artifact, 'id' | 'name'>): string =>
-  `${(globalThis as { __ARARA_WEB__?: boolean }).__ARARA_WEB__ ? './artifact/' : 'arara://artifact/'}${a.id}/${encodeURIComponent(a.name)}`
+  `${(globalThis as { __ARARA_WEB__?: boolean }).__ARARA_WEB__ ? './artifact/' : 'tucano://artifact/'}${a.id}/${encodeURIComponent(a.name)}`
 
 // ---------- routines (spec §14) ----------
 

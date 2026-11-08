@@ -140,14 +140,14 @@ describe.runIf(process.platform !== 'win32')('what a path can do', () => {
     expect(verifyLocalUrl('chave', url)).toBe('/tmp/a.png')
     expect(verifyLocalUrl('outra', url)).toBeNull()
     const [sig] = url.pathname.slice(1).split('/')
-    expect(verifyLocalUrl('chave', new URL(`arara://local/${sig}/${Buffer.from('/etc/passwd').toString('base64url')}`))).toBeNull()
+    expect(verifyLocalUrl('chave', new URL(`tucano://local/${sig}/${Buffer.from('/etc/passwd').toString('base64url')}`))).toBeNull()
   })
 
   it("on a server, the same signature under the server's own /local/ path", () => {
     const path = localUrl('chave', '/home/arara/work/relatório.pdf', '/local')
     expect(path.startsWith('/local/')).toBe(true)
     // What src/server does with the address it's asked for.
-    const asked = (p: string): string | null => verifyLocalUrl('chave', new URL(p.replace(/^\/local/, ''), 'arara://local'))
+    const asked = (p: string): string | null => verifyLocalUrl('chave', new URL(p.replace(/^\/local/, ''), 'tucano://local'))
     expect(asked(path)).toBe('/home/arara/work/relatório.pdf')
     expect(asked(path.replace(/\/[^/]+$/, `/${Buffer.from('/home/arara/.arara-server/server.key').toString('base64url')}`))).toBeNull()
   })

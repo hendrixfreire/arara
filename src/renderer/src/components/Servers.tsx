@@ -32,7 +32,7 @@ export function ServersCard(): ReactNode {
     setBusy(true)
     const r = await api.pair(link).finally(() => setBusy(false))
     if (r === 'paired') return setLink('')
-    if (r === 'invalid') setError(L('Esse não é um link de conexão. Ele começa com arara://connect e sai do servidor.', "That's not a connection link. It starts with arara://connect and comes from the server."))
+    if (r === 'invalid') setError(L('Esse não é um link de conexão. Ele começa com tucano://connect e sai do servidor.', "That's not a connection link. It starts with tucano://connect and comes from the server."))
   }
   const forget = async (s: Server): Promise<void> => {
     const ok = await confirmDialog({
@@ -81,8 +81,8 @@ export function ServersCard(): ReactNode {
       <Card
         title={L('Conectar a um servidor', 'Connect to a server')}
         lead={L(
-          'Cole o link de conexão que o servidor deu (arara://connect…). Quem tem o link controla os agentes de lá: cole só links seus ou de quem você confia.',
-          'Paste the connection link the server gave you (arara://connect…). Whoever has the link controls the agents there: paste only links of your own or from someone you trust.'
+          'Cole o link de conexão que o servidor deu (tucano://connect…). Quem tem o link controla os agentes de lá: cole só links seus ou de quem você confia.',
+          'Paste the connection link the server gave you (tucano://connect…). Whoever has the link controls the agents there: paste only links of your own or from someone you trust.'
         )}
       >
         <form
@@ -92,7 +92,7 @@ export function ServersCard(): ReactNode {
             if (link.trim() && !busy) void connect()
           }}
         >
-          <input className="grow" type="password" autoComplete="off" spellCheck={false} placeholder="arara://connect?url=…" value={link} onChange={(e) => (setLink(e.target.value), setError(''))} />
+          <input className="grow" type="password" autoComplete="off" spellCheck={false} placeholder="tucano://connect?url=…" value={link} onChange={(e) => (setLink(e.target.value), setError(''))} />
           <button className="btn btn--sm btn--primary" type="submit" disabled={!link.trim() || busy}>
             {L('Conectar', 'Connect')}
           </button>

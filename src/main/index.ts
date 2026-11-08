@@ -44,8 +44,8 @@ const moved: Moved =
 if (moved === 'old-app-open' || moved === 'keychain-denied') app.setPath('userData', join(app.getPath('temp'), 'arara-esperando'))
 
 const dataDir = (): string => process.env['ARARA_DATA'] ?? app.getPath('userData')
-// arara://artifact/<id>/<name> serves what agents showed in the chat.
-protocol.registerSchemesAsPrivileged([{ scheme: 'arara', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }])
+// tucano://artifact/<id>/<name> serves what agents showed in the chat.
+protocol.registerSchemesAsPrivileged([{ scheme: 'tucano', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }])
 
 let registry: Workspaces
 // `wikiFolder`: the wiki's folder, as that core says (an Obsidian vault, say): the one folder outside the app's own it may open.
@@ -726,9 +726,9 @@ ipcMain.handle('servers:pair', (e, link: unknown) => (fromApp(e) && typeof link 
 ipcMain.on('servers:open', (e, id: unknown) => fromApp(e) && typeof id === 'string' && void servers.show(id))
 ipcMain.on('servers:local', (e) => fromApp(e) && servers.showLocal())
 ipcMain.handle('servers:forget', (e, id: unknown) => (fromApp(e) && typeof id === 'string' ? servers.forget(id, false) : false))
-// A arara://connect link: on a Mac the system hands it over by open-url; on Windows and Linux it
+// A tucano://connect link: on a Mac the system hands it over by open-url; on Windows and Linux it
 // comes as an argument, to this instance or (the app already open) to second-instance.
-const linkIn = (argv: string[]): string | undefined => argv.find((a) => a.startsWith('arara://'))
+const linkIn = (argv: string[]): string | undefined => argv.find((a) => a.startsWith('tucano://'))
 let pendingLink = linkIn(process.argv)
 const openLink = (link: string): void => {
   if (app.isReady()) void servers.pairFromOutside(link)
@@ -797,7 +797,7 @@ if (moved === 'old-app-open' || moved === 'keychain-denied') {
     done(own && !!media.mediaTypes?.length && media.mediaTypes.every((t) => t === 'audio'))
   })
   setMenu()
-  protocol.handle('arara', serveArtifact)
+  protocol.handle('tucano', serveArtifact)
   registry = new Workspaces(dataDir())
   nativeTheme.themeSource = registry.theme() ?? 'system'
   startWorkspaces()
@@ -822,8 +822,8 @@ if (moved === 'old-app-open' || moved === 'keychain-denied') {
   createWindow()
   setTray()
   updates.start()
-  // Only the installed app takes arara:// links: a development run would take them from it.
-  if (app.isPackaged) app.setAsDefaultProtocolClient('arara')
+  // Only the installed app takes tucano:// links: a development run would take them from it.
+  if (app.isPackaged) app.setAsDefaultProtocolClient('tucano')
   servers.restore()
   if (pendingLink) void servers.pairFromOutside(pendingLink)
   pendingLink = undefined

@@ -69,7 +69,7 @@ describe('one-time pairing codes', () => {
 
 describe('the link a code makes', () => {
   it('carries the code, not a token, and the token link still reads', () => {
-    expect(pairingLink({ origin: 'https://ana.example.com', code: 'abcDEF123_-abcDEF123_-ab' })).toBe('arara://connect?url=https%3A%2F%2Fana.example.com&code=abcDEF123_-abcDEF123_-ab')
+    expect(pairingLink({ origin: 'https://ana.example.com', code: 'abcDEF123_-abcDEF123_-ab' })).toBe('tucano://connect?url=https%3A%2F%2Fana.example.com&code=abcDEF123_-abcDEF123_-ab')
     const p = { origin: 'https://ana.example.com', token: 'abcdefghijklmnopqrstuvwxyz' }
     expect(parsePairing(pairingLink(p))).toEqual(p)
   })

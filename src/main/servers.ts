@@ -93,7 +93,7 @@ export class Servers {
     await dialog.showMessageBox({
       type: 'warning',
       message: L('Esse não é um link de conexão da Arara', "That's not an Arara connection link"),
-      detail: L('O link de conexão começa com arara://connect e sai do servidor (node out/main/server.js link).', 'A connection link starts with arara://connect and comes from the server (node out/main/server.js link).')
+      detail: L('O link de conexão começa com tucano://connect e sai do servidor (node out/main/server.js link).', 'A connection link starts with tucano://connect and comes from the server (node out/main/server.js link).')
     })
   }
 
@@ -190,14 +190,14 @@ export class Servers {
       this.guarded.add(ses)
     }
     // Signed in the way the server's own link would: its cookie, so the token is never in an address.
-    await ses.cookies.set({ url: s.origin, name: 'arara', value: token, httpOnly: true, secure: s.origin.startsWith('https:'), sameSite: 'lax', expirationDate: Date.now() / 1000 + 365 * 86400 })
+    await ses.cookies.set({ url: s.origin, name: 'tucano', value: token, httpOnly: true, secure: s.origin.startsWith('https:'), sameSite: 'lax', expirationDate: Date.now() / 1000 + 365 * 86400 })
     const name = serverName(s.origin)
     const webPreferences = { session: ses, sandbox: true, contextIsolation: true, nodeIntegration: false, webviewTag: false }
     const view = new WebContentsView({ webPreferences })
     const wc = view.webContents
     this.views.set(s.id, view)
     // Only the server's own pages in this view. Web and mail links open in the system; anything
-    // else (a local file, the app's own arara: pages, another server) goes nowhere.
+    // else (a local file, the app's own tucano: pages, another server) goes nowhere.
     // An agent's page, opened from the panel: in a window of this server's own session, where its
     // sign-in is (the system's browser hasn't signed in to the server).
     wc.setWindowOpenHandler(({ url }) => {

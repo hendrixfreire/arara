@@ -181,7 +181,7 @@ function file(res: ServerResponse, path: string, headers: Record<string, string>
 }
 
 const sameToken = (t: string | undefined): boolean => !!t && t.length === token.length && timingSafeEqual(Buffer.from(t), Buffer.from(token))
-const cookieToken = (req: IncomingMessage): string | undefined => /(?:^|;\s*)arara=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
+const cookieToken = (req: IncomingMessage): string | undefined => /(?:^|;\s*)tucano=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
 
 // The pages agents serve (a dashboard, an API) listen on the server's own
 // loopback. On a private address (Tailscale, a home network) each running one
@@ -229,7 +229,7 @@ function sawPeople(list: Person[]): void {
 // policy letting it frame the agents' pages from this server.
 function index(): string {
   return readFileSync(join(page, 'index.html'), 'utf8')
-    .replace('frame-src arara:', `frame-src 'self' arara:${privateHost ? ` http://${host}:*` : ''}${publicHost ? ` https://*.${publicHost.split('.').slice(1).join('.')}` : ''}`)
+    .replace('frame-src tucano:', `frame-src 'self' tucano:${privateHost ? ` http://${host}:*` : ''}${publicHost ? ` https://*.${publicHost.split('.').slice(1).join('.')}` : ''}`)
     .replace('<title>', '<meta name="viewport" content="width=device-width, initial-scale=1" />\n    <script src="./arara-web.js"></script>\n    <title>')
 }
 
@@ -302,7 +302,7 @@ function handle(req: IncomingMessage, res: ServerResponse): void {
     .then((r) => {
       if (r.status === 'link') {
         const secure = req.headers['x-forwarded-proto'] === 'https' ? '; Secure' : ''
-        return void res.writeHead(302, { ...BASE_HEADERS, 'set-cookie': `arara=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=31536000${secure}`, location: '/' }).end()
+        return void res.writeHead(302, { ...BASE_HEADERS, 'set-cookie': `tucano=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=31536000${secure}`, location: '/' }).end()
       }
       if (r.status === 'owner') return authed(req, res, url, { owner: true, role: 'owner' })
       if (r.status === 'person') return authed(req, res, url, { person: r.person.id, role: r.person.role })
@@ -354,7 +354,7 @@ async function joinPage(req: IncomingMessage, res: ServerResponse, ip: string): 
   }
   if (app) return json(res, 200, { key: out.key })
   const secure = req.headers['x-forwarded-proto'] === 'https' ? '; Secure' : ''
-  res.writeHead(302, { ...BASE_HEADERS, 'set-cookie': `arara=${out.key}; HttpOnly; SameSite=Lax; Path=/; Max-Age=31536000${secure}`, location: './', 'cache-control': 'no-store' }).end()
+  res.writeHead(302, { ...BASE_HEADERS, 'set-cookie': `tucano=${out.key}; HttpOnly; SameSite=Lax; Path=/; Max-Age=31536000${secure}`, location: './', 'cache-control': 'no-store' }).end()
 }
 
 // Signed in: the owner, or a person. A failure here answers this request, never the whole server.
@@ -522,7 +522,7 @@ function signedIn(req: IncomingMessage, res: ServerResponse, url: URL, who: Who)
   // A file an agent cited, checked and signed by the core: shown (an image, a video) or saved.
   if (url.pathname.startsWith('/local/')) {
     // Signed for one person: anyone else (a link passed on) gets nothing.
-    const signed = verifyLocal(localKey, new URL(url.pathname.replace(/^\/local/, ''), 'arara://local'))
+    const signed = verifyLocal(localKey, new URL(url.pathname.replace(/^\/local/, ''), 'tucano://local'))
     const path = signed && (signed.person ? signed.person === (who.person ?? ownerId) : who.owner) ? signed.path : null
     let size = -1
     try {

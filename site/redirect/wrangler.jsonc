@@ -2,7 +2,7 @@
 //   cd site/redirect && npx wrangler deploy
 // Each domain must first be a zone in the same Cloudflare account.
 {
-  "name": "arara-redirect",
+  "name": "tucano-redirect",
   "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "routes": [

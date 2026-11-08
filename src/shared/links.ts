@@ -1,6 +1,6 @@
 // Where a link may take the person. The app's window only ever shows the app: a link
 // opens in the real browser or the mail app, and anything else (a bare path, file:,
-// javascript:, the app's own arara: pages) goes nowhere. A local page loaded as the
+// javascript:, the app's own tucano: pages) goes nowhere. A local page loaded as the
 // app would get the app's bridge to the core.
 
 export const isOutsideLink = (url: string): boolean => /^(https?:\/\/|mailto:)/i.test(url)

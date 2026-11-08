@@ -1,7 +1,7 @@
 // A Arara on a server, opened from this app: the link that pairs it, and what belongs to it.
 //
-//   arara://connect?url=https://ana.example.com&token=…   (`server.js link` prints it)
-//   arara://connect?url=https://ana.example.com&code=…    (a one-time code: `server.js pair`, for the phone)
+//   tucano://connect?url=https://ana.example.com&token=…   (`server.js link` prints it)
+//   tucano://connect?url=https://ana.example.com&code=…    (a one-time code: `server.js pair`, for the phone)
 
 export interface Pairing {
   origin: string // https://ana.example.com, nothing after it
@@ -18,7 +18,7 @@ export function parsePairing(link: string): Pairing | null {
   } catch {
     return null
   }
-  if (u.protocol !== 'arara:' || u.hostname !== 'connect') return null
+  if (u.protocol !== 'tucano:' || u.hostname !== 'connect') return null
   const token = u.searchParams.get('token') ?? ''
   if (!/^[A-Za-z0-9_-]{16,256}$/.test(token)) return null
   let server: URL
@@ -38,7 +38,7 @@ export function parsePairing(link: string): Pairing | null {
 // A computer at home (src/main/home-link.ts) adds its certificate's fingerprint (`fp`): the phone
 // talks to that certificate and no other.
 export const pairingLink = (p: { origin: string; fp?: string } & ({ token: string } | { code: string })): string =>
-  `arara://connect?url=${encodeURIComponent(p.origin)}&${'code' in p ? `code=${encodeURIComponent(p.code)}` : `token=${encodeURIComponent(p.token)}`}${p.fp ? `&fp=${encodeURIComponent(p.fp)}` : ''}`
+  `tucano://connect?url=${encodeURIComponent(p.origin)}&${'code' in p ? `code=${encodeURIComponent(p.code)}` : `token=${encodeURIComponent(p.token)}`}${p.fp ? `&fp=${encodeURIComponent(p.fp)}` : ''}`
 
 // Where a server's window may go: its own pages, and nothing else.
 export function onServer(url: string, origin: string): boolean {
