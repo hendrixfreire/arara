@@ -1,6 +1,6 @@
-# Contributing to Tucano
+# Contributing to Arara
 
-Thanks for wanting to help. Tucano is a small codebase on purpose: an Electron app, a core process with SQLite, and the coding-agent CLIs people already use. This guide gets you from clone to pull request.
+Thanks for wanting to help. Arara is a small codebase on purpose: an Electron app, a core process with SQLite, and the coding-agent CLIs people already use. This guide gets you from clone to pull request.
 
 Development talk happens in `#contributing` on our [Discord](https://discord.gg/uQp4x7wUgT): a good place for quick questions or when you get stuck. Anything bigger than a fix still starts as an issue (see below).
 
@@ -11,22 +11,22 @@ You need macOS on Apple silicon or Linux (x64 or ARM64), Node 24 or later, and a
 For Arch Linux or CachyOS with Niri, see the [validation guide](docs/arch-linux.md), including the checks still needed for desktop integration.
 
 ```bash
-git clone https://github.com/eduwxyz/tucano.git
-cd tucano
+git clone https://github.com/eduwxyz/tucano.git arara
+cd arara
 npm install
 npm run dev
 ```
 
-`npm run dev` opens the app with hot reload, on its own data folder (`~/Library/Application Support/Tucano Dev`, or `%APPDATA%\Tucano Dev` on Windows), so it never touches an installed Tucano.
+`npm run dev` opens the app with hot reload, on its own data folder (`~/Library/Application Support/Arara Dev`, or `%APPDATA%\Arara Dev` on Windows), so it never touches an installed Arara.
 
 Handy environment variables:
 
 | Variable | What it does |
 |---|---|
-| `TUCANO_DATA=<dir>` | Use another data folder (a fresh install, a copy to test against) |
-| `TUCANO_FAKE_ENGINES=1` | Agents answer with a scripted fake engine: no subscription, no tokens. Comes with a sample team |
-| `TUCANO_SEED=0` | With fake engines, start empty instead of with the sample team |
-| `TUCANO_LOCALE=en-US` | The system language a new install starts in |
+| `ARARA_DATA=<dir>` | Use another data folder (a fresh install, a copy to test against) |
+| `ARARA_FAKE_ENGINES=1` | Agents answer with a scripted fake engine: no subscription, no tokens. Comes with a sample team |
+| `ARARA_SEED=0` | With fake engines, start empty instead of with the sample team |
+| `ARARA_LOCALE=en-US` | The system language a new install starts in |
 
 To try connectors without any account, add the demo server in **Connectors → Add → Local → "Fill in with the demo server"** (`scripts/demo-mcp-server.mjs`, a local task list).
 
@@ -74,6 +74,6 @@ No agent work runs in the window or the main process: everything goes through th
 
 ## Reporting bugs
 
-Open an issue with your system and its version (macOS, or the Linux distribution and desktop), the Tucano version (**About Tucano**), the harness and model involved, and the steps to reproduce. A screenshot of the conversation, with each step expanded, helps a lot.
+Open an issue with your system and its version (macOS, or the Linux distribution and desktop), the Arara version (**About Arara**), the harness and model involved, and the steps to reproduce. A screenshot of the conversation, with each step expanded, helps a lot.
 
 For security issues, see [SECURITY.md](SECURITY.md) instead of opening a public issue.

@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- build.mjs publishes this page twice: as is at /pro/, and with the data-en texts at /en/pro/.
      Its look is the home page's: build.mjs puts index.html's <style> where STYLE:home is. -->
-<title data-en="Tucano Pro · Your AI team in the cloud">Tucano Pro · Seu time de IA na nuvem</title>
-<meta name="description" content="O Tucano Pro hospeda o seu Tucano: seus agentes trabalham 24 horas, com a assinatura de IA que você já tem ou com a IA inclusa, e você usa no navegador ou no iPhone. Entre na lista do beta." data-en="Tucano Pro hosts your Tucano: your agents work around the clock, with the AI subscription you already have or with the AI included, and you use it in the browser or on your iPhone. Join the beta waitlist.">
-<meta property="og:title" content="Tucano Pro · Seu time de IA na nuvem" data-en="Tucano Pro · Your AI team in the cloud">
+<title data-en="Arara Pro · Your AI team in the cloud">Arara Pro · Seu time de IA na nuvem</title>
+<meta name="description" content="A Arara Pro hospeda a sua Arara: seus agentes trabalham 24 horas, com a assinatura de IA que você já tem ou com a IA inclusa, e você usa no navegador ou no iPhone. Entre na lista do beta." data-en="Arara Pro hosts your Arara: your agents work around the clock, with the AI subscription you already have or with the AI included, and you use it in the browser or on your iPhone. Join the beta waitlist.">
+<meta property="og:title" content="Arara Pro · Seu time de IA na nuvem" data-en="Arara Pro · Your AI team in the cloud">
 <meta property="og:description" content="Feche o notebook. O time continua. Entre na lista do beta." data-en="Close the laptop. The team keeps going. Join the beta waitlist.">
 <meta property="og:image" content="https://tucano.sh/assets/brand/og.png">
 <meta property="og:image:width" content="1200">
@@ -79,7 +79,7 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
 // A visitor who picked the other language on tucano.sh goes to this page in that language.
 ;(() => {
   let l
-  try { l = localStorage.getItem('tucano-lang') } catch {}
+  try { l = localStorage.getItem('arara-lang') } catch {}
   const other = (l === 'en' || l === 'pt-BR') && l !== document.documentElement.lang && document.querySelector(`link[rel="alternate"][hreflang="${l}"]`)
   if (other) location.replace(other.href)
 })()
@@ -104,7 +104,7 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
 
 <header class="top" id="top">
   <div class="wrap">
-    <a class="brand" href="/" data-en-href="/en/"><svg><use href="#mark"/></svg><span>tucano</span></a>
+    <a class="brand" href="/" data-en-href="/en/"><svg><use href="#mark"/></svg><span>arara</span></a>
     <nav class="links">
       <a href="#pro"><span lang="pt-BR">Na nuvem</span><span lang="en">In the cloud</span></a>
       <a href="#planos"><span lang="pt-BR">Planos</span><span lang="en">Plans</span></a>
@@ -113,7 +113,7 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
     </nav>
     <div class="right">
       <div class="lang" role="group" aria-label="Idioma / Language"><a class="langlink" href="/pro/" hreflang="pt-BR">PT</a><a class="langlink" href="/en/pro/" hreflang="en">EN</a></div>
-      <a class="btn btn--ghost" href="/" data-en-href="/en/"><span lang="pt-BR">Baixar o Tucano</span><span lang="en">Get Tucano</span></a>
+      <a class="btn btn--ghost" href="/" data-en-href="/en/"><span lang="pt-BR">Baixar a Arara</span><span lang="en">Get Arara</span></a>
       <a class="btn btn--beak" href="#lista"><span lang="pt-BR">Entrar na lista</span><span lang="en">Join the waitlist</span></a>
     </div>
   </div>
@@ -123,9 +123,9 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
 <section class="hero prohero" id="lista">
   <div class="halo" aria-hidden="true"></div>
   <div class="wrap" style="position:relative">
-    <div class="eyebrow rv"><span lang="pt-BR">Tucano Pro · beta</span><span lang="en">Tucano Pro · beta</span></div>
+    <div class="eyebrow rv"><span lang="pt-BR">Arara Pro · beta</span><span lang="en">Arara Pro · beta</span></div>
     <h1 class="display rv"><span lang="pt-BR">Seu time de IA, </span><span lang="en">Your AI team, </span><span class="swoosh"><span lang="pt-BR">sempre ligado.</span><span lang="en">always on.</span><svg viewBox="0 0 300 30" preserveAspectRatio="none"><path pathLength="1" d="M4 22 C 80 6, 200 4, 296 14" stroke="#FF8C24" stroke-width="9" stroke-linecap="round" fill="none"/></svg></span></h1>
-    <p class="lead rv"><span lang="pt-BR">A gente hospeda o seu Tucano. Seus agentes trabalham 24 horas, com a assinatura de IA que você já tem ou com a IA inclusa, e você usa no navegador ou no iPhone, de qualquer lugar. Sem instalar nada.</span><span lang="en">We host your Tucano. Your agents work around the clock, with the AI subscription you already have or with the AI included, and you use it in the browser or on your iPhone, from anywhere. Nothing to install.</span></p>
+    <p class="lead rv"><span lang="pt-BR">A gente hospeda a sua Arara. Seus agentes trabalham 24 horas, com a assinatura de IA que você já tem ou com a IA inclusa, e você usa no navegador ou no iPhone, de qualquer lugar. Sem instalar nada.</span><span lang="en">We host your Arara. Your agents work around the clock, with the AI subscription you already have or with the AI included, and you use it in the browser or on your iPhone, from anywhere. Nothing to install.</span></p>
     <div class="rv"><form class="join" novalidate>
   <input type="email" name="email" autocomplete="email" aria-label="E-mail" required>
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px">
@@ -138,19 +138,19 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
   </div>
 </section>
 
-<!-- ============ Tucano Pro (beta) ============ -->
+<!-- ============ Arara Pro (beta) ============ -->
 <section class="pro" id="pro">
   <div class="glow" aria-hidden="true"></div>
   <div class="stars" id="proStars" aria-hidden="true"></div>
   <div class="wrap grid">
     <div class="rv">
-      <div class="eyebrow"><span lang="pt-BR">Tucano Pro · beta</span><span lang="en">Tucano Pro · beta</span></div>
+      <div class="eyebrow"><span lang="pt-BR">Arara Pro · beta</span><span lang="en">Arara Pro · beta</span></div>
       <h2 class="h2" style="margin-top:18px"><span lang="pt-BR">Feche o notebook. <em>O time continua.</em></span><span lang="en">Close the laptop. <em>The team keeps going.</em></span></h2>
-      <p class="lead"><span lang="pt-BR">No Tucano Pro, o seu Tucano roda na nuvem, 24 horas. Use a assinatura de IA que você já tem, ou deixe a IA com a gente. Sem instalar nada: você usa no navegador ou no iPhone, de qualquer lugar.</span><span lang="en">With Tucano Pro, your Tucano runs in the cloud, around the clock. Use the AI subscription you already have, or leave the AI to us. Nothing to install: use it in the browser or on your iPhone, from anywhere.</span></p>
+      <p class="lead"><span lang="pt-BR">Na Arara Pro, a sua Arara roda na nuvem, 24 horas. Use a assinatura de IA que você já tem, ou deixe a IA com a gente. Sem instalar nada: você usa no navegador ou no iPhone, de qualquer lugar.</span><span lang="en">With Arara Pro, your Arara runs in the cloud, around the clock. Use the AI subscription you already have, or leave the AI to us. Nothing to install: use it in the browser or on your iPhone, from anywhere.</span></p>
       <div class="profacts">
         <div><b><span lang="pt-BR">Sua IA ou a nossa</span><span lang="en">Your AI or ours</span></b><span lang="pt-BR">Claude Code, Codex, Gemini e os outros, ou a IA inclusa.</span><span lang="en">Claude Code, Codex, Gemini and the rest, or the AI included.</span></div>
         <div><b><span lang="pt-BR">Sempre ligado</span><span lang="en">Always on</span></b><span lang="pt-BR">Rotinas e gatilhos rodam de madrugada.</span><span lang="en">Routines and triggers run overnight.</span></div>
-        <div><b><span lang="pt-BR">Só seu</span><span lang="en">Yours alone</span></b><span lang="pt-BR">Um Tucano isolado, com os seus dados.</span><span lang="en">An isolated Tucano, with your data.</span></div>
+        <div><b><span lang="pt-BR">Só seu</span><span lang="en">Yours alone</span></b><span lang="pt-BR">Uma Arara isolada, com os seus dados.</span><span lang="en">An isolated Arara, with your data.</span></div>
       </div>
     </div>
     <div class="stage rv" aria-hidden="true">
@@ -171,7 +171,7 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
       <article class="plan rv">
         <span class="tag"><span lang="pt-BR">Grátis · open source</span><span lang="en">Free · open source</span></span>
         <h3><span lang="pt-BR">No seu computador</span><span lang="en">On your computer</span></h3>
-        <p><span lang="pt-BR">O Tucano de sempre: roda na sua máquina, com a sua assinatura de IA.</span><span lang="en">The Tucano you know: it runs on your machine, with your AI subscription.</span></p>
+        <p><span lang="pt-BR">A Arara de sempre: roda na sua máquina, com a sua assinatura de IA.</span><span lang="en">The Arara you know: it runs on your machine, with your AI subscription.</span></p>
         <p class="price"><span lang="pt-BR">R$ 0<small>/mês</small></span><span lang="en">US$0<small>/mo</small></span></p>
         <ul>
           <li><span lang="pt-BR">Tudo fica no seu computador</span><span lang="en">Everything stays on your computer</span></li>
@@ -189,7 +189,7 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
         <ul>
           <li><span lang="pt-BR">Rotinas e gatilhos 24 horas, com o computador desligado</span><span lang="en">Routines and triggers around the clock, with your computer off</span></li>
           <li><span lang="pt-BR">No iPhone, de qualquer lugar</span><span lang="en">On the iPhone, from anywhere</span></li>
-          <li><span lang="pt-BR">Você entra na sua conta de IA pelo próprio Tucano</span><span lang="en">You sign in to your AI account from within Tucano</span></li>
+          <li><span lang="pt-BR">Você entra na sua conta de IA pela própria Arara</span><span lang="en">You sign in to your AI account from within Arara</span></li>
         </ul>
         <p class="foot"><span lang="pt-BR">Pra quem já tem Claude, ChatGPT ou outro plano.</span><span lang="en">For people who already have Claude, ChatGPT or another plan.</span></p>
       </article>
@@ -216,10 +216,10 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
     <div class="rv"><div class="eyebrow"><span lang="pt-BR">Termos do beta</span><span lang="en">Beta terms</span></div><h2 class="h2" style="margin-top:18px"><span lang="pt-BR">O combinado, <em>em cinco linhas.</em></span><span lang="en">The deal, <em>in five lines.</em></span></h2></div>
     <ul class="rv">
       <li><b><span lang="pt-BR">Pago, com 7 dias de garantia</span><span lang="en">Paid, with a 7-day guarantee</span></b><span lang="pt-BR">R$ 79/mês com a sua IA, ou R$ 169/mês com a IA inclusa, no cartão, todo mês. Se desistir em até 7 dias, devolvemos tudo; depois, cancele quando quiser, sem multa, e o acesso vai até o fim do mês pago.</span><span lang="en">US$15/mo with your AI, or US$32/mo with the AI included, by card, monthly. Cancel within 7 days for a full refund; after that, cancel anytime, with no fee, and access lasts until the end of the paid month.</span></li>
-      <li><b><span lang="pt-BR">Limite de uso de IA</span><span lang="en">An AI usage limit</span></b><span lang="pt-BR">No plano com a IA inclusa, cada Tucano tem um limite por mês e um por dia. Quando acaba, os agentes param de responder até renovar; o resto continua lá.</span><span lang="en">On the plan with the AI included, each Tucano has a monthly and a daily limit. When it runs out, the agents stop answering until it renews; everything else stays there.</span></li>
+      <li><b><span lang="pt-BR">Limite de uso de IA</span><span lang="en">An AI usage limit</span></b><span lang="pt-BR">No plano com a IA inclusa, cada Arara tem um limite por mês e um por dia. Quando acaba, os agentes param de responder até renovar; o resto continua lá.</span><span lang="en">On the plan with the AI included, each Arara has a monthly and a daily limit. When it runs out, the agents stop answering until it renews; everything else stays there.</span></li>
       <li><b><span lang="pt-BR">É um beta</span><span lang="en">It's a beta</span></b><span lang="pt-BR">Pode cair, mudar ou ter problemas. A gente faz backup, mas guarde em outro lugar o que for crítico.</span><span lang="en">It may go down, change or have problems. We keep backups, but keep anything critical somewhere else too.</span></li>
       <li><b><span lang="pt-BR">Uso justo</span><span lang="en">Fair use</span></b><span lang="pt-BR">Spam, abuso, conteúdo ilegal ou tentativa de burlar o limite encerram o acesso.</span><span lang="en">Spam, abuse, illegal content or trying to get around the limit ends the access.</span></li>
-      <li><b><span lang="pt-BR">Seus dados são seus</span><span lang="en">Your data is yours</span></b><span lang="pt-BR">Se você sair, ou se o beta acabar, a gente avisa antes e você pode pedir uma cópia. Depois, o seu Tucano é apagado.</span><span lang="en">If you leave, or the beta ends, we'll tell you first and you can ask for a copy. Then your Tucano is deleted.</span></li>
+      <li><b><span lang="pt-BR">Seus dados são seus</span><span lang="en">Your data is yours</span></b><span lang="pt-BR">Se você sair, ou se o beta acabar, a gente avisa antes e você pode pedir uma cópia. Depois, a sua Arara é apagada.</span><span lang="en">If you leave, or the beta ends, we'll tell you first and you can ask for a copy. Then your Arara is deleted.</span></li>
     </ul>
   </div>
 </section>
@@ -228,11 +228,11 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
   <div class="wrap grid">
     <div class="rv"><div class="eyebrow"><span lang="pt-BR">Perguntas</span><span lang="en">FAQ</span></div><h2 class="h2" style="margin-top:18px"><span lang="pt-BR">Antes de <em>entrar na lista.</em></span><span lang="en">Before you <em>join.</em></span></h2></div>
     <div class="qa rv" data-faq>
-      <details open><summary><span lang="pt-BR">Qual a diferença pro Tucano grátis?</span><span lang="en">How is it different from the free Tucano?</span></summary><p><span lang="pt-BR">O Tucano grátis roda no seu computador e funciona enquanto ele está ligado; no iPhone, só no Wi-Fi de casa. No Tucano Pro, ele roda num servidor nosso, 24 horas, e você usa de qualquer lugar.</span><span lang="en">The free Tucano runs on your computer and works while it's on; on the iPhone, only on your home Wi-Fi. With Tucano Pro, it runs on our server, around the clock, and you use it from anywhere.</span></p></details>
-      <details><summary><span lang="pt-BR">Posso usar a minha assinatura do Claude ou do ChatGPT?</span><span lang="en">Can I use my Claude or ChatGPT subscription?</span></summary><p><span lang="pt-BR">Pode. No plano "com a sua IA", você entra na sua conta pelo próprio Tucano: Claude Code, Codex, Gemini, Cursor, OpenCode, Pi ou Grok. O Tucano não vê a sua senha, e a assinatura é usada só no seu Tucano.</span><span lang="en">Yes. On the "with your AI" plan, you sign in to your account from within Tucano: Claude Code, Codex, Gemini, Cursor, OpenCode, Pi or Grok. Tucano never sees your password, and the subscription is used only in your Tucano.</span></p></details>
+      <details open><summary><span lang="pt-BR">Qual a diferença pra Arara grátis?</span><span lang="en">How is it different from the free Arara?</span></summary><p><span lang="pt-BR">A Arara grátis roda no seu computador e funciona enquanto ele está ligado; no iPhone, só no Wi-Fi de casa. Na Arara Pro, ela roda num servidor nosso, 24 horas, e você usa de qualquer lugar.</span><span lang="en">The free Arara runs on your computer and works while it's on; on the iPhone, only on your home Wi-Fi. With Arara Pro, it runs on our server, around the clock, and you use it from anywhere.</span></p></details>
+      <details><summary><span lang="pt-BR">Posso usar a minha assinatura do Claude ou do ChatGPT?</span><span lang="en">Can I use my Claude or ChatGPT subscription?</span></summary><p><span lang="pt-BR">Pode. No plano "com a sua IA", você entra na sua conta pela própria Arara: Claude Code, Codex, Gemini, Cursor, OpenCode, Pi ou Grok. A Arara não vê a sua senha, e a assinatura é usada só na sua Arara.</span><span lang="en">Yes. On the "with your AI" plan, you sign in to your account from within Arara: Claude Code, Codex, Gemini, Cursor, OpenCode, Pi or Grok. Arara never sees your password, and the subscription is used only in your Arara.</span></p></details>
       <details><summary><span lang="pt-BR">Quanto custa?</span><span lang="en">How much does it cost?</span></summary><p><span lang="pt-BR">R$ 79/mês na nuvem com a sua IA, e R$ 169/mês com a IA inclusa. É o preço de acesso antecipado: quem entra agora mantém esse valor. Você tem 7 dias pra desistir com reembolso, e cancela quando quiser.</span><span lang="en">US$15/mo in the cloud with your AI, and US$32/mo with the AI included. It's the early-access price: whoever joins now keeps it. You have 7 days to cancel for a full refund, and you can cancel anytime.</span></p></details>
-      <details><summary><span lang="pt-BR">Onde ficam os meus dados?</span><span lang="en">Where does my data live?</span></summary><p><span lang="pt-BR">Num servidor na Alemanha, num Tucano só seu, separado dos outros. O que você pede aos agentes vai pro provedor de IA pra gerar a resposta. Os detalhes estão na <a href="/privacidade/" data-en-href="/en/privacy/">política de privacidade</a>.</span><span lang="en">On a server in Germany, in a Tucano of your own, kept apart from the others. What you ask the agents goes to the AI provider to make the answer. The details are in the <a href="/privacidade/" data-en-href="/en/privacy/">privacy policy</a>.</span></p></details>
-      <details><summary><span lang="pt-BR">Quando eu entro?</span><span lang="en">When do I get in?</span></summary><p><span lang="pt-BR">As vagas abrem aos poucos, na ordem da lista. Quando chegar a sua vez, o convite vai pro seu e-mail, de contato@tucano.sh, com o link pra assinar. Pagou, o seu Tucano fica pronto em até 24 horas.</span><span lang="en">Spots open a few at a time, in waitlist order. When it's your turn, the invite goes to your email, from contato@tucano.sh, with the link to subscribe. Once you pay, your Tucano is ready within 24 hours.</span></p></details>
+      <details><summary><span lang="pt-BR">Onde ficam os meus dados?</span><span lang="en">Where does my data live?</span></summary><p><span lang="pt-BR">Num servidor na Alemanha, numa Arara só sua, separada das outras. O que você pede aos agentes vai pro provedor de IA pra gerar a resposta. Os detalhes estão na <a href="/privacidade/" data-en-href="/en/privacy/">política de privacidade</a>.</span><span lang="en">On a server in Germany, in an Arara of your own, kept apart from the others. What you ask the agents goes to the AI provider to make the answer. The details are in the <a href="/privacidade/" data-en-href="/en/privacy/">privacy policy</a>.</span></p></details>
+      <details><summary><span lang="pt-BR">Quando eu entro?</span><span lang="en">When do I get in?</span></summary><p><span lang="pt-BR">As vagas abrem aos poucos, na ordem da lista. Quando chegar a sua vez, o convite vai pro seu e-mail, de contato@tucano.sh, com o link pra assinar. Pagou, a sua Arara fica pronta em até 24 horas.</span><span lang="en">Spots open a few at a time, in waitlist order. When it's your turn, the invite goes to your email, from contato@tucano.sh, with the link to subscribe. Once you pay, your Arara is ready within 24 hours.</span></p></details>
     </div>
   </div>
 </section>
@@ -252,7 +252,7 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
 <p class="join-fine"><span lang="pt-BR">Acesso antecipado, pago e com vagas limitadas: quando chegar a sua vez, o convite traz o link pra assinar. 7 dias pra desistir com reembolso. Ao entrar, você concorda com os <a href="#termos">termos do beta</a> e a <a href="/privacidade/">privacidade</a>.</span><span lang="en">Paid early access, with limited spots: when it's your turn, the invite comes with the link to subscribe. 7 days to cancel for a full refund. By joining, you agree to the <a href="#termos">beta terms</a> and the <a href="/en/privacy/">privacy policy</a>.</span></p>
 </div>
     </div>
-    <div class="word" aria-hidden="true"><span class="big">tucano</span></div>
+    <div class="word" aria-hidden="true"><span class="big">arara</span></div>
     <footer>
       <span><span lang="pt-BR">Feito no Brasil.</span><span lang="en">Made in Brazil.</span></span>
       <nav><a href="/" data-en-href="/en/">tucano.sh</a><a href="https://github.com/eduwxyz/tucano">GitHub</a><a href="https://x.com/tucanosh">X (@tucanosh)</a><a href="https://discord.gg/uQp4x7wUgT">Discord</a><a href="/suporte/" data-en-href="/en/support/"><span lang="pt-BR">Suporte</span><span lang="en">Support</span></a><a href="/privacidade/" data-en-href="/en/privacy/"><span lang="pt-BR">Privacidade</span><span lang="en">Privacy</span></a></nav>
@@ -270,7 +270,7 @@ html[lang="pt-BR"] .lang a[hreflang="pt-BR"], html[lang="en"] .lang a[hreflang="
   onScroll()
   const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))), { threshold: .12 })
   document.querySelectorAll('.rv').forEach((e) => io.observe(e))
-  document.querySelectorAll('.lang a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('tucano-lang', a.hreflang) } catch {} }))
+  document.querySelectorAll('.lang a').forEach((a) => a.addEventListener('click', () => { try { localStorage.setItem('arara-lang', a.hreflang) } catch {} }))
 })()
 </script>
 <!-- SCRIPT:pro -->

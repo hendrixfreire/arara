@@ -4,6 +4,12 @@ What changed in each version of Tucano. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
+> **Em português:** o projeto foi renomeado de **Tucano** para **Arara**, e continua sendo um fork do Tucano. O app, o site e os documentos passam a usar o nome novo, junto com a pasta de dados (`~/.arara`; num servidor, `~/.arara-server`) e as variáveis de ambiente `ARARA_*`. Os dados de uma instalação antiga não são migrados: a Arara começa do zero.
+
+### Changed
+
+- **The project is renamed from Tucano to Arara.** The app, the site and the docs use the new name, along with the data folder (`~/.arara`, and `~/.arara-server` on a server) and the `ARARA_*` environment variables. It is a fork of [Tucano](https://github.com/eduwxyz/tucano). The data in an older install isn't migrated: Arara starts empty.
+
 ## [0.2.19] - 2026-11-08
 
 > **Em português:**

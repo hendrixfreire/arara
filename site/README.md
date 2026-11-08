@@ -1,4 +1,4 @@
-# Tucano's site
+# Arara's site
 
 Live at **[tucano.sh](https://tucano.sh)**. One page to edit: `index.html` (CSS and JS inline) and `assets/`. `build.mjs` publishes it twice, in Portuguese at `/` and in English at `/en/`, into `dist/`.
 
