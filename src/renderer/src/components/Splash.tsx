@@ -1,6 +1,6 @@
 // The opening of the introduction: the forest of the launch video, in short. The
-// toucan of the icon on a branch; a helicopter brings the team down on ropes; the
-// toucan flies at you and its wing closes the screen on the drop of the music; the
+// macaw of the icon on a branch; a helicopter brings the team down on ropes; the
+// macaw flies at you and its wing closes the screen on the drop of the music; the
 // name. One GSAP timeline, SVG drawn here, one sound file mixed to the same times.
 // A click or any key skips it; with "Reduzir movimento" on, it doesn't play.
 import { L } from '../../../shared/lang'
@@ -9,7 +9,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 import sound from '../assets/splash.mp3'
 
 const C = {
-  black: '#111111', orange: '#FF8A1F', deep: '#E2541B', white: '#FFFFFF', feet: '#7C8CA3',
+  black: '#111111', blue: '#2185B5', red: '#D94342', gold: '#F5C84C', white: '#FFF7E8', feet: '#7C8CA3',
   far: '#C4D3B4', mid: '#8DAE88', near: '#4F7D5C', dark: '#1F5A43', mata: '#0F3D30', deepest: '#0A2C22', bark: '#3A2A22', barkDark: '#2A1E18'
 }
 const BOTS = [
@@ -38,22 +38,19 @@ function canopy(x0: number, x1: number, y: number, rMin: number, rMax: number, s
 const leaf = (x: number, y: number, r: number, rot: number, fill: string): string => `<path d="M0 0 H${r} A${r} ${r} 0 0 0 0 ${-r} Z" fill="${fill}" transform="translate(${x} ${y}) rotate(${rot})"/>`
 const wing = (fill: string): string => `<path d="M0 0 C 50 -150, -40 -320, -190 -420 C -170 -270, -150 -140, -80 10 Z" fill="${fill}"/>`
 
-const TOUCAN = `
+const MACAW = `
   <g class="sp-tc" transform="translate(470 ${BRANCH_Y}) scale(.62)">
-    <defs>
-      <clipPath id="sp-tc-shape"><ellipse cx="0" cy="-200" rx="130" ry="160"/><circle cx="40" cy="-360" r="110"/></clipPath>
-      <clipPath id="sp-tc-beak"><path d="M120 -350 V-450 A230 100 0 0 1 350 -350 Z"/></clipPath>
-    </defs>
-    <path d="M-60 -150 L0 -110 L-70 70 L-140 48 Z" fill="${C.black}"/>
+    <path d="M-60 -150 L0 -110 L-100 130 L-140 110 Z" fill="${C.blue}"/>
+    <path d="M-40 -130 L20 -110 L-65 150 L-95 140 Z" fill="${C.red}"/>
     <rect x="-28" y="-60" width="18" height="62" rx="9" fill="${C.feet}"/>
     <rect x="22" y="-60" width="18" height="62" rx="9" fill="${C.feet}"/>
-    <ellipse cx="0" cy="-200" rx="130" ry="160" fill="${C.black}"/>
-    <ellipse cx="96" cy="-262" rx="62" ry="86" fill="${C.white}" clip-path="url(#sp-tc-shape)"/>
+    <ellipse cx="0" cy="-200" rx="130" ry="160" fill="${C.red}"/>
+    <path d="M-110 -280 Q25 -300 25 -100 Q-130 -85 -110 -280 Z" fill="${C.gold}"/>
+    <path d="M-116 -205 Q-20 -220 25 -100 Q-120 -75 -116 -205 Z" fill="${C.blue}"/>
     <g class="sp-head">
-      <circle cx="40" cy="-360" r="110" fill="${C.black}"/>
-      <path d="M120 -310 V-350 H335 A215 40 0 0 1 120 -310 Z" fill="${C.deep}"/>
-      <path d="M120 -350 V-450 A230 100 0 0 1 350 -350 Z" fill="${C.orange}"/>
-      <circle cx="352" cy="-350" r="62" fill="${C.black}" clip-path="url(#sp-tc-beak)"/>
+      <circle cx="40" cy="-360" r="110" fill="${C.red}"/>
+      <ellipse cx="85" cy="-365" rx="65" ry="70" fill="${C.white}"/>
+      <path d="M125 -400 C220 -405 245 -330 198 -280 L170 -260 C185 -320 158 -332 125 -330 Z" fill="${C.black}"/>
       <g class="sp-eye"><circle cx="66" cy="-384" r="40" fill="${C.white}"/><circle class="sp-pupil" cx="78" cy="-384" r="17" fill="${C.black}"/></g>
     </g>
   </g>`
@@ -61,12 +58,12 @@ const TOUCAN = `
 const HELI = `
   <g class="sp-heli-pos"><g class="sp-heli">
     <rect x="110" y="-24" width="230" height="26" rx="13" fill="#1E2A38"/>
-    <path d="M318 -24 L352 -88 L372 -88 L356 -10 Z" fill="${C.orange}"/>
+    <path d="M318 -24 L352 -88 L372 -88 L356 -10 Z" fill="${C.blue}"/>
     <g class="sp-tail" transform="translate(352 -22)"><rect x="-6" y="-38" width="12" height="76" rx="6" fill="#2B3A4C"/></g>
     <rect x="-20" y="-112" width="16" height="34" fill="#2B3A4C"/>
     <path d="M-150 0 A150 90 0 0 1 150 -10 L150 40 A40 40 0 0 1 110 80 L-90 80 A60 80 0 0 1 -150 0 Z" fill="#1E2A38"/>
     <path d="M-150 0 A150 90 0 0 1 -40 -84 L-40 0 Z" fill="#BFE0E6"/>
-    <rect x="-150" y="14" width="300" height="14" fill="${C.orange}"/>
+    <rect x="-150" y="14" width="300" height="14" fill="${C.blue}"/>
     <rect x="-30" y="0" width="100" height="74" rx="8" fill="#0E151F"/>
     <rect x="-110" y="96" width="250" height="10" rx="5" fill="#2B3A4C"/>
     <rect x="-70" y="74" width="10" height="26" fill="#2B3A4C"/><rect x="90" y="74" width="10" height="26" fill="#2B3A4C"/>
@@ -75,16 +72,15 @@ const HELI = `
 
 const FLYER = `
   <g class="sp-fly-pos"><g class="sp-fly">
-    <g class="sp-wing-back" transform="translate(10 -70)">${wing('#2A2A2A')}</g>
-    <path d="M-100 30 L-70 90 L-330 150 L-340 80 Z" fill="${C.black}"/>
-    <ellipse cx="0" cy="0" rx="130" ry="160" fill="${C.black}"/>
-    <ellipse cx="96" cy="-62" rx="62" ry="86" fill="${C.white}" clip-path="url(#sp-fly-shape)"/>
-    <circle cx="40" cy="-160" r="110" fill="${C.black}"/>
-    <path d="M120 -110 V-150 H335 A215 40 0 0 1 120 -110 Z" fill="${C.deep}"/>
-    <path d="M120 -150 V-250 A230 100 0 0 1 350 -150 Z" fill="${C.orange}"/>
-    <circle cx="352" cy="-150" r="62" fill="${C.black}" clip-path="url(#sp-fly-beak)"/>
+    <g class="sp-wing-back" transform="translate(10 -70)">${wing(C.blue)}</g>
+    <path d="M-100 30 L-70 90 L-390 190 L-400 120 Z" fill="${C.red}"/>
+    <path d="M-90 65 L-70 90 L-390 190 L-395 160 Z" fill="${C.blue}"/>
+    <ellipse cx="0" cy="0" rx="130" ry="160" fill="${C.red}"/>
+    <circle cx="40" cy="-160" r="110" fill="${C.red}"/>
+    <ellipse cx="85" cy="-165" rx="65" ry="70" fill="${C.white}"/>
+    <path d="M125 -200 C220 -205 245 -130 198 -80 L170 -60 C185 -120 158 -132 125 -130 Z" fill="${C.black}"/>
     <circle cx="66" cy="-184" r="40" fill="${C.white}"/><circle cx="74" cy="-180" r="17" fill="${C.black}"/>
-    <g class="sp-wing-front" transform="translate(-20 -60)">${wing(C.black)}</g>
+    <g class="sp-wing-front" transform="translate(-20 -60)">${wing(C.blue)}<path d="M0 0 C30 -90 -5 -180 -70 -240 L-120 -255 C-108 -140 -75 -45 -80 10 Z" fill="${C.gold}"/></g>
   </g></g>`
 
 const bot = (b: (typeof BOTS)[number], i: number): string => `
@@ -102,8 +98,6 @@ const SCENE = `
   <svg class="sp-world" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="sp-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6F0E4"/><stop offset=".7" stop-color="#F8DDB8"/><stop offset="1" stop-color="#F6C998"/></linearGradient>
-      <clipPath id="sp-fly-shape"><ellipse cx="0" cy="0" rx="130" ry="160"/><circle cx="40" cy="-160" r="110"/></clipPath>
-      <clipPath id="sp-fly-beak"><path d="M120 -150 V-250 A230 100 0 0 1 350 -150 Z"/></clipPath>
     </defs>
     <g class="sp-cam">
       <rect x="-400" y="-400" width="2720" height="1880" fill="url(#sp-sky)"/>
@@ -125,7 +119,7 @@ const SCENE = `
         <g class="sp-sway" transform="translate(700 -20)"><rect x="-3" y="0" width="6" height="380" fill="${C.mata}"/>${leaf(0, 380, 46, 60, C.dark)}${leaf(0, 250, 36, -150, C.mata)}${leaf(0, 140, 30, 40, C.dark)}</g>
       </g>
       <g>${BOTS.map(bot).join('')}</g>
-      ${TOUCAN}
+      ${MACAW}
       <g class="sp-front">
         <g class="sp-sway" transform="translate(-40 1110)">${leaf(0, 0, 260, -70, C.deepest)}${leaf(0, 0, 220, -10, C.mata)}</g>
         <g class="sp-sway" transform="translate(1960 1120)">${leaf(0, 0, 300, -160, C.deepest)}${leaf(0, 0, 240, -110, C.mata)}</g>
@@ -133,11 +127,20 @@ const SCENE = `
       ${FLYER}
     </g>
   </svg>
-  <svg class="sp-curtain" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice"><g transform="translate(2120 120)"><g class="sp-lens-wing"><g transform="scale(10)">${wing(C.black)}</g></g></g></svg>`
+  <svg class="sp-curtain" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice"><g transform="translate(2120 120)"><g class="sp-lens-wing"><g transform="scale(10)">${wing(C.blue)}</g></g></g></svg>`
 
-const ICON = `<svg viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="sp-icon"><rect width="100" height="100" rx="26"/></clipPath></defs><g clip-path="url(#sp-icon)">
-  <rect width="100" height="100" fill="#F1ECE2"/><circle cx="27" cy="73" r="48" fill="#121212"/><circle cx="38" cy="47" r="14" fill="#fff"/><circle cx="43" cy="47" r="5.5" fill="#121212"/>
-  <path d="M53 24 Q84 25 93 44 L96 57 L53 57 Z" fill="#FF8C24"/><path d="M53 57 L95 57 Q86 70 53 71 Z" fill="#E5531F"/><path d="M83 57 A9 12 0 0 1 97 47 L97 57 Z" fill="#121212"/></g></svg>`
+const ICON = `<svg viewBox="0 0 100 100" aria-hidden="true">      <rect width="100" height="100" rx="28" fill="#F1ECE2" />
+      <path d="M17 86 V47 C17 27 31 15 48 15 C66 15 76 30 74 48 L69 86 Z" fill="#D94342" />
+      <path d="M17 59 C36 53 48 64 49 86 H17 Z" fill="#F5C84C" />
+      <path d="M17 70 C32 66 43 74 49 86 H17 Z" fill="#2185B5" />
+      <path d="M48 31 C63 25 74 33 73 48 C70 62 52 65 44 53 C39 45 40 35 48 31 Z" fill="#FFF7E8" />
+      <g class="tuca__eye">
+        <circle cx="55" cy="43" r="5.5" fill="#182C3A" />
+        <circle cx="56.5" cy="41.5" r="1.5" fill="#fff" />
+      </g>
+      <path class="tuca__jaw" d="M67 54 L82 54 Q80 67 68 67 Z" fill="#304858" />
+      <path d="M69 31 C87 32 94 44 89 55 C86 63 80 66 77 67 C80 54 75 50 67 49 Z" fill="#182C3A" />
+</svg>`
 
 export function Splash({ onDone }: { onDone: () => void }): ReactNode {
   const root = useRef<HTMLDivElement>(null)
@@ -157,7 +160,7 @@ export function Splash({ onDone }: { onDone: () => void }): ReactNode {
     audio.volume = 0.8
     void audio.play().catch(() => {})
 
-    // The camera starts close on the toucan, then opens to the forest.
+    // The camera starts close on the macaw, then opens to the forest.
     const cam = $('.sp-cam')
     gsap.set(cam, { transformOrigin: '0 0', scale: 1.32, x: 0, y: -240 })
     tl.to(cam, { scale: 1, y: 0, duration: 1.3, ease: 'power3.inOut' }, 0.5)
@@ -166,7 +169,7 @@ export function Splash({ onDone }: { onDone: () => void }): ReactNode {
     tl.fromTo('.sp-front', { x: 0 }, { x: -80, duration: END, ease: 'none' }, 0)
     tl.fromTo(el, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.35, ease: 'none' }, 0)
 
-    // The toucan: breathing, blinking, looking, the nod.
+    // The macaw: breathing, blinking, looking, the nod.
     const head = $('.sp-head')
     origin(head, 40, -290)
     origin('.sp-eye', 66, -384)
@@ -234,7 +237,7 @@ export function Splash({ onDone }: { onDone: () => void }): ReactNode {
         tl.to(g, { y: LAND - 80, duration: 0.18, ease: 'power2.out' }, th)
         tl.to(g, { y: LAND, duration: 0.18, ease: 'power2.in' }, th + 0.18)
       }
-      // They look at the toucan, then at you.
+      // They look at the macaw, then at you.
       const eyes = g.querySelectorAll('.sp-e')
       tl.to(eyes, { x: -5, duration: 0.2 }, 3.6)
       tl.to(eyes, { x: -3, y: -7, duration: 0.18 }, 4.0 + i * 0.04)
@@ -273,7 +276,7 @@ export function Splash({ onDone }: { onDone: () => void }): ReactNode {
     tl.fromTo('.sp-line', { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out', immediateRender: false }, DROP + 0.95)
     tl.to(el, { autoAlpha: 0, duration: 0.45, ease: 'power1.in' }, END - 0.45)
 
-    // While it sits on the branch, the toucan's eye follows your pointer.
+    // While it sits on the branch, the macaw's eye follows your pointer.
     const pupil = $('.sp-pupil')
     const eye = el.querySelector('.sp-eye circle')!
     const follow = (e: PointerEvent): void => {

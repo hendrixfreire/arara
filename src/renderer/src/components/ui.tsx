@@ -145,27 +145,22 @@ export function Icon({ name, size = 16 }: { name: IconName; size?: number }): Re
   )
 }
 
-// The Tuca wears the app's own toucan: he belongs to the app, not to the team.
+// Tuca wears the app's scarlet macaw: a curved beak and blue-and-gold wing.
 // busy: his lower beak goes while he works; happy: one squint when he's done.
 export function TucaMark({ size = 32, busy, happy }: { size?: number; busy?: boolean; happy?: boolean }): ReactNode {
   return (
     <svg className={`avatar avatar--tuca ${busy ? 'is-busy' : ''} ${happy ? 'is-happy' : ''}`} width={size} height={size} viewBox="0 0 100 100" aria-label="Tuca">
-      <defs>
-        <clipPath id="tuca-clip">
-          <rect width="100" height="100" rx="28" />
-        </clipPath>
-      </defs>
-      <g clipPath="url(#tuca-clip)">
-        <rect width="100" height="100" fill="#F1ECE2" />
-        <circle cx="27" cy="73" r="48" fill="#121212" />
-        <g className="tuca__eye">
-          <circle cx="38" cy="47" r="14" fill="#fff" />
-          <circle cx="43" cy="47" r="5.5" fill="#121212" />
-        </g>
-        <path className="tuca__jaw" d="M53 57 L95 57 Q86 70 53 71 Z" fill="#E5531F" />
-        <path d="M53 24 Q84 25 93 44 L96 57 L53 57 Z" fill="#FF8C24" />
-        <path d="M83 57 A9 12 0 0 1 97 47 L97 57 Z" fill="#121212" />
+      <rect width="100" height="100" rx="28" fill="#F1ECE2" />
+      <path d="M17 86 V47 C17 27 31 15 48 15 C66 15 76 30 74 48 L69 86 Z" fill="#D94342" />
+      <path d="M17 59 C36 53 48 64 49 86 H17 Z" fill="#F5C84C" />
+      <path d="M17 70 C32 66 43 74 49 86 H17 Z" fill="#2185B5" />
+      <path d="M48 31 C63 25 74 33 73 48 C70 62 52 65 44 53 C39 45 40 35 48 31 Z" fill="#FFF7E8" />
+      <g className="tuca__eye">
+        <circle cx="55" cy="43" r="5.5" fill="#182C3A" />
+        <circle cx="56.5" cy="41.5" r="1.5" fill="#fff" />
       </g>
+      <path className="tuca__jaw" d="M67 54 L82 54 Q80 67 68 67 Z" fill="#304858" />
+      <path d="M69 31 C87 32 94 44 89 55 C86 63 80 66 77 67 C80 54 75 50 67 49 Z" fill="#182C3A" />
     </svg>
   )
 }
@@ -186,18 +181,20 @@ export function useJustEnded(on: boolean, ms: number): boolean {
   return ended
 }
 
-// The toucan asleep: an empty page with nothing waiting. The z's drift up.
-export function SleepingToucan({ size = 120 }: { size?: number }): ReactNode {
+// A sleeping macaw for quiet pages. Its long tail and blue wing stay visible.
+export function SleepingMacaw({ size = 120 }: { size?: number }): ReactNode {
   return (
-    <svg className="sleeping-toucan" width={size} height={size} viewBox="0 0 200 200" aria-hidden>
-      <rect x="20" y="56" width="96" height="96" rx="30" fill="#1d1a16" />
-      <path d="M102 78 C 132 62, 172 66, 190 92 C 193 97, 190 103, 184 104 C 160 108, 130 114, 106 124 C 100 110, 98 92, 102 78 Z" fill="#FF8C24" />
-      <path d="M106 103 C 130 101, 160 99, 186 100 C 175 104, 140 110, 106 124 Z" fill="#E5531F" />
-      <path d="M190 92 C 193 97, 190 103, 184 104 C 179 104.8, 175 105.4, 171 106 C 175 99, 182 93, 190 92 Z" fill="#1d1a16" />
-      <path d="M51 98 C 55 103, 61 103, 65 98" stroke="#fff" strokeWidth="4" strokeLinecap="round" fill="none" />
-      <path d="M75 98 C 79 103, 85 103, 89 98" stroke="#fff" strokeWidth="4" strokeLinecap="round" fill="none" />
-      <text className="sleeping-toucan__z" x="112" y="58" fontSize="22" fontWeight="600">z</text>
-      <text className="sleeping-toucan__z sleeping-toucan__z--2" x="128" y="40" fontSize="30" fontWeight="600">z</text>
+    <svg className="sleeping-macaw" width={size} height={size} viewBox="0 0 200 200" aria-hidden>
+      <path d="M59 127 L88 134 L47 185 L39 178 Z" fill="#2185B5" />
+      <path d="M70 130 L92 134 L62 184 L53 180 Z" fill="#D94342" />
+      <path d="M39 119 C32 81 48 53 79 53 C109 53 123 81 117 111 C111 144 55 152 39 119 Z" fill="#D94342" />
+      <path d="M43 96 C68 84 89 104 87 134 C60 145 39 128 43 96 Z" fill="#F5C84C" />
+      <path d="M42 111 C63 106 79 119 87 134 C61 147 42 134 42 111 Z" fill="#2185B5" />
+      <ellipse cx="96" cy="83" rx="24" ry="23" fill="#FFF7E8" />
+      <path d="M113 65 C144 65 154 90 139 108 L126 118 C133 98 124 94 111 94 Z" fill="#182C3A" />
+      <path d="M85 83 Q94 93 103 83" stroke="#182C3A" strokeWidth="4" strokeLinecap="round" fill="none" />
+      <text className="sleeping-macaw__z" x="128" y="53" fontSize="22" fontWeight="600">z</text>
+      <text className="sleeping-macaw__z sleeping-macaw__z--2" x="148" y="35" fontSize="30" fontWeight="600">z</text>
     </svg>
   )
 }
