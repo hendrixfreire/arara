@@ -1,5 +1,5 @@
 // The site: the pages in dist/ (made by build.mjs) served as static files, plus worker.js for the
-// routes of code: /api/lista (the Arara Pro waitlist) and /api/push/* (the iPhone app's push relay,
+// routes of code: /api/lista (the Tucano Pro waitlist) and /api/push/* (the iPhone app's push relay,
 // push.js). Everything else never reaches the worker.
 //   cd site && npx wrangler deploy
 // which first runs build.mjs. The worker's secrets: SUPABASE_SECRET_KEY, TURNSTILE_SECRET, and for the

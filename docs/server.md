@@ -47,7 +47,7 @@ Then sign them in from Arara's **Settings › Models**, in the browser or the iP
 
 ### On a phone
 
-The Arara app for iPhone signs in with a one-time code, not the token. On the server, run:
+The iPhone app (Tucano, in the App Store) signs in with a one-time code, not the token. On the server, run:
 
 ```bash
 npm run server -- pair          # tucano://connect?url=…&code=…   and   https://…/?code=…

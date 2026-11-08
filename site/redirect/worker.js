@@ -1,4 +1,4 @@
-// Sends every other domain to tucano.sh, keeping the path and query,
+// Sends every other Tucano domain to tucano.sh, keeping the path and query,
 // so search engines count them as one site.
 export default {
   fetch(request) {

@@ -1,6 +1,6 @@
 // tucano.sh: the static pages (dist/, served as assets), the push relay for the iPhone app (push.js,
 // /api/push/*) and /api/lista, where
-// the Arara Pro beta's waitlist form (pro.html) lands. It checks the anti-robot token (Cloudflare
+// the Tucano Pro beta's waitlist form (pro.html) lands. It checks the anti-robot token (Cloudflare
 // Turnstile), then saves the sign-up in Supabase (supabase/migrations/0001_waitlist.sql) with the
 // project's secret key, which only this worker holds:
 //   npx wrangler secret put SUPABASE_SECRET_KEY

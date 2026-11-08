@@ -106,7 +106,7 @@ export function HomePhoneCard(): ReactNode {
             <div className="device-pair__text">
               <ol className="small steps-list">
                 <li>{L('Deixe o iPhone no mesmo Wi-Fi que este computador.', 'Put the iPhone on the same Wi-Fi as this computer.')}</li>
-                <li>{L('Abra o app da Arara, toque no ícone de QR code e aponte pra cá.', 'Open the Arara app, tap the QR code icon and point it here.')}</li>
+                <li>{L('Abra o app do Tucano no iPhone, toque no ícone de QR code e aponte pra cá.', 'Open the Tucano app on the iPhone, tap the QR code icon and point it here.')}</li>
                 <li>{L('Quando o iPhone pedir acesso à rede local, toque em Permitir.', 'When the iPhone asks for local network access, tap Allow.')}</li>
               </ol>
               <p className="muted small">

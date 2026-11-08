@@ -1,10 +1,10 @@
 # Celular (iPhone e Telegram)
-> O app da Arara no iPhone, pelo Wi-Fi de casa; ou aprovações, perguntas e o fim das rotinas no seu Telegram, com um bot seu.
+> O app do Tucano no iPhone, pelo Wi-Fi de casa; ou aprovações, perguntas e o fim das rotinas no seu Telegram, com um bot seu.
 
 ## Seu iPhone
-O app da Arara pro iPhone entra como você neste computador: suas conversas, aprovações e as perguntas dos agentes. Funciona no Wi-Fi de casa, com o computador ligado.
+O app do Tucano pro iPhone entra como você neste computador: suas conversas, aprovações e as perguntas dos agentes. Funciona no Wi-Fi de casa, com o computador ligado.
 1. Em **Configurações › Celular** (Settings › Phone), card **Seu iPhone**, clique em **Conectar meu iPhone**.
-2. Deixe o iPhone no mesmo Wi-Fi. No app da Arara, toque no ícone de QR code e aponte pro código. Ele vale uma vez, por 10 minutos.
+2. Deixe o iPhone no mesmo Wi-Fi. No app do Tucano, toque no ícone de QR code e aponte pro código. Ele vale uma vez, por 10 minutos.
 3. Quando o iPhone pedir acesso à rede local, toque em **Permitir**. Se o computador perguntar se a Arara pode aceitar conexões, permita (no Windows, nas redes privadas; no Linux com firewall, libere a porta que o card mostra).
 
 Fica ligado mesmo depois de fechar e abrir o app, até **Desligar**. Só aparelhos da rede de casa recebem resposta, e o QR leva a impressão digital do certificado deste computador: outro aparelho no Wi-Fi não se passa por ele. Fora de casa o iPhone não alcança o computador; pra isso, uma Arara em servidor ou a Arara Pro.

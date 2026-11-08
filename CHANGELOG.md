@@ -4,11 +4,11 @@ What changed in each version of Tucano. The format follows [Keep a Changelog](ht
 
 ## [Unreleased]
 
-> **Em português:** o projeto foi renomeado de **Tucano** para **Arara**, e continua sendo um fork do Tucano. O app, o site e os documentos passam a usar o nome novo, junto com a pasta de dados (`~/.arara`; num servidor, `~/.arara-server`) e as variáveis de ambiente `ARARA_*`. Os dados de uma instalação antiga não são migrados: a Arara começa do zero.
+> **Em português:** o projeto foi renomeado de **Tucano** para **Arara**, e continua sendo um fork do Tucano. O app e os documentos passam a usar o nome novo, junto com a pasta de dados (`~/Library/Application Support/Arara` no Mac; num servidor, `~/.arara-server`) e as variáveis de ambiente `ARARA_*`. Os dados de uma instalação antiga não são migrados: a Arara começa do zero. O site tucano.sh e o app de iPhone continuam sendo os do Tucano.
 
 ### Changed
 
-- **The project is renamed from Tucano to Arara.** The app, the site and the docs use the new name, along with the data folder (`~/.arara`, and `~/.arara-server` on a server) and the `ARARA_*` environment variables. It is a fork of [Tucano](https://github.com/eduwxyz/tucano). The data in an older install isn't migrated: Arara starts empty.
+- **The project is renamed from Tucano to Arara.** The app and the docs use the new name, along with the data folder (`~/Library/Application Support/Arara` on a Mac, and `~/.arara-server` on a server) and the `ARARA_*` environment variables. It is a fork of [Tucano](https://github.com/eduwxyz/tucano). The data in an older install isn't migrated: Arara starts empty. The tucano.sh site and the iPhone app are still Tucano's.
 
 ## [0.2.19] - 2026-11-08
 

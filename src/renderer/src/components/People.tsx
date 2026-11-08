@@ -403,7 +403,7 @@ function PhoneCard(): ReactNode {
             <Qr text={code.link} />
             <div className="device-pair__text">
               <ol className="small steps-list">
-                <li>{L('No iPhone, abra a Câmera ou o app da Arara e aponte pro código.', 'On the iPhone, open the Camera or the Arara app and point it at the code.')}</li>
+                <li>{L('No iPhone, abra a Câmera ou o app do Tucano e aponte pro código.', 'On the iPhone, open the Camera or the Tucano app and point it at the code.')}</li>
                 <li>{L('Toque em Abrir na Arara e confirme.', 'Tap Open in Arara and confirm.')}</li>
               </ol>
               <p className="muted small">
