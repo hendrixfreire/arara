@@ -53,23 +53,23 @@ jobs:
       - name: Install with install.ps1
         shell: pwsh
         run: |
-          $env:TUCANO_EXE = (Resolve-Path dist-win/tucano-win-x64.exe).Path
+          $env:ARARA_EXE = (Resolve-Path dist-win/arara-win-x64.exe).Path
           $out = ./install.ps1 *>&1 | Out-String
           $out
-          if ($out -notmatch 'Installed in (.+Tucano\.exe)') { throw 'install.ps1 failed' }
+          if ($out -notmatch 'Installed in (.+Arara\.exe)') { throw 'install.ps1 failed' }
           if (-not (Test-Path $Matches[1].Trim())) { throw "No $($Matches[1])" }
       - name: The version is the release's
         if: env.TAG != ''
         run: test "v$(node -p "require('./package.json').version")" = "$TAG"
       - name: Attach to the release
         if: env.TAG != ''
-        run: gh release upload "$TAG" dist-win/tucano-win-x64.exe dist-win/tucano-win-x64.exe.blockmap dist-win/latest.yml --clobber
+        run: gh release upload "$TAG" dist-win/arara-win-x64.exe dist-win/arara-win-x64.exe.blockmap dist-win/latest.yml --clobber
       - name: Keep the files of a test build
         if: env.TAG == ''
         uses: actions/upload-artifact@v7
         with:
-          name: tucano-win-x64
+          name: arara-win-x64
           path: |
-            dist-win/tucano-win-x64.exe*
+            dist-win/arara-win-x64.exe*
             dist-win/latest.yml
           retention-days: 3

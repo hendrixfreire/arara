@@ -57,7 +57,7 @@ describe('reading files and links', () => {
 
 describe('a document brought to the wiki', () => {
   it('keeps the original, reads it in parts and turns it into pages', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'tucano-wiki-'))
+    const root = mkdtempSync(join(tmpdir(), 'arara-wiki-'))
     const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db') })
     w.init(false)
     const prompts: string[] = []

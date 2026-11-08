@@ -91,7 +91,7 @@ let envOnce: Promise<NodeJS.ProcessEnv> | undefined
 export function loginEnv(): Promise<NodeJS.ProcessEnv> {
   // Windows has no login shell to ask: every app already gets the user's full
   // environment (PATH included, spelled Path there). What the app itself added stays out.
-  if (isWin) envOnce ??= Promise.resolve({ HOME: homedir(), ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !/^(TUCANO_|ELECTRON_|VITE_)/i.test(k) && k !== 'NODE_OPTIONS')) })
+  if (isWin) envOnce ??= Promise.resolve({ HOME: homedir(), ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !/^(ARARA_|ELECTRON_|VITE_)/i.test(k) && k !== 'NODE_OPTIONS')) })
   envOnce ??= new Promise((resolve) => {
     const base: NodeJS.ProcessEnv = {
       HOME: homedir(),
@@ -102,7 +102,7 @@ export function loginEnv(): Promise<NodeJS.ProcessEnv> {
       TMPDIR: process.env['TMPDIR'],
       PATH: '/usr/bin:/bin:/usr/sbin:/sbin'
     }
-    const marker = '__TUCANO_ENV__'
+    const marker = '__ARARA_ENV__'
     const child = spawn(base.SHELL!, ['-ilc', `printf '${marker}\\0'; env -0`], { env: base, stdio: ['ignore', 'pipe', 'ignore'] })
     let out = ''
     child.stdout.setEncoding('utf8').on('data', (d: string) => (out += d))

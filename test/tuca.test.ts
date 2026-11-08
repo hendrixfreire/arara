@@ -71,7 +71,7 @@ describe('the Tuca in a conversation', () => {
     expect(db.agents().map((a) => a.name)).toEqual(['Tuca'])
   })
 
-  it("any other agent can propose too, told when to, but isn't the one who explains Tucano", async () => {
+  it("any other agent can propose too, told when to, but isn't the one who explains Arara", async () => {
     db.saveAgent({ ...tucaAgent('sonnet', [], 1000), id: 'a2', name: 'Lia', handle: 'lia', kind: undefined })
     db.createConversation({ id: 'd2', kind: 'dm', name: 'a2', members: ['a2'] })
     await runner.send('d2', 'oi')
@@ -79,6 +79,6 @@ describe('the Tuca in a conversation', () => {
     expect(systems[0]).not.toContain('## Pra montar agentes')
     expect(systems[0]).toContain('## Pra propor agentes, times, rotinas e canais')
     expect(systems[0]).toContain('Proponha quando Edu pedir')
-    expect(systems[0]).not.toContain('## O guia do Tucano')
+    expect(systems[0]).not.toContain('## O guia da Arara')
   })
 })

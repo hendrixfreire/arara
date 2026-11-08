@@ -5,9 +5,9 @@
 O app do Tucano pro iPhone entra como você neste computador: suas conversas, aprovações e as perguntas dos agentes. Funciona no Wi-Fi de casa, com o computador ligado.
 1. Em **Configurações › Celular** (Settings › Phone), card **Seu iPhone**, clique em **Conectar meu iPhone**.
 2. Deixe o iPhone no mesmo Wi-Fi. No app do Tucano, toque no ícone de QR code e aponte pro código. Ele vale uma vez, por 10 minutos.
-3. Quando o iPhone pedir acesso à rede local, toque em **Permitir**. Se o computador perguntar se o Tucano pode aceitar conexões, permita (no Windows, nas redes privadas; no Linux com firewall, libere a porta que o card mostra).
+3. Quando o iPhone pedir acesso à rede local, toque em **Permitir**. Se o computador perguntar se a Arara pode aceitar conexões, permita (no Windows, nas redes privadas; no Linux com firewall, libere a porta que o card mostra).
 
-Fica ligado mesmo depois de fechar e abrir o app, até **Desligar**. Só aparelhos da rede de casa recebem resposta, e o QR leva a impressão digital do certificado deste computador: outro aparelho no Wi-Fi não se passa por ele. Fora de casa o iPhone não alcança o computador; pra isso, um Tucano em servidor ou o Tucano Pro.
+Fica ligado mesmo depois de fechar e abrir o app, até **Desligar**. Só aparelhos da rede de casa recebem resposta, e o QR leva a impressão digital do certificado deste computador: outro aparelho no Wi-Fi não se passa por ele. Fora de casa o iPhone não alcança o computador; pra isso, uma Arara em servidor ou a Arara Pro.
 
 ## Telegram
 
@@ -32,4 +32,4 @@ O texto das aprovações e das perguntas (ferramenta, argumentos, motivo) e as r
 O Telegram fica no workspace padrão: dois workspaces não podem consultar o mesmo token. Nos outros, o card mostra um link pra trocar pro padrão.
 
 ## Quando dá errado
-"O Telegram não respondeu": confira a internet ou troque o token do bot. Se outro app lê o mesmo bot, o Telegram recusa: use um bot só pro Tucano.
+"O Telegram não respondeu": confira a internet ou troque o token do bot. Se outro app lê o mesmo bot, o Telegram recusa: use um bot só pra Arara.

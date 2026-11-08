@@ -7,8 +7,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 const out = process.argv[2] ?? 'screens'
 mkdirSync(out, { recursive: true })
-const data = mkdtempSync(join(tmpdir(), 'tucano-'))
-const app = await electron.launch({ args: ['.'], env: { ...process.env, TUCANO_DATA: data, TUCANO_FAKE_ENGINES: '1', TUCANO_SEED: '0' } })
+const data = mkdtempSync(join(tmpdir(), 'arara-'))
+const app = await electron.launch({ args: ['.'], env: { ...process.env, ARARA_DATA: data, ARARA_FAKE_ENGINES: '1', ARARA_SEED: '0' } })
 const win = await app.firstWindow()
 await win.setViewportSize({ width: 1360, height: 900 })
 const errors = []

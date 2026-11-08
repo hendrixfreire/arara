@@ -304,7 +304,7 @@ describe('levels', () => {
   // Reads the list on "lista", deletes on "apaga": two replies, the first reading something from outside.
   const readsThenDeletes = (turn: Turn): Plan => (turn.prompt.includes('aprovou') ? null : turn.prompt.includes('apaga') ? { tool: 'tarefas__delete_task', args: { id: 2 } } : turn.prompt.includes('lista') ? { tool: 'tarefas__list_tasks', args: {} } : null)
 
-  it('normal (nothing set) is how Tucano always worked: a commit runs, a sensitive delete asks', async () => {
+  it('normal (nothing set) is how Arara always worked: a commit runs, a sensitive delete asks', async () => {
     settings = { ...settings, autonomy: undefined }
     const r = runner(runs('git commit -m "x"'))
     await r.send('d1', 'salva')

@@ -1,7 +1,7 @@
 # Motores e contas
 > Onde os agentes rodam: os harnesses, como entrar, contas extras, gateway da empresa e o roteador Jev.
 
-Os agentes não têm modelo próprio: cada resposta roda num programa que você já tem no computador, chamado harness. O Tucano só lê a configuração de cada um; nunca vê nem guarda suas senhas e chaves.
+Os agentes não têm modelo próprio: cada resposta roda num programa que você já tem no computador, chamado harness. A Arara só lê a configuração de cada um; nunca vê nem guarda suas senhas e chaves.
 
 ## Os harnesses
 Claude Code, Codex, OpenCode, Pi, Gemini CLI, Cursor CLI e Grok. Cada um aparece em **Configurações › Modelos** (Settings › Models), no card **Harnesses**, com o estado: **Pronto**, **Falta entrar** ou **Não instalado**.

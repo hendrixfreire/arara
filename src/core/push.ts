@@ -1,12 +1,12 @@
-// Notifications to the Tucano app on a closed iPhone, through the push relay at tucano.sh
-// (site/push.js): each phone gave this Tucano a handle (its Apple token, sealed by the relay), kept
+// Notifications to the Arara app on a closed iPhone, through the push relay at tucano.sh
+// (site/push.js): each phone gave this Arara a handle (its Apple token, sealed by the relay), kept
 // on its device key, so it goes when the device is disconnected. What a phone gets is what the
-// desktop's notification says: a title and a line. TUCANO_PUSH_URL points at another relay, or
+// desktop's notification says: a title and a line. ARARA_PUSH_URL points at another relay, or
 // `off` turns it off.
 export interface PushTarget {
   hash: string // the device key's
   handle: string
-  tag?: string // the app's name for this Tucano, so a tap opens the right one
+  tag?: string // the app's name for this Arara, so a tap opens the right one
 }
 
 export interface PushNote {
@@ -63,7 +63,7 @@ export class Push {
 
 // The relay from the environment: the default, another one, or none.
 export function pushUrl(env: NodeJS.ProcessEnv = process.env): string | undefined {
-  const v = env['TUCANO_PUSH_URL']?.trim()
+  const v = env['ARARA_PUSH_URL']?.trim()
   if (v === 'off' || v === '0') return undefined
   return (v || PUSH_URL).replace(/\/+$/, '')
 }

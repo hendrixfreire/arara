@@ -123,7 +123,7 @@ beforeEach(async () => {
   })
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
   base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
-  db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-oauth-')), 'test.db'))
+  db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-oauth-')), 'test.db'))
   secrets = new Secrets(db, plainCipher)
 })
 

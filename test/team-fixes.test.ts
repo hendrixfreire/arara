@@ -1,6 +1,6 @@
-// Tucano Team v1: what an end-to-end run found. Decisions reach the others at once, a member's
+// Arara Team v1: what an end-to-end run found. Decisions reach the others at once, a member's
 // read-only pages ask only for what they may read, the browser says what each person is looking
-// at, agents without an owner are the Tucano owner's, and the words a person reads are plain.
+// at, agents without an owner are the Arara owner's, and the words a person reads are plain.
 import { mkdtempSync, readdirSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -17,7 +17,7 @@ import { admit, admitComputer, NEEDS } from '../src/core/policy-people'
 import { Runner } from '../src/core/runs'
 import { Viewers } from '../src/server/people'
 
-const dir = (): string => mkdtempSync(join(tmpdir(), 'tucano-fixes-'))
+const dir = (): string => mkdtempSync(join(tmpdir(), 'arara-fixes-'))
 const agent = (id: string, handle: string, extra: Partial<Agent> = {}): Agent => ({ id, name: handle[0]!.toUpperCase() + handle.slice(1), handle, role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false, ...extra })
 const approval = (id: string, conversationId: string, requestedBy: string, agentId = 'a1'): Approval => ({ id, hash: id, agentId, conversationId, messageId: 'x', connectorId: 'c', connectorName: 'GitLab', tool: 'create_merge_request', args: {}, why: '', highRisk: false, state: 'pending', createdAt: 1, expiresAt: Date.now() + 60_000, requestedBy })
 const ready = { installed: true, loggedIn: true }
@@ -135,8 +135,8 @@ describe('what each person is looking at, from the browser', () => {
 })
 
 describe('an agent with no owner (made by another tool)', () => {
-  it("is the Tucano owner's: its approvals go to them and to whoever covers for them", () => {
-    const file = join(dir(), 'tucano.db')
+  it("is the Arara owner's: its approvals go to them and to whoever covers for them", () => {
+    const file = join(dir(), 'arara.db')
     const { db, people, ana, bia, dani } = team(file)
     db.saveAgent(agent('a1', 'lia'))
     const other = new DatabaseSync(file)

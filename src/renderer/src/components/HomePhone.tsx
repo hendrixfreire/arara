@@ -6,10 +6,10 @@ import { Card } from './Pages'
 import { MyDevices, Qr } from './People'
 import { Icon } from './ui'
 
-// Seu iPhone (desktop only): the Tucano app on the phone, over the home Wi-Fi, as you
+// Seu iPhone (desktop only): the Arara app on the phone, over the home Wi-Fi, as you
 // (src/main/home-phone.ts). Off until turned on; a QR code with a one-time code pairs a phone.
 export function HomePhoneCard(): ReactNode {
-  const api = window.tucano.phone
+  const api = window.arara.phone
   const [state, setState] = useState<PhoneState>()
   const [code, setCode] = useState<{ link: string; expiresAt: number } | null>(null)
   const [now, setNow] = useState(Date.now())
@@ -72,17 +72,17 @@ export function HomePhoneCard(): ReactNode {
   const on = !!state?.on
   const firewall =
     navigator.platform.startsWith('Win')
-      ? L('Se o Windows perguntar se o Tucano pode usar a rede, permita nas redes privadas.', 'If Windows asks whether Tucano may use the network, allow it on private networks.')
+      ? L('Se o Windows perguntar se a Arara pode usar a rede, permita nas redes privadas.', 'If Windows asks whether Arara may use the network, allow it on private networks.')
       : navigator.platform.startsWith('Linux') || navigator.userAgent.includes('Linux')
         ? L('Se o computador tiver firewall (ufw, firewalld), libere a porta mostrada abaixo na rede de casa.', 'If this computer has a firewall (ufw, firewalld), open the port shown below on the home network.')
-        : L('Se o Mac perguntar se o Tucano pode aceitar conexões, clique em Permitir.', 'If the Mac asks whether Tucano may accept connections, click Allow.')
+        : L('Se o Mac perguntar se a Arara pode aceitar conexões, clique em Permitir.', 'If the Mac asks whether Arara may accept connections, click Allow.')
 
   return (
     <Card
       title={L('Seu iPhone', 'Your iPhone')}
       lead={L(
-        'Use o Tucano no iPhone com tudo daqui: suas conversas, aprovações e as perguntas dos agentes. Funciona no Wi-Fi de casa, com o computador ligado.',
-        'Use Tucano on your iPhone with everything here: your conversations, approvals and the questions agents ask you. It works on your home Wi-Fi, with this computer on.'
+        'Use a Arara no iPhone com tudo daqui: suas conversas, aprovações e as perguntas dos agentes. Funciona no Wi-Fi de casa, com o computador ligado.',
+        'Use Arara on your iPhone with everything here: your conversations, approvals and the questions agents ask you. It works on your home Wi-Fi, with this computer on.'
       )}
       action={
         !code ? (
@@ -106,7 +106,7 @@ export function HomePhoneCard(): ReactNode {
             <div className="device-pair__text">
               <ol className="small steps-list">
                 <li>{L('Deixe o iPhone no mesmo Wi-Fi que este computador.', 'Put the iPhone on the same Wi-Fi as this computer.')}</li>
-                <li>{L('Abra o app do Tucano, toque no ícone de QR code e aponte pra cá.', 'Open the Tucano app, tap the QR code icon and point it here.')}</li>
+                <li>{L('Abra o app do Tucano no iPhone, toque no ícone de QR code e aponte pra cá.', 'Open the Tucano app on the iPhone, tap the QR code icon and point it here.')}</li>
                 <li>{L('Quando o iPhone pedir acesso à rede local, toque em Permitir.', 'When the iPhone asks for local network access, tap Allow.')}</li>
               </ol>
               <p className="muted small">
@@ -149,7 +149,7 @@ export function HomePhoneCard(): ReactNode {
       )}
       {on && (
         <p className="muted small">
-          {L('Fora de casa, o iPhone não alcança este computador. Pra usar de qualquer lugar, rode o Tucano num servidor.', "Away from home, the iPhone can't reach this computer. To use it from anywhere, run Tucano on a server.")}
+          {L('Fora de casa, o iPhone não alcança este computador. Pra usar de qualquer lugar, rode a Arara num servidor.', "Away from home, the iPhone can't reach this computer. To use it from anywhere, run Arara on a server.")}
         </p>
       )}
       {(error || state?.error) && (

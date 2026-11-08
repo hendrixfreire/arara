@@ -66,13 +66,13 @@ jobs:
         run: test "v$(node -p "require('./package.json').version")" = "$TAG"
       - name: Attach to the release
         if: env.TAG != ''
-        run: gh release upload "$TAG" dist-linux/tucano-linux-*.deb dist-linux/tucano-linux-*.AppImage dist-linux/latest-linux*.yml --clobber
+        run: gh release upload "$TAG" dist-linux/arara-linux-*.deb dist-linux/arara-linux-*.AppImage dist-linux/latest-linux*.yml --clobber
       - name: Keep the files of a test build
         if: env.TAG == ''
         uses: actions/upload-artifact@v7
         with:
-          name: tucano-linux-${{ matrix.arch }}
+          name: arara-linux-${{ matrix.arch }}
           path: |
-            dist-linux/tucano-linux-*
+            dist-linux/arara-linux-*
             dist-linux/latest-linux*.yml
           retention-days: 3

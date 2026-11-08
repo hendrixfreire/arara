@@ -2,21 +2,21 @@
 // from anywhere at an address of their own: https://5173-ana.example.com for https://ana.example.com.
 //
 // That address is another origin on purpose. The page there is code an agent wrote: it never sees
-// Tucano's cookie, and the address answers nothing of Tucano's own (no page, no /rpc). It has a
+// Arara's cookie, and the address answers nothing of Arara's own (no page, no /rpc). It has a
 // sign-in of its own: the app's page (signed in) sends the browser to it with a grant good for a few
 // minutes, which becomes a cookie only that address knows. Only the ports the agents' computers say
-// they serve are passed through, never Tucano's own.
+// they serve are passed through, never Arara's own.
 import { createHmac, timingSafeEqual } from 'node:crypto'
 import { request, type IncomingMessage, type ServerResponse } from 'node:http'
 import { connect, type Socket } from 'node:net'
 
 const GRANT_MS = 5 * 60_000
 const COOKIE = 'tucano_preview'
-const ENTER = '/__tucano/enter'
+const ENTER = '/__arara/enter'
 
 const safeEqual = (a: string, b: string): boolean => a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b))
 
-// The person's cookies for this server (Tucano's and the preview's) stay out of what the agent's page gets.
+// The person's cookies for this server (Arara's and the preview's) stay out of what the agent's page gets.
 export function withoutOurCookies(cookie: string | undefined): string | undefined {
   const kept = (cookie ?? '')
     .split(';')
@@ -47,7 +47,7 @@ export class Preview {
     return createHmac('sha256', this.key).update(text).digest('base64url')
   }
 
-  // The port a preview address stands for, or undefined when the address is Tucano's own (or another's).
+  // The port a preview address stands for, or undefined when the address is Arara's own (or another's).
   portOf(host: string | undefined): number | undefined {
     const m = /^(\d{2,5})-(.+)$/.exec((host ?? '').toLowerCase())
     if (!m || m[2] !== this.publicHost.toLowerCase()) return undefined
@@ -77,7 +77,7 @@ export class Preview {
     if (url.pathname === ENTER) {
       const exp = Number(url.searchParams.get('e'))
       const ok = exp > this.now() && exp - this.now() <= GRANT_MS && safeEqual(url.searchParams.get('g') ?? '', this.sign(`${port}.${exp}`))
-      if (!ok) return void page(res, 403, 'Esse link de prévia venceu. Abra a página de novo pelo Tucano. · This preview link expired. Open the page again from Tucano.')
+      if (!ok) return void page(res, 403, 'Esse link de prévia venceu. Abra a página de novo pela Arara. · This preview link expired. Open the page again from Arara.')
       const to = url.searchParams.get('to') ?? '/'
       return void res
         .writeHead(302, {
@@ -88,7 +88,7 @@ export class Preview {
         })
         .end()
     }
-    if (!this.signedIn(req, port)) return void page(res, 401, 'Abra esta página pelo Tucano: é dele que sai o acesso. · Open this page from Tucano: that’s where access comes from.')
+    if (!this.signedIn(req, port)) return void page(res, 401, 'Abra esta página pela Arara: é dela que sai o acesso. · Open this page from Arara: that’s where access comes from.')
     if (!this.allowed(port)) return void page(res, 404, 'Nenhum agente está servindo uma página nessa porta agora. · No agent is serving a page on that port right now.')
     const up = request(
       { host: '127.0.0.1', port, method: req.method, path: req.url, headers: forwarded(req, port, { 'x-forwarded-host': req.headers.host ?? '', 'x-forwarded-proto': 'https' }) },
@@ -122,5 +122,5 @@ export class Preview {
 function page(res: ServerResponse, status: number, text: string): void {
   res
     .writeHead(status, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'", 'x-content-type-options': 'nosniff' })
-    .end(`<!doctype html><meta charset="utf-8"><title>Tucano</title><style>body{font:15px system-ui;display:grid;place-items:center;height:100vh;margin:0;background:#f6f3ee;color:#1d1a16}@media(prefers-color-scheme:dark){body{background:#1a1917;color:#f1ece4}}p{max-width:460px;padding:24px;line-height:1.5;opacity:.85}</style><p>${text.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]!)}</p>`)
+    .end(`<!doctype html><meta charset="utf-8"><title>Arara</title><style>body{font:15px system-ui;display:grid;place-items:center;height:100vh;margin:0;background:#f6f3ee;color:#1d1a16}@media(prefers-color-scheme:dark){body{background:#1a1917;color:#f1ece4}}p{max-width:460px;padding:24px;line-height:1.5;opacity:.85}</style><p>${text.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]!)}</p>`)
 }

@@ -15,9 +15,9 @@ const EXPORT = JSON.stringify({ info: { id: 'ses_x', cost: 0, tokens: { input: 4
 describe('opencode v2', () => {
   it('emits the native V2 config', () => {
     const c = opencodeV2Config({ system: 'Você é a Iris.', mcpUrl: 'http://127.0.0.1:1/mcp/x', web: false }, { provider: { acme: {} } })
-    expect(c['tools']).toEqual({ '*': false, 'tucano_*': true, webfetch: false, websearch: false })
-    expect(c['mcp']).toEqual({ servers: { tucano: { type: 'remote', url: 'http://127.0.0.1:1/mcp/x', disabled: false } } })
-    expect(c['agents']).toEqual({ tucano: { system: 'Você é a Iris.' } })
+    expect(c['tools']).toEqual({ '*': false, 'arara_*': true, webfetch: false, websearch: false })
+    expect(c['mcp']).toEqual({ servers: { arara: { type: 'remote', url: 'http://127.0.0.1:1/mcp/x', disabled: false } } })
+    expect(c['agents']).toEqual({ arara: { system: 'Você é a Iris.' } })
     expect(c['update']).toBe('disable')
     expect(c['snapshots']).toBe(false)
     expect(c['share']).toBe('disabled')
@@ -27,11 +27,11 @@ describe('opencode v2', () => {
   it('omits the mcp block when there is no gateway', () => {
     const c = opencodeV2Config({ system: 's', web: true })
     expect(c['mcp']).toEqual({})
-    expect(c['tools']).toEqual({ '*': false, 'tucano_*': true, webfetch: true, websearch: true })
+    expect(c['tools']).toEqual({ '*': false, 'arara_*': true, webfetch: true, websearch: true })
   })
 
   it("runs on the turn's own server, in a session the app names", () => {
-    expect(opencodeV2Args({ model: 'acme/gpt-9' }, 'ses_tucano1', 'http://127.0.0.1:5')).toEqual(['run', '--server', 'http://127.0.0.1:5', '--format', 'json', '--agent', 'tucano', '-m', 'acme/gpt-9', '--session', 'ses_tucano1'])
+    expect(opencodeV2Args({ model: 'acme/gpt-9' }, 'ses_arara1', 'http://127.0.0.1:5')).toEqual(['run', '--server', 'http://127.0.0.1:5', '--format', 'json', '--agent', 'arara', '-m', 'acme/gpt-9', '--session', 'ses_arara1'])
   })
 
   it("keeps the person's data dir, where V2 keeps the logins, and isolates the rest", () => {

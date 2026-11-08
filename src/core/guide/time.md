@@ -1,7 +1,7 @@
-# Time (várias pessoas no mesmo Tucano)
-> Usar o mesmo Tucano com outras pessoas: convidar, papéis, o que é de cada um, Pra você, chamar uma pessoa, quem me cobre, rotinas, Atividade, remover alguém e o primeiro convite.
+# Time (várias pessoas na mesma Arara)
+> Usar a mesma Arara com outras pessoas: convidar, papéis, o que é de cada um, Pra você, chamar uma pessoa, quem me cobre, rotinas, Atividade, remover alguém e o primeiro convite.
 
-Um time só existe num Tucano num servidor (o seu ou o Cloud), porque ele precisa ficar ligado pra todos. O Tucano do computador é de uma pessoa só.
+Um time só existe numa Arara num servidor (o seu ou o Cloud), porque ele precisa ficar ligado pra todos. A Arara do computador é de uma pessoa só.
 
 ## Convidar
 Em **Configurações › Pessoas**, **Convidar**: escolha o papel e o que a pessoa faz ("financeiro"). O link vale uma vez, por 7 dias. A pessoa abre, diz o nome e entra, pelo navegador ou pelo app do computador (Configurações › Servidores). Convites pendentes têm **Revogar**.
@@ -14,7 +14,7 @@ Em **Configurações › Pessoas**, **Convidar**: escolha o papel e o que a pess
 Quem cria um canal ou um agente fica dono dele. Só o dono do canal e os admins mudam nome, tema e agentes do canal.
 
 ## O que é de cada um
-- **Mensagens diretas** com um agente: só a pessoa lê, nem o dono do Tucano.
+- **Mensagens diretas** com um agente: só a pessoa lê, nem o dono da Arara.
 - **Memória**: o que se aprende numa DM fica nas DMs daquela pessoa; nos canais entra só o que foi dito no canal.
 - **Preferências** de tela: tema, sons, ordem da barra lateral.
 
@@ -45,4 +45,4 @@ Até ele, resumos e wiki aprendem com as suas DMs. No primeiro convite, sem apag
 - páginas vindas das suas DMs ficam guardadas até você **Liberar pro time**.
 
 ## Limites
-A assinatura do Claude ou do ChatGPT é de uso individual: num time, prefira chave de API ou o gateway da empresa. O navegador de cada agente é um só pro time: um login feito numa DM continua aberto pros outros. Conectores e limites valem pro Tucano todo.
+A assinatura do Claude ou do ChatGPT é de uso individual: num time, prefira chave de API ou o gateway da empresa. O navegador de cada agente é um só pro time: um login feito numa DM continua aberto pros outros. Conectores e limites valem pra Arara toda.

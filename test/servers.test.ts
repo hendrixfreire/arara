@@ -3,7 +3,7 @@ import { isPreviewOf, onServer, pairingLink, parsePairing, serverName } from '..
 
 const token = 'Zx9-abc_DEF0123456789xyzQ'
 
-describe('pairing with a Tucano on a server', () => {
+describe('pairing with a Arara on a server', () => {
   it('reads the link `server.js link` prints, down to the origin', () => {
     expect(parsePairing(`tucano://connect?url=https://ana.example.com&token=${token}`)).toEqual({ origin: 'https://ana.example.com', token })
     expect(parsePairing(`tucano://connect?url=${encodeURIComponent('https://ana.example.com/some/path?x=1')}&token=${token}`)?.origin).toBe('https://ana.example.com')

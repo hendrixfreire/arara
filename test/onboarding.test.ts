@@ -166,7 +166,7 @@ describe('a new install, an existing one, and a workspace made from the switcher
     initializeWorkspace(fresh, {})
     expect(fresh.getSettings(defaults).onboarding).toEqual({ done: false, fresh: true })
     const switcher = new Db(':memory:')
-    initializeWorkspace(switcher, { TUCANO_DEFAULT_WORKSPACE: '0' })
+    initializeWorkspace(switcher, { ARARA_DEFAULT_WORKSPACE: '0' })
     expect(switcher.getSettings(defaults).onboarding).toEqual({ done: false })
   })
 

@@ -1,4 +1,4 @@
-// Tucano Team: how the app looks (theme, sounds, sidebar, language…) is each person's own. On a
+// Arara Team: how the app looks (theme, sounds, sidebar, language…) is each person's own. On a
 // server one member changing it doesn't change it for everyone; the owner's stay in the settings,
 // so a desktop (one person) works as always.
 import { mkdtempSync } from 'node:fs'
@@ -60,7 +60,7 @@ describe('display preferences per person', () => {
     expect(rest).toEqual({ theme: 'light', sounds: true, context: 'x' }) // all saved in the settings, as before
   })
 
-  it("someone else starts with the Tucano's theme and language, no sidebar or sounds of the owner's, and never the setup introduction", () => {
+  it("someone else starts with the Arara's theme and language, no sidebar or sounds of the owner's, and never the setup introduction", () => {
     const { people, bia } = team()
     // Someone who joins gets their own short welcome (who invited them), never the setup introduction.
     expect(people.settingsFor(bia, { ...base, onboarding: { done: false } }).onboarding).toEqual({ done: true, guest: { by: 'Ana' } })
@@ -75,7 +75,7 @@ describe('display preferences per person', () => {
     expect(s.sounds).toBeUndefined()
     expect(s.folded).toBeUndefined()
     expect(s.channelLayout).toBeUndefined()
-    expect(s.workspaceName).toBe('Ana') // the rest is the Tucano's
+    expect(s.workspaceName).toBe('Ana') // the rest is the Arara's
   })
 
   it("a member's change is kept on them only; the shared part comes back for the settings", () => {
@@ -87,7 +87,7 @@ describe('display preferences per person', () => {
     // Nobody else's changed.
     expect(people.settingsFor(ana, base)).toBe(base)
     expect(people.settingsFor(dani, base).theme).toBe('dark')
-    // An admin's mixed change: the theme is theirs, the context the Tucano's.
+    // An admin's mixed change: the theme is theirs, the context the Arara's.
     expect(people.takePrefs(dani, { theme: 'light', context: 'novo' })).toEqual({ context: 'novo' })
     const { onboarding: _welcome, ...prefs } = db.prefs(dani.id)
     expect(prefs).toEqual({ theme: 'light' })
@@ -120,7 +120,7 @@ describe('display preferences per person', () => {
   })
 
   it('a database from before keeps working: the column starts empty, and the people list says when each was seen', () => {
-    const file = join(mkdtempSync(join(tmpdir(), 'tucano-prefs-')), 'db.sqlite')
+    const file = join(mkdtempSync(join(tmpdir(), 'arara-prefs-')), 'db.sqlite')
     const db = new Db(file)
     expect(db.prefs(db.ownerId())).toEqual({})
     const people = new People(db)

@@ -94,7 +94,7 @@ export function MissionsCard(): ReactNode {
   const next = all.find((m) => !done.has(m.id))
   const brought = freshParts(onboarding, done)
   const latest = [...all].reverse().find((m) => done.has(m.id) && m.unlocks.some((p) => brought.includes(p)))
-  const line = latest ? L(`Você liberou ${latest.unlockName}`, `You unlocked ${latest.unlockName}`) : next ? L(`Próxima: ${lower(next.title(name))}`, `Next: ${lower(next.title(name))}`) : L('Você conhece o Tucano inteiro', 'You know all of Tucano')
+  const line = latest ? L(`Você liberou ${latest.unlockName}`, `You unlocked ${latest.unlockName}`) : next ? L(`Próxima: ${lower(next.title(name))}`, `Next: ${lower(next.title(name))}`) : L('Você conhece a Arara inteiro', 'You know all of Arara')
   return (
     <button className={`missions-card ${active ? 'is-active' : ''} ${latest ? 'is-new' : ''}`} data-coach="missions" onClick={() => navigate({ kind: 'missions' })}>
       <span className="missions-ring" style={{ background: `conic-gradient(var(--m-accent) 0 ${(count / all.length) * 100}%, var(--m-track) ${(count / all.length) * 100}% 100%)` }} aria-hidden>
@@ -123,7 +123,7 @@ export function MissionsPage(): ReactNode {
       <div className="missions__head">
         <div>
           <h1>{L('Missões', 'Missions')}</h1>
-          <p>{short ? L('Cada uma te mostra uma parte do Tucano, e ela aparece na barra quando você chega lá.', 'Each one shows you a part of Tucano, and it shows up in the sidebar when you get there.') : L('Cada uma te mostra uma parte do Tucano e se marca sozinha quando você usa.', 'Each one shows you a part of Tucano and checks itself off when you use it.')}</p>
+          <p>{short ? L('Cada uma te mostra uma parte da Arara, e ela aparece na barra quando você chega lá.', 'Each one shows you a part of Arara, and it shows up in the sidebar when you get there.') : L('Cada uma te mostra uma parte da Arara e se marca sozinha quando você usa.', 'Each one shows you a part of Arara and checks itself off when you use it.')}</p>
         </div>
         {short && (
           <button className="missions-link" onClick={() => updateSettings({ onboarding: { ...onboarding!, showAll: true } })}>

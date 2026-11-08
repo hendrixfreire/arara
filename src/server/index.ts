@@ -1,11 +1,11 @@
-// Tucano as a server: the core on plain Node (a VPS, a home server), and the
+// Arara as a server: the core on plain Node (a VPS, a home server), and the
 // app's own screens in a browser. Where the desktop app's main process hosts the
 // core and the window, this does: it stands in for Electron's parentPort, keeps
 // the secrets with a key of its own, and serves the page plus a bridge to the
 // core (events down an event stream, requests up by POST). Every request needs
 // the server's token (the owner) or a person's key (someone invited, src/server/people.ts).
 //
-//   node out/main/server.js        (TUCANO_DATA, TUCANO_HOST, TUCANO_PORT, TUCANO_TOKEN, TUCANO_URL, TUCANO_TRUST_PROXY)
+//   node out/main/server.js        (ARARA_DATA, ARARA_HOST, ARARA_PORT, ARARA_TOKEN, ARARA_URL, ARARA_TRUST_PROXY)
 //   node out/main/server.js link   prints the link that signs a browser in
 //   node out/main/server.js pair [minutes]   a one-time link for the owner's phone (or a browser)
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto'
@@ -28,9 +28,9 @@ import { ACCESS_SHIM, INSECURE_CONTEXT_SHIM } from './web-shim'
 import { Grants, invitePage, joinFields, NO_ACCESS_PAGE, personNotice, Signins, Streams, UNAUTHORIZED_TEXT, Viewers, type Stream, type Who } from './people'
 import type { Person } from '../shared/types'
 
-const dataDir = process.env['TUCANO_DATA'] || join(homedir(), '.tucano-server')
-const host = process.env['TUCANO_HOST'] || '127.0.0.1'
-const port = Number(process.env['TUCANO_PORT'] || 7337)
+const dataDir = process.env['ARARA_DATA'] || join(homedir(), '.arara-server')
+const host = process.env['ARARA_HOST'] || '127.0.0.1'
+const port = Number(process.env['ARARA_PORT'] || 7337)
 const page = join(import.meta.dirname, '..', 'renderer')
 mkdirSync(dataDir, { recursive: true, mode: 0o700 })
 
@@ -41,9 +41,9 @@ function kept(name: string, make: () => string): string {
   chmodSync(file, 0o600)
   return readFileSync(file, 'utf8').trim()
 }
-const token = process.env['TUCANO_TOKEN'] || kept('server-token', () => randomBytes(24).toString('base64url'))
-// The address people open: TUCANO_URL behind a proxy (https://ana.example.com), else where it listens.
-const publicUrl = (process.env['TUCANO_URL'] || `http://${host === '0.0.0.0' || host === '::' ? 'localhost' : host}:${port}`).replace(/\/+$/, '')
+const token = process.env['ARARA_TOKEN'] || kept('server-token', () => randomBytes(24).toString('base64url'))
+// The address people open: ARARA_URL behind a proxy (https://ana.example.com), else where it listens.
+const publicUrl = (process.env['ARARA_URL'] || `http://${host === '0.0.0.0' || host === '::' ? 'localhost' : host}:${port}`).replace(/\/+$/, '')
 
 // `server.js link`: the one place the token is printed. The log never has it, since logs
 // get kept, shipped and pasted into issues.
@@ -199,7 +199,7 @@ function sawComputers(list: Computer[]): void {
   for (const c of list) servicePorts.set(c.agentId, c.services.filter((s) => s.running).flatMap((s) => loopbackPort(s.url) ?? []))
   forwardServices(new Set([...servicePorts.values()].flat()))
 }
-// Behind https (TUCANO_URL), each page an agent serves gets an address of its own, <port>-<this
+// Behind https (ARARA_URL), each page an agent serves gets an address of its own, <port>-<this
 // address> (preview.ts): only the ports the agents' computers say they serve, never this server's.
 const publicHost = publicUrl.startsWith('https://') ? new URL(publicUrl).host : ''
 const preview = publicHost
@@ -230,7 +230,7 @@ function sawPeople(list: Person[]): void {
 function index(): string {
   return readFileSync(join(page, 'index.html'), 'utf8')
     .replace('frame-src tucano:', `frame-src 'self' tucano:${privateHost ? ` http://${host}:*` : ''}${publicHost ? ` https://*.${publicHost.split('.').slice(1).join('.')}` : ''}`)
-    .replace('<title>', '<meta name="viewport" content="width=device-width, initial-scale=1" />\n    <script src="./tucano-web.js"></script>\n    <title>')
+    .replace('<title>', '<meta name="viewport" content="width=device-width, initial-scale=1" />\n    <script src="./arara-web.js"></script>\n    <title>')
 }
 
 
@@ -238,17 +238,17 @@ function oauthCallback(url: URL, res: ServerResponse): void {
   const id = randomUUID()
   const answer = (r: { ok: boolean; why?: string }): void => {
     const esc = (t: string): string => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
-    const [title, line] = r.ok ? ['Pronto · Done', 'O conector está autorizado. Pode fechar esta aba e voltar ao Tucano. · The connector is authorized. You can close this tab and go back to Tucano.'] : ['Não deu · It didn’t work', r.why ?? '']
+    const [title, line] = r.ok ? ['Pronto · Done', 'O conector está autorizado. Pode fechar esta aba e voltar à Arara. · The connector is authorized. You can close this tab and go back to Arara.'] : ['Não deu · It didn’t work', r.why ?? '']
     res
       .writeHead(r.ok ? 200 : 400, { ...BASE_HEADERS, 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'content-security-policy': "default-src 'none'; style-src 'unsafe-inline'" })
-      .end(`<!doctype html><meta charset="utf-8"><title>Tucano</title><style>body{font:15px system-ui;display:grid;place-items:center;height:100vh;margin:0;background:#f6f3ee;color:#1d1a16}@media(prefers-color-scheme:dark){body{background:#1a1917;color:#f1ece4}}main{max-width:460px;padding:24px}p{opacity:.8;line-height:1.5}</style><main><h2>${esc(title)}</h2><p>${esc(line)}</p></main>`)
+      .end(`<!doctype html><meta charset="utf-8"><title>Arara</title><style>body{font:15px system-ui;display:grid;place-items:center;height:100vh;margin:0;background:#f6f3ee;color:#1d1a16}@media(prefers-color-scheme:dark){body{background:#1a1917;color:#f1ece4}}main{max-width:460px;padding:24px}p{opacity:.8;line-height:1.5}</style><main><h2>${esc(title)}</h2><p>${esc(line)}</p></main>`)
   }
-  const timer = setTimeout(() => oauthWaits.get(id) && (oauthWaits.delete(id), answer({ ok: false, why: 'O Tucano não respondeu. Tente de novo pelo app. · Tucano didn’t answer. Try again from the app.' })), 30_000)
+  const timer = setTimeout(() => oauthWaits.get(id) && (oauthWaits.delete(id), answer({ ok: false, why: 'A Arara não respondeu. Tente de novo pelo app. · Arara didn’t answer. Try again from the app.' })), 30_000)
   oauthWaits.set(id, (r) => (clearTimeout(timer), answer(r)))
   toCore({ type: 'oauth-callback', id, data: { state: url.searchParams.get('state') ?? '', code: url.searchParams.get('code') ?? '', error: url.searchParams.get('error') ?? '' } })
 }
 
-const trustProxy = process.env['TUCANO_TRUST_PROXY'] === '1'
+const trustProxy = process.env['ARARA_TRUST_PROXY'] === '1'
 const MAX_UPLOAD = 1024 * 1024 * 1024 // a vault with its pictures, zipped
 const doors = new Doors()
 // A one-time code's door (pair-http.ts): a spent code's person gets a key of this device's own, from the core.
@@ -298,7 +298,7 @@ function handle(req: IncomingMessage, res: ServerResponse): void {
   // Strict: the link is often clicked from elsewhere (a chat), and a Strict cookie wouldn't ride
   // the redirect that follows. Lax still keeps it off other sites' POSTs to /rpc. A cookie is the
   // owner's token or a person's key (the core says whose; the answer is kept a few seconds).
-  void signIn({ cookie: cookieToken(req), offered, ip, doors, isOwnerToken: sameToken, strongOwnerToken: !process.env['TUCANO_TOKEN'], lookup: (key) => signins.lookup(key) })
+  void signIn({ cookie: cookieToken(req), offered, ip, doors, isOwnerToken: sameToken, strongOwnerToken: !process.env['ARARA_TOKEN'], lookup: (key) => signins.lookup(key) })
     .then((r) => {
       if (r.status === 'link') {
         const secure = req.headers['x-forwarded-proto'] === 'https' ? '; Secure' : ''
@@ -318,7 +318,7 @@ function handle(req: IncomingMessage, res: ServerResponse): void {
 }
 
 // An invite that brings someone back comes with their name filled in (they can still change it).
-// An app asks for JSON (accept: application/json): whose Tucano it is, and that name.
+// An app asks for JSON (accept: application/json): whose Arara it is, and that name.
 async function invitePageFor(req: IncomingMessage, res: ServerResponse, code: string): Promise<void> {
   const info = code ? await ask<{ name?: string }>({ type: 'invite-info', code: code.slice(0, 200) }, 5_000) : undefined
   if (wantsJson(req)) return json(res, 200, { owner: ownerName, ...(info?.name ? { name: info.name } : {}) })
@@ -348,7 +348,7 @@ async function joinPage(req: IncomingMessage, res: ServerResponse, ip: string): 
   const out = await ask<{ key?: string; error?: string }>({ type: 'join', code: fields.code, name: fields.name })
   if (!out?.key) {
     doors.fail('join', ip)
-    const error = out?.error ?? 'O Tucano não respondeu. Tente de novo. · Tucano didn’t answer. Try again.'
+    const error = out?.error ?? 'A Arara não respondeu. Tente de novo. · Arara didn’t answer. Try again.'
     if (app) return json(res, 400, { error })
     return htmlPage(res, invitePage({ owner: ownerName, code: fields.code, name: fields.name, error }), 400)
   }
@@ -441,7 +441,7 @@ function signedIn(req: IncomingMessage, res: ServerResponse, url: URL, who: Who)
     return
   }
 
-  // The conversation a page has open (window.tucano.viewing): only for its own stream.
+  // The conversation a page has open (window.arara.viewing): only for its own stream.
   if (url.pathname === '/viewing' && req.method === 'POST') {
     const stream = url.searchParams.get('c') ?? ''
     const found = streams.get(stream)
@@ -552,7 +552,7 @@ function signedIn(req: IncomingMessage, res: ServerResponse, url: URL, who: Who)
     return
   }
 
-  if (url.pathname === '/tucano-web.js') return void res.writeHead(200, { ...BASE_HEADERS, 'content-type': TYPES['.js']! }).end(WEB)
+  if (url.pathname === '/arara-web.js') return void res.writeHead(200, { ...BASE_HEADERS, 'content-type': TYPES['.js']! }).end(WEB)
   if (url.pathname === '/' || url.pathname === '/index.html') return void res.writeHead(200, { ...PAGE_HEADERS, 'content-type': TYPES['.html']!, 'cache-control': 'no-cache' }).end(index())
   const name = decodedPath(url.pathname)
   const path = name === undefined ? '' : normalize(join(page, name))
@@ -560,10 +560,10 @@ function signedIn(req: IncomingMessage, res: ServerResponse, url: URL, who: Who)
   file(res, path)
 }
 
-// window.tucano for a browser: the core's port comes from the event stream and
+// window.arara for a browser: the core's port comes from the event stream and
 // the requests go up by POST; what only the desktop does is left out quietly.
 const WEB = `${INSECURE_CONTEXT_SHIM}(() => {
-  window.__TUCANO_WEB__ = true
+  window.__ARARA_WEB__ = true
   ${ACCESS_SHIM}
   let client = null
   // The conversation open on this page, told to the server once the line is up (and on each change),
@@ -577,7 +577,7 @@ const WEB = `${INSECURE_CONTEXT_SHIM}(() => {
   // (Conversation.tsx listens), so a reload on its own never costs a draft.
   const restart = () => {
     if (access.gone) return
-    window.dispatchEvent(new Event('tucano:reloading'))
+    window.dispatchEvent(new Event('arara:reloading'))
     location.reload()
   }
   // A line that went quiet without closing (the computer slept, the Wi-Fi changed) never says so:
@@ -693,7 +693,7 @@ const WEB = `${INSECURE_CONTEXT_SHIM}(() => {
     })
   if ('Notification' in window && Notification.permission === 'default')
     document.addEventListener('pointerdown', () => void Notification.requestPermission().catch(() => {}), { once: true })
-  window.tucano = {
+  window.arara = {
     connect,
     pickFolder: () => pickFolder(),
     // A file from this computer up to the server; where it landed there.
@@ -715,10 +715,10 @@ const WEB = `${INSECURE_CONTEXT_SHIM}(() => {
 })()
 `
 
-process.env['TUCANO_DATA'] = dataDir
-process.env['TUCANO_LOCAL_KEY'] = localKey
-process.env['TUCANO_PACKAGED'] = '1'
-process.env['TUCANO_SERVER'] = '1'
+process.env['ARARA_DATA'] = dataDir
+process.env['ARARA_LOCAL_KEY'] = localKey
+process.env['ARARA_PACKAGED'] = '1'
+process.env['ARARA_SERVER'] = '1'
 ;(process as unknown as { parentPort: Port }).parentPort = parent
 await import(pathToFileURL(join(import.meta.dirname, 'core.js')).href)
 toCore(null, [watcher])
@@ -732,7 +732,7 @@ server.on('upgrade', (req: IncomingMessage, socket: Socket, head: Buffer) => {
 })
 
 server.listen(port, host, () => {
-  console.log(`Tucano server: ${publicUrl}`)
+  console.log(`Arara server: ${publicUrl}`)
   console.log('To sign a browser in, open the link that `node out/main/server.js link` prints.')
   console.log(`Data: ${dataDir}`)
   if (host === '127.0.0.1') console.log('Listening on this machine only: reach it through an SSH tunnel, Tailscale or a reverse proxy with HTTPS (docs/server.md).')

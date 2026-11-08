@@ -105,7 +105,7 @@ async function ask(statement: string, tool?: string): Promise<{ step: NonNullabl
 
 beforeEach(async () => {
   setLang('en')
-  dir = mkdtempSync(join(tmpdir(), 'tucano-conn-errors-'))
+  dir = mkdtempSync(join(tmpdir(), 'arara-conn-errors-'))
   db = new Db(join(dir, 'test.db'))
   results = []
   events = []

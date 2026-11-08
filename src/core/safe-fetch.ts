@@ -1,4 +1,4 @@
-// Fetching a link someone typed, from the Tucano's own machine. On a server that machine's network
+// Fetching a link someone typed, from the Arara's own machine. On a server that machine's network
 // isn't the person's: loopback, the LAN, the cloud's metadata (169.254.169.254) must stay out of
 // reach. So each hop's name is resolved once, every address it gives is checked, and the connection
 // goes to that checked address (a second lookup could answer differently: DNS rebinding);

@@ -10,7 +10,7 @@ import { browserName, CODE_MINUTES, codeMinutes, deviceLabel, MAX_CODE_MINUTES, 
 import { Doors, signIn } from '../src/server/guard'
 import { pairingLink, parsePairing } from '../src/shared/servers'
 
-const file = (): string => join(mkdtempSync(join(tmpdir(), 'tucano-pair-')), 'pair-codes.json')
+const file = (): string => join(mkdtempSync(join(tmpdir(), 'arara-pair-')), 'pair-codes.json')
 
 describe('one-time pairing codes', () => {
   it('are good once, for whom they were made, and the file keeps only their hash', () => {

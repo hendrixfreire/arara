@@ -18,7 +18,7 @@ const findings = (over: Partial<Record<EngineId, EngineStatus>> = {}): Omit<Engi
   const engines = Object.fromEntries(Object.keys(base.engines).map((e) => [e, { installed: false, loggedIn: false }])) as Record<EngineId, EngineStatus>
   return { engines: { ...engines, ...over }, listed: { opencode: [] }, codexCatalog: [] }
 }
-const tmpFile = (): string => join(mkdtempSync(join(tmpdir(), 'tucano-engines-')), 'engines.json')
+const tmpFile = (): string => join(mkdtempSync(join(tmpdir(), 'arara-engines-')), 'engines.json')
 
 describe('checking the harnesses', () => {
   it('shares one check among everyone who asks while it runs', async () => {

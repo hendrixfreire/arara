@@ -66,7 +66,7 @@ export interface Api {
   localPath(p: { messageId: string; path: string }): LocalInfo | null // what a path this agent cited can do; null: it stays text
   openLocal(p: { messageId: string; path: string; how: 'open' | 'reveal' }): void
   // not opened: no terminal to open, the person runs the command. screen: the caller can show the
-  // server's own terminal (a page or a phone on Tucano as a server); then the sign-in runs there, and comes back
+  // server's own terminal (a page or a phone on Arara as a server); then the sign-in runs there, and comes back
   loginEngine(p: { engine: EngineId; screen?: boolean }): { opened: boolean; command: string; screen?: LoginScreen }
   loginScreen(): LoginScreen | null
   loginInput(p: { id: string; text?: string; key?: LoginKey; enter?: boolean }): Promise<LoginScreen | null>
@@ -146,8 +146,8 @@ export interface Api {
   wikiSave(p: { title: string; body: string; kind?: string; expectedHash?: string; rename?: string }): WikiPage // throws on a conflict or a taken title
   wikiRemove(p: { title: string }): void
   wikiHistory(p: { title: string }): WikiVersion[]
-  wikiRelease(p: { title: string }): void // "Liberar pro time": a page held for me since the Tucano got its second person
-  heritageSeen(): void // the owner read the notice about what changed when the Tucano got its second person
+  wikiRelease(p: { title: string }): void // "Liberar pro time": a page held for me since the Arara got its second person
+  heritageSeen(): void // the owner read the notice about what changed when the Arara got its second person
   wikiRestore(p: { id: number }): WikiPage
   wikiSchema(): string
   wikiSaveSchema(p: { text: string }): void
@@ -184,7 +184,7 @@ export interface Api {
   listInvites(): Invite[]
   removedPeople(): (Person & { removedAt: number })[] // admins: who left in the last 30 days (still restorable)
   myDevices(): Device[] // my own keys: the browsers and phones signed in as me
-  setPush(p: { handle: string | null; tag?: string }): { on: boolean } // this phone's push handle (the relay's), or none; on: this Tucano sends pushes
+  setPush(p: { handle: string | null; tag?: string }): { on: boolean } // this phone's push handle (the relay's), or none; on: this Arara sends pushes
   removeDevice(p: { id: string }): void // one of mine signs out now (Device.id)
   removePerson(p: { id: string }): void // their access ends at once: keys gone, open connections closed; what they owned goes to the owner
   setRole(p: { id: string; role: Exclude<Role, 'owner'> }): void

@@ -13,7 +13,7 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js'
 
-const file = process.env.DEMO_TASKS_FILE ?? join(tmpdir(), 'tucano-demo-tasks.json')
+const file = process.env.DEMO_TASKS_FILE ?? join(tmpdir(), 'arara-demo-tasks.json')
 const load = () => {
   try {
     return JSON.parse(readFileSync(file, 'utf8'))
@@ -42,7 +42,7 @@ const TOOLS = [
 const LATE = { name: 'export_tasks', description: 'Exporta as tarefas em Markdown.', inputSchema: { type: 'object', properties: {} }, annotations: { readOnlyHint: true } }
 let late = false
 
-const server = new Server({ name: 'tucano-demo', version: '0.1.0' }, { capabilities: { tools: { listChanged: true } } })
+const server = new Server({ name: 'arara-demo', version: '0.1.0' }, { capabilities: { tools: { listChanged: true } } })
 server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: late ? [...TOOLS, LATE] : TOOLS }))
 server.setRequestHandler(CallToolRequestSchema, async ({ params }) => {
   const tasks = load()

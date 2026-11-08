@@ -1,4 +1,4 @@
-// A link someone gives the wiki is fetched by the Tucano itself: on a server that machine's own
+// A link someone gives the wiki is fetched by the Arara itself: on a server that machine's own
 // network (loopback, the cloud's metadata, the LAN) must stay out of reach, at every redirect, and
 // a name that resolves to one address can't be swapped for another between the check and the call.
 import { createServer, type Server } from 'node:http'

@@ -83,7 +83,7 @@ export function wikiWho(state: Pick<State, 'you' | 'me' | 'people' | 'former' | 
     by === 'me'
       ? state.me.name
       : by === 'outside'
-        ? L('fora do Tucano', 'outside Tucano')
+        ? L('fora da Arara', 'outside Arara')
         : by === 'auto'
           ? L('o curador', 'the curator')
           : by === 'review'
@@ -114,7 +114,7 @@ function Who({ by, size = 22 }: { by: string; size?: number }): ReactNode {
   )
 }
 
-// The Tucano got its second person: a line for its owner saying what changed, and the pages that came
+// The Arara got its second person: a line for its owner saying what changed, and the pages that came
 // from their private conversations, held for them until they release each one.
 export function WikiHeritage({ held, notice }: { held: { title: string; at: number }[]; notice: boolean }): ReactNode {
   const [busy, setBusy] = useState('')
@@ -128,8 +128,8 @@ export function WikiHeritage({ held, notice }: { held: { title: string; at: numb
       {notice && (
         <p>
           {L(
-            'Seu Tucano agora tem mais gente: os resumos dos canais foram refeitos sem o que veio das suas DMs, o histórico da wiki de antes continua só seu, e as páginas feitas das suas conversas privadas ficam só com você até você liberar.',
-            "Your Tucano has more people now: the channels' summaries were made again without what came from your DMs, the wiki's history from before stays yours alone, and the pages made from your private conversations stay with you until you release them."
+            'Sua Arara agora tem mais gente: os resumos dos canais foram refeitos sem o que veio das suas DMs, o histórico da wiki de antes continua só seu, e as páginas feitas das suas conversas privadas ficam só com você até você liberar.',
+            "Your Arara has more people now: the channels' summaries were made again without what came from your DMs, the wiki's history from before stays yours alone, and the pages made from your private conversations stay with you until you release them."
           )}
           <button className="text-btn" onClick={() => void call('heritageSeen')}>
             {L('Entendi', 'Got it')}
@@ -665,7 +665,7 @@ function WikiShell({ view }: { view: WikiViewState }): ReactNode {
   const startImport = (): void => {
     const failed = (e: Error): void => setImported({ error: e.message.replace(/^Error invoking remote method '[^']+': (Error: )?/, '') })
     // On a server the vault is on the person's computer, not there: it goes up as a .zip.
-    const upload = window.tucano.upload
+    const upload = window.arara.upload
     if (upload) {
       const input = document.createElement('input')
       input.type = 'file'
@@ -680,7 +680,7 @@ function WikiShell({ view }: { view: WikiViewState }): ReactNode {
       input.click()
       return
     }
-    const pick = (window.tucano as unknown as { pickFolder?: () => Promise<string | null> }).pickFolder
+    const pick = (window.arara as unknown as { pickFolder?: () => Promise<string | null> }).pickFolder
     void pick?.().then((dir) => {
       if (!dir) return
       setSettings(false)
@@ -1044,7 +1044,7 @@ function WikiSettingsDialog({ data, onClose, onImport }: { data: WikiData | null
   const edits = s.wikiEdits ?? 'approve'
   const [dir, setDir] = useState(data?.dir ?? '')
   const [error, setError] = useState('')
-  const pick = (window.tucano as unknown as { pickFolder?: () => Promise<string | null> }).pickFolder
+  const pick = (window.arara as unknown as { pickFolder?: () => Promise<string | null> }).pickFolder
   const move = (to: string | null): void => void call('setWikiDir', { dir: to }).then((d) => (setDir(d), setError('')), (e: Error) => setError(e.message))
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => void (e.key === 'Escape' && onClose())
@@ -1127,7 +1127,7 @@ function WikiSettingsDialog({ data, onClose, onImport }: { data: WikiData | null
             )}
             {s.wikiDir && (
               <button className="btn btn--ghost btn--sm" onClick={() => move(null)}>
-                {L('Voltar pra pasta do Tucano', "Back to Tucano's folder")}
+                {L('Voltar pra pasta da Arara', "Back to Arara's folder")}
               </button>
             )}
           </div>
@@ -1140,7 +1140,7 @@ function WikiSettingsDialog({ data, onClose, onImport }: { data: WikiData | null
             <span>
               <b>{L('Importar um cofre do Obsidian', 'Import an Obsidian vault')}</b>
               <small>
-                {window.tucano.upload
+                {window.arara.upload
                   ? L('Compacte a pasta do cofre num .zip e envie: as notas entram como estão, com as pastas, os links e os anexos.', 'Zip the vault’s folder and send it: the notes come in as they are, with their folders, links and attachments.')
                   : L('As notas entram como estão, com as pastas, os links e os anexos. O cofre original não muda.', 'The notes come in as they are, with their folders, links and attachments. The original vault stays as it was.')}
               </small>

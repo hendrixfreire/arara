@@ -136,7 +136,7 @@ describe('the guide and the screen links', () => {
 
 it('brings a Tuca made before up to date, unless his instructions were rewritten', () => {
   const old = { ...tucaAgent('sonnet', [], 1000), role: 'Monta agentes', instructions: 'Você é o Tuca, quem monta os agentes deste time. A pessoa te conta…' }
-  expect(tucaUpToDate(old)).toMatchObject({ role: 'Te ajuda com o Tucano', instructions: tucaInstructions() })
+  expect(tucaUpToDate(old)).toMatchObject({ role: 'Te ajuda com a Arara', instructions: tucaInstructions() })
   expect(tucaUpToDate({ ...old, role: 'Meu ajudante', instructions: 'Outra coisa.' })).toBeUndefined()
   expect(tucaUpToDate(tucaAgent('sonnet', [], 1000))).toBeUndefined() // already current
 })
@@ -200,7 +200,7 @@ describe('the Tuca helping, in a conversation', () => {
     ]
     await runner.send('d1', 'por que a Lia não responde?')
     await runner.idle()
-    expect(turns[0]!.system).toContain('## O guia do Tucano')
+    expect(turns[0]!.system).toContain('## O guia da Arara')
     expect(turns[0]!.system).toContain('(#abrir/conectores)')
     expect(turns[0]!.prompt).toContain('Lia (@lia)')
     const texts = results.map((r) => (r as { content: { text: string }[] }).content[0]!.text)
@@ -228,7 +228,7 @@ describe('the Tuca helping, in a conversation', () => {
     ]
     await runner.send('d2', 'cria um canal de suporte comigo')
     await runner.idle()
-    expect(turns[0]!.system).not.toContain('## O guia do Tucano')
+    expect(turns[0]!.system).not.toContain('## O guia da Arara')
     expect(results.slice(0, 2).map((r) => (r as { isError?: boolean }).isError)).toEqual([true, true])
     const reply = db.messages().find((m) => m.author.kind === 'agent' && m.text === 'pronto')!
     expect(reply.run?.proposal).toMatchObject({ kind: 'channel', name: 'suporte', members: ['a1'] })

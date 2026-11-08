@@ -45,7 +45,7 @@ export function AppsCard({ apps, onChange }: { apps: AgentApp[]; onChange: (apps
   const level = (n: string, l: AgentApp['level']): void => onChange(apps.map((a) => (a.name === n ? { ...a, level: l } : a)))
   const remove = (n: string): void => onChange(apps.filter((a) => a.name !== n))
 
-  if (status?.server) return <p className="hint">{L('No Tucano em servidor não há apps: a máquina não tem tela.', 'Tucano as a server has no apps: the machine has no screen.')}</p>
+  if (status?.server) return <p className="hint">{L('Na Arara em servidor não há apps: a máquina não tem tela.', 'Arara as a server has no apps: the machine has no screen.')}</p>
   return (
     <div className="apps-card">
       {status && !status.installed && (
@@ -78,7 +78,7 @@ export function AppsCard({ apps, onChange }: { apps: AgentApp[]; onChange: (apps
           <Icon name="lock" size={16} />
           <span className="grow">
             {os === 'mac'
-              ? L('Falta a permissão de Acessibilidade: libere o Tucano em Ajustes → Privacidade e Segurança → Acessibilidade.', 'The Accessibility permission is missing: allow Tucano in Settings → Privacy & Security → Accessibility.')
+              ? L('Falta a permissão de Acessibilidade: libere a Arara em Ajustes → Privacidade e Segurança → Acessibilidade.', 'The Accessibility permission is missing: allow Arara in Settings → Privacy & Security → Accessibility.')
               : os === 'linux'
                 ? L('O serviço de acessibilidade do Linux (AT-SPI) não respondeu: sem ele não dá pra ler os apps.', "Linux's accessibility service (AT-SPI) didn't answer: without it the apps can't be read.")
                 : L('O Windows não deixou ler os apps agora. Clique em Verificar de novo em alguns segundos.', "Windows didn't let the apps be read just now. Click Check again in a few seconds.")}

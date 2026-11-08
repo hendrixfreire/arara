@@ -1,12 +1,12 @@
-# Começar no Tucano
-> O que é o Tucano, a introdução, o Tuca, a barra lateral e as abas de Configurações.
+# Começar na Arara
+> O que é a Arara, a introdução, o Tuca, a barra lateral e as abas de Configurações.
 
-O Tucano é um time de agentes de IA que roda no seu computador. Você conversa com eles em canais, como num chat do trabalho. Eles pesquisam, escrevem, programam e usam as suas ferramentas, e você decide até onde cada um vai. Conversas, memória e logins ficam no computador: nada passa por um servidor do Tucano.
+A Arara é um time de agentes de IA que roda no seu computador. Você conversa com eles em canais, como num chat do trabalho. Eles pesquisam, escrevem, programam e usam as suas ferramentas, e você decide até onde cada um vai. Conversas, memória e logins ficam no computador: nada passa por um servidor da Arara.
 
 Os agentes rodam nos programas que você já usa (Claude Code, Codex, OpenCode, Pi, Gemini CLI, Cursor CLI ou Grok), do jeito que você configurou cada um. Veja a página **motores**.
 
 ## A introdução
-Na primeira vez, o app guia em poucos passos: o seu nome; conectar a IA (o que já está pronto aparece testado; quem não tem nada escolhe ChatGPT ou Claude e o Tucano instala o programa oficial e abre o login no navegador, sem terminal); a pergunta do Tuca sobre o que tirar das suas costas; e o primeiro agente, que entra no **#geral** com a primeira mensagem escrita, esperando você apertar enviar. Chave de API, gateway da empresa ou outro programa: **Uso chave de API, gateway da empresa ou outro programa**. Os modelos dos bastidores são escolhidos sozinhos (**Trocar** muda). Rever: **Configurações › Geral** (Settings › General) › **Rever a introdução**.
+Na primeira vez, o app guia em poucos passos: o seu nome; conectar a IA (o que já está pronto aparece testado; quem não tem nada escolhe ChatGPT ou Claude e a Arara instala o programa oficial e abre o login no navegador, sem terminal); a pergunta do Tuca sobre o que tirar das suas costas; e o primeiro agente, que entra no **#geral** com a primeira mensagem escrita, esperando você apertar enviar. Chave de API, gateway da empresa ou outro programa: **Uso chave de API, gateway da empresa ou outro programa**. Os modelos dos bastidores são escolhidos sozinhos (**Trocar** muda). Rever: **Configurações › Geral** (Settings › General) › **Rever a introdução**.
 
 Depois, balões mostram o app enquanto você usa; **Pular tour** encerra. Na barra lateral ficam as **Missões** (Missions), que se marcam sozinhas. Numa instalação nova, a barra começa curta e cada missão libera uma parte (Conectores, Canais, Rotinas, Memória e Wiki); **Mostrar tudo de uma vez** mostra tudo. Escondidas, voltam em **Configurações › Geral** › **Mostrar as missões**.
 

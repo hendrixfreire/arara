@@ -181,7 +181,7 @@ export function linuxApps(env: NodeJS.ProcessEnv = process.env, home = homedir()
       try {
         entry = parseDesktopEntry(readFileSync(file, 'utf8'), locale)
       } catch {}
-      if (!entry || /^(dev\.tucano|tucano)$/i.test(id)) continue
+      if (!entry || /^(dev\.arara|arara)$/i.test(id)) continue
       const exec = entry.exec ? execArgs(entry.exec) : undefined
       const program = exec?.[0] ? whichSync(exec[0], env) : undefined
       const icon = entry.icon ? iconFile(entry.icon, existsSync, env, home) : undefined
@@ -267,7 +267,7 @@ export function parseWinApps(json: string, exists: (p: string) => boolean = disk
   const out: SystemApp[] = []
   for (const r of rows) {
     const name = (r.name ?? '').trim()
-    if (!name || NOT_AN_APP.test(name) || /^tucano$/i.test(name)) continue
+    if (!name || NOT_AN_APP.test(name) || /^arara$/i.test(name)) continue
     if (r.id) {
       const icon = r.logo ? dataUrl(r.logo) : undefined
       out.push({ name, id: r.id, ...(icon ? { icon } : {}), ...(r.dir ? { exe: r.dir } : {}) })

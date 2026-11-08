@@ -1,16 +1,16 @@
 # Arch Linux and CachyOS with Niri
 
-This guide covers running Tucano on Arch Linux and its family, and repeating the validation in a Niri/Wayland session. The run recorded below was done on CachyOS. It covers the source code and a basic Electron start; installing from the AppImage and full desktop integration still need testing.
+This guide covers running Arara on Arch Linux and its family, and repeating the validation in a Niri/Wayland session. The run recorded below was done on CachyOS. It covers the source code and a basic Electron start; installing from the AppImage and full desktop integration still need testing.
 
 ## Installing the AppImage
 
-Download the AppImage for your architecture from the [releases page](https://github.com/eduwxyz/tucano/releases). For x86_64, the 0.2.0 file is `tucano-linux-x86_64.AppImage`; for ARM64, `tucano-linux-arm64.AppImage`.
+Download the AppImage for your architecture from the [releases page](https://github.com/eduwxyz/tucano/releases). For x86_64, the 0.2.0 file is `arara-linux-x86_64.AppImage`; for ARM64, `arara-linux-arm64.AppImage`.
 
 In the download folder, for x86_64:
 
 ```bash
-chmod +x tucano-linux-x86_64.AppImage
-./tucano-linux-x86_64.AppImage
+chmod +x arara-linux-x86_64.AppImage
+./arara-linux-x86_64.AppImage
 ```
 
 If it fails with a FUSE error, check that `fuse2` is installed (`pacman -Q fuse2`). The package is in the Arch Linux repositories. Don't run the app as root or turn off the sandbox to get around a start-up failure.
@@ -64,15 +64,15 @@ Results observed:
 | Notifications API | `Notification.isSupported()` returned `true`; delivery not tested |
 | Electron's keyring | `isEncryptionAvailable()` returned `false`, backend `basic_text` |
 
-Skipped tests don't count as verified features. There was no real sign-in and no tokens spent: the start used `TUCANO_FAKE_ENGINES=1` and temporary data. The graphical test doesn't cover every flow of the interface.
+Skipped tests don't count as verified features. There was no real sign-in and no tokens spent: the start used `ARARA_FAKE_ENGINES=1` and temporary data. The graphical test doesn't cover every flow of the interface.
 
 ### Ghostty, Kitty and Alacritty
 
-On Linux, Ghostty and Alacritty take `-e` followed by the program and its arguments; Kitty takes the program directly. Tucano passes `sh`, `-c` and the sign-in command as separate arguments and keeps the shell open after the command, as with the other Linux terminals. Desktop terminals already earlier in the list still win when they are installed too.
+On Linux, Ghostty and Alacritty take `-e` followed by the program and its arguments; Kitty takes the program directly. Arara passes `sh`, `-c` and the sign-in command as separate arguments and keeps the shell open after the command, as with the other Linux terminals. Desktop terminals already earlier in the list still win when they are installed too.
 
-Kitty and Alacritty were already supported. This contribution adds Ghostty and regression tests for the three terminals, including executable paths with spaces and the preference for the desktop's terminal. The choice follows the order of Tucano's list; it doesn't look up which terminal the session has set as its default.
+Kitty and Alacritty were already supported. This contribution adds Ghostty and regression tests for the three terminals, including executable paths with spaces and the preference for the desktop's terminal. The choice follows the order of Arara's list; it doesn't look up which terminal the session has set as its default.
 
-To run the command Tucano produces for real in each of the three installed terminals, at the root of the checkout:
+To run the command Arara produces for real in each of the three installed terminals, at the root of the checkout:
 
 ```bash
 node --input-type=module <<'NODE'
@@ -83,7 +83,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
 for (const bin of ['ghostty', 'kitty', 'alacritty']) {
-  const dir = mkdtempSync(join(tmpdir(), 'tucano-terminal-'))
+  const dir = mkdtempSync(join(tmpdir(), 'arara-terminal-'))
   try {
     const marker = join(dir, 'result')
     const terminal = terminalCommand(`printf '%s' 'ok' > '${marker}'`, 'linux', candidate => candidate === bin)
@@ -111,7 +111,7 @@ After `npm run build`, open a separate instance with temporary data and simulate
 
 ```bash
 validation_data=$(mktemp -d)
-TUCANO_DATA="$validation_data" TUCANO_FAKE_ENGINES=1 \
+ARARA_DATA="$validation_data" ARARA_FAKE_ENGINES=1 \
   ./node_modules/.bin/electron . --ozone-platform=wayland
 rm -r -- "$validation_data"
 ```
@@ -121,12 +121,12 @@ rm -r -- "$validation_data"
 | Keyring | Confirm a Secret Service or KWallet is available and unlocked in the session; check that Electron picks a secure backend before trying to store a throwaway credential |
 | Noctalia tray | Confirm the icon shows, the window reopens after closing it, and quitting from the tray menu works |
 | Notifications | Confirm delivery, the click, and the return to the conversation |
-| Terminals and sign-in | Ask for the sign-in from the interface, finish it with a harness and check the return to Tucano; repeat with each terminal to validate |
-| Open at login | With a persistent install, turn the option on and check `~/.config/autostart/tucano.desktop` (or the `XDG_CONFIG_HOME` folder); then test a new login to the session |
+| Terminals and sign-in | Ask for the sign-in from the interface, finish it with a harness and check the return to Arara; repeat with each terminal to validate |
+| Open at login | With a persistent install, turn the option on and check `~/.config/autostart/arara.desktop` (or the `XDG_CONFIG_HOME` folder); then test a new login to the session |
 | AppImage | Check that it opens, the applications menu, the packaged resources, and updating |
 
-`gnome-keyring` was installed in the tested environment, but that wasn't enough to make encryption available to Electron. Tucano refuses to store credentials with `basic_text` or without encryption available. Don't force that backend to get around the protection, and don't use real credentials while the keyring isn't working.
+`gnome-keyring` was installed in the tested environment, but that wasn't enough to make encryption available to Electron. Arara refuses to store credentials with `basic_text` or without encryption available. Don't force that backend to get around the protection, and don't use real credentials while the keyring isn't working.
 
-Tucano writes an XDG entry for opening at login on Linux. Whether it runs depends on the Niri session's setup. Don't turn on Open at login from the checkout or from the temporary instance above: the development executable isn't a persistent install.
+Arara writes an XDG entry for opening at login on Linux. Whether it runs depends on the Niri session's setup. Don't turn on Open at login from the checkout or from the temporary instance above: the development executable isn't a persistent install.
 
-When reporting a result, include Tucano's version or commit, the distribution, the compositor, the terminal, how it was installed, the steps run and the expected and observed result. Don't include tokens, credentials or logs you haven't reviewed.
+When reporting a result, include Arara's version or commit, the distribution, the compositor, the terminal, how it was installed, the steps run and the expected and observed result. Don't include tokens, credentials or logs you haven't reviewed.

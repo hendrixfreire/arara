@@ -135,7 +135,7 @@ export async function detectCodex(home: string): Promise<EngineStatus> {
     version: version(v.stdout),
     loggedIn,
     ...(loggedIn ? { route: viaChatGpt ? ('plan' as const) : ('apikey' as const) } : {}),
-    account: loggedIn ? (viaChatGpt ? L('Plano ChatGPT · login próprio do Tucano', "ChatGPT plan · Tucano's own login") : L('Chave de API', 'API key')) : L('Precisa de um login próprio do Tucano', "Needs Tucano's own login"),
+    account: loggedIn ? (viaChatGpt ? L('Plano ChatGPT · login próprio da Arara', "ChatGPT plan · Arara's own login") : L('Chave de API', 'API key')) : L('Precisa de um login próprio da Arara', "Needs Arara's own login"),
     warning: loggedIn && !viaChatGpt ? apiKeyWarning() : undefined
   }
 }

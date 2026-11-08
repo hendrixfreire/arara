@@ -36,7 +36,7 @@ const connectors = {
 }
 const computers = {
   call: async () => ({ result: textResult('exit code 0') }),
-  mac: { cwd: () => '/Users/edu/Library/Application Support/Tucano/computadores/lia' }
+  mac: { cwd: () => '/Users/edu/Library/Application Support/Arara/computadores/lia' }
 }
 
 type Seen = { turn?: Turn; tools: string[]; results: string[] }

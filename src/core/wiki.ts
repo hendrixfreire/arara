@@ -2,7 +2,7 @@
 // The pages are plain Markdown files in a folder Obsidian opens as is (pages/, plus esquema.md,
 // índice.md and registro.md); that folder is the truth. A SQLite file next to the data keeps
 // only what comes from it or watches over it: the search, the links, and each page's history.
-// A page changed outside Tucano (Obsidian, git, any editor) is picked up and indexed again;
+// A page changed outside Arara (Obsidian, git, any editor) is picked up and indexed again;
 // a save made from an older copy of a page is refused instead of overwriting the newer one.
 import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync, statSync, watch, writeFileSync, type FSWatcher } from 'node:fs'
@@ -256,7 +256,7 @@ export class Wiki {
     this.onChange = deps.onChange ?? (() => {})
   }
 
-  // Where the pages are: pages/ in a wiki Tucano made; the folder itself when it's an Obsidian
+  // Where the pages are: pages/ in a wiki Arara made; the folder itself when it's an Obsidian
   // vault the person pointed it to (notes at its root, in folders of its own).
   private root = ''
   private importing = false
@@ -279,7 +279,7 @@ export class Wiki {
     const vault = existsSync(join(this.dir, '.obsidian')) || readdirSync(this.dir).some((f) => f.endsWith('.md') && ![SCHEMA, INDEX, LOG].includes(f))
     return vault ? this.dir : pages
   }
-  // A file under the root that's a page: Markdown, and not one of Tucano's own files.
+  // A file under the root that's a page: Markdown, and not one of Arara's own files.
   private isPage = (rel: string): boolean => (rel.endsWith('/') ? !(this.root === this.dir && rel === `${SOURCES}/`) : rel.endsWith('.md') && !(this.root === this.dir && [SCHEMA, INDEX, LOG].includes(rel)))
 
   // `background`: the folder is read without blocking (a big vault takes a while); `loaded` says when.
@@ -390,7 +390,7 @@ export class Wiki {
     this.db?.close()
   }
 
-  // Changes made outside Tucano: indexed again, and kept in the history as such.
+  // Changes made outside Arara: indexed again, and kept in the history as such.
   private watchFolder(): void {
     try {
       this.watcher = watch(this.pagesDir, { recursive: true }, () => {
@@ -473,7 +473,7 @@ export class Wiki {
       const before = k ? this.bodyOf(file) : null
       this.indexFile(file, text, mtime, 'outside')
       this.version(this.titleOf(file, text), 'outside', k ? 'edit' : 'create', before, parsePage(text).body)
-      logs.push(k ? L(`[[${this.titleOf(file, text)}]] mudou fora do Tucano`, `[[${this.titleOf(file, text)}]] changed outside Tucano`) : L(`[[${this.titleOf(file, text)}]] apareceu na pasta`, `[[${this.titleOf(file, text)}]] showed up in the folder`))
+      logs.push(k ? L(`[[${this.titleOf(file, text)}]] mudou fora da Arara`, `[[${this.titleOf(file, text)}]] changed outside Arara`) : L(`[[${this.titleOf(file, text)}]] apareceu na pasta`, `[[${this.titleOf(file, text)}]] showed up in the folder`))
       changed = true
     }
     return changed
@@ -572,7 +572,7 @@ export class Wiki {
 
   // ---------- pages held for one person ----------
 
-  // The Tucano got its second person: the pages that hold what came from its owner's DMs (all its
+  // The Arara got its second person: the pages that hold what came from its owner's DMs (all its
   // DMs were theirs) stay theirs alone until they release each one. What a page's history says
   // decides it: where each version came from (kept since then), and before that, each version's
   // source; a version that may have come from a DM counts as one. Returns the pages held.
@@ -845,7 +845,7 @@ export class Wiki {
     const day = new Date().toISOString().slice(0, 10)
     const prev = existing ? parsePage(existing).meta : {}
     const body = p.body.replace(/\r\n/g, '\n').trimEnd() + '\n'
-    // A page Tucano writes says its kind and dates; one that came from elsewhere keeps its
+    // A page Arara writes says its kind and dates; one that came from elsewhere keeps its
     // frontmatter as it was, and only gets a kind when it's changed to one it didn't have.
     const set: Record<string, string> = {}
     if (existing === undefined) Object.assign(set, { tipo: p.kind || KIND_OTHER(), criada: day, atualizada: day })
@@ -975,7 +975,7 @@ export class Wiki {
     writeFileSync(join(this.dir, LOG), `${existsSync(join(this.dir, LOG)) ? readFileSync(join(this.dir, LOG), 'utf8').replace(/\n*$/, '\n') : ''}${lines.map((l) => `- ${when} · ${l}\n`).join('')}`)
   }
 
-  // índice.md: every page by kind, with its first line. Kept by Tucano, read by the agents.
+  // índice.md: every page by kind, with its first line. Kept by Arara, read by the agents.
   private writeIndex(): void {
     const text = this.indexFor(this.list())
     const path = join(this.dir, INDEX)
@@ -986,7 +986,7 @@ export class Wiki {
   private indexFor(pages: WikiPageInfo[]): string {
     const byKind = new Map<string, WikiPageInfo[]>()
     for (const p of pages) byKind.set(p.kind, [...(byKind.get(p.kind) ?? []), p])
-    const head = L(`# Índice\n\n${pages.length === 1 ? '1 página' : `${pages.length} páginas`}. Mantido pelo Tucano: não precisa editar.\n`, `# Index\n\n${pages.length === 1 ? '1 page' : `${pages.length} pages`}. Kept by Tucano: no need to edit it.\n`)
+    const head = L(`# Índice\n\n${pages.length === 1 ? '1 página' : `${pages.length} páginas`}. Mantido pela Arara: não precisa editar.\n`, `# Index\n\n${pages.length === 1 ? '1 page' : `${pages.length} pages`}. Kept by Arara: no need to edit it.\n`)
     const body = this.kinds(pages)
       .map((k) => `\n## ${k}\n${byKind.get(k)!.map((p) => `- [[${p.title}]]${p.summary ? `: ${p.summary}` : ''}`).join('\n')}\n`)
       .join('')

@@ -1,8 +1,10 @@
 <div align="center">
 
-<img src="build/icon.png" width="112" alt="Tucano">
+<img src="build/icon.png" width="112" alt="Arara">
 
-# Tucano
+# Arara
+
+Arara is a fork of [Tucano](https://github.com/eduwxyz/tucano).
 
 **Your team of AI agents, on your computer. Your rules.**
 
@@ -23,14 +25,14 @@ https://github.com/user-attachments/assets/533e1bf1-b4ca-4f4a-aad4-e015c6b4c421
 
 ---
 
-## Why Tucano
+## Why Arara
 
-Coding agents got good. Working with *several* of them is still a mess of terminals, copy-paste between sessions, and hoping nothing runs that shouldn't. Tucano puts them in one place that feels like your team's chat, and gives you the controls a team lead would want.
+Coding agents got good. Working with *several* of them is still a mess of terminals, copy-paste between sessions, and hoping nothing runs that shouldn't. Arara puts them in one place that feels like your team's chat, and gives you the controls a team lead would want.
 
 - **A team, not a prompt box.** Agents with names, roles, tools and memory. They talk in channels, call each other with `@mentions` and hand work over: one finds the bug, another fixes it, a third reviews it, and you get the result.
 - **Your rules.** Each agent sees only the tools you give it, with *no access*, *read*, or *read and write* per tool. Merges, purchases, posts, emails and deletes become an approval tied to the exact action, on your computer or your phone.
-- **Runs on what you already have.** Agents think with the Claude Code, Codex, Cursor CLI, Grok, OpenCode or Pi on your computer, the way you set them up: your subscription, your company's AI gateway, or your providers. No API key to paste, no per-token bill from us, and Tucano never sees your password.
-- **Everything stays on your computer.** Conversations, memory, logins, files. There is no Tucano server.
+- **Runs on what you already have.** Agents think with the Claude Code, Codex, Cursor CLI, Grok, OpenCode or Pi on your computer, the way you set them up: your subscription, your company's AI gateway, or your providers. No API key to paste, no per-token bill from us, and Arara never sees your password.
+- **Everything stays on your computer.** Conversations, memory, logins, files. There is no Arara server.
 
 ## What it does
 
@@ -42,7 +44,7 @@ Create a channel, add the agents, and ask. Mention someone with `@`, or don't, a
 
 ### Connect any tool, even your company's internal ones
 
-Tucano speaks [MCP](https://modelcontextprotocol.io). Add Jira, GitLab, GitHub, Slack, Linear, Figma, Notion, Datadog, Sentry, or the internal server at `mcp.yourcompany.internal`: remote servers with OAuth or a token, or local ones. Then decide, per agent and per tool, what it can touch.
+Arara speaks [MCP](https://modelcontextprotocol.io). Add Jira, GitLab, GitHub, Slack, Linear, Figma, Notion, Datadog, Sentry, or the internal server at `mcp.yourcompany.internal`: remote servers with OAuth or a token, or local ones. Then decide, per agent and per tool, what it can touch.
 
 <img src="docs/images/connectors.png" alt="The Connectors page with Datadog, GitLab, Jira, Slack and an internal inventory server" width="880">
 
@@ -87,15 +89,15 @@ Give an agent the apps on your computer, such as Notes, Calendar or Spotify, eac
 | Harness | Sign in with | Notes |
 |---|---|---|
 | [Claude Code](https://code.claude.com) | Claude Pro or Max, or your company's login | Reads only the `env` block and `apiKeyHelper` of your `~/.claude/settings.json`; hooks, plugins and permissions stay out |
-| [Codex](https://github.com/openai/codex) | ChatGPT Plus, Pro or Business | Runs with a home of its own, so your skills, `AGENTS.md` and plugins don't leak in; you sign in once inside Tucano |
+| [Codex](https://github.com/openai/codex) | ChatGPT Plus, Pro or Business | Runs with a home of its own, so your skills, `AGENTS.md` and plugins don't leak in; you sign in once inside Arara |
 | [Cursor CLI](https://cursor.com/cli) | Your Cursor account (`cursor-agent login`) | Runs with a home of its own, so your hooks, plugins, skills and `~/.cursor/mcp.json` servers don't load; Cursor's own file reads, writes and shell stay off; each reply adds about 10k tokens of Cursor's own prompt |
 | [OpenCode](https://opencode.ai) | The providers you configured | Uses the models you have logins for |
 | [Pi](https://pi.dev) | The providers you configured | Uses the models you have logins for |
-| [Grok](https://x.ai/cli) | grok.com (`grok login`) | Runs with a home of its own, so your MCP servers, skills, hooks and plugins (Grok's and the ones installed for Claude Code or Cursor) don't load; Grok's own shell and files stay off; only Tucano's gateway; an `XAI_API_KEY` in the environment is unset when grok.com is signed in, so the subscription isn't billed as API. The official installer is macOS and Linux |
+| [Grok](https://x.ai/cli) | grok.com (`grok login`) | Runs with a home of its own, so your MCP servers, skills, hooks and plugins (Grok's and the ones installed for Claude Code or Cursor) don't load; Grok's own shell and files stay off; only Arara's gateway; an `XAI_API_KEY` in the environment is unset when grok.com is signed in, so the subscription isn't billed as API. The official installer is macOS and Linux |
 
 Each agent picks its harness and model, so a team can mix them: Opus to fix, GPT to review, Haiku to route.
 
-**Behind a company gateway?** If your Claude Code or Codex already sends requests to your company's AI proxy, Tucano's agents go the same way, with no extra setup. Telemetry and error reports of a harness on a gateway stay off, and the model list comes from the gateway itself. To use only the gateway, uncheck the other harnesses in **Settings → Models**.
+**Behind a company gateway?** If your Claude Code or Codex already sends requests to your company's AI proxy, Arara's agents go the same way, with no extra setup. Telemetry and error reports of a harness on a gateway stay off, and the model list comes from the gateway itself. To use only the gateway, uncheck the other harnesses in **Settings → Models**.
 
 ## Install
 
@@ -108,21 +110,21 @@ curl -fsSL https://claude.ai/install.sh | bash
 claude auth login
 ```
 
-On Windows, in PowerShell: `irm https://claude.ai/install.ps1 | iex`, then `claude auth login`. Prefer Codex? `npm install -g @openai/codex`. You'll sign in from inside Tucano.
+On Windows, in PowerShell: `irm https://claude.ai/install.ps1 | iex`, then `claude auth login`. Prefer Codex? `npm install -g @openai/codex`. You'll sign in from inside Arara.
 
-**2. Install Tucano.**
+**2. Install Arara.**
 
-- **On a Mac:** [download the .dmg](https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-arm64.dmg), open it and drag Tucano into **Applications**. On an Intel Mac, take [tucano-mac-x64.dmg](https://github.com/eduwxyz/tucano/releases/latest/download/tucano-mac-x64.dmg) instead. The app is signed and notarized by Apple, so it opens with no warning.
-- **On Ubuntu, Debian and their family** (Mint, Pop!_OS…): [download the .deb](https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-amd64.deb) and open it, or run `sudo apt install ./tucano-linux-amd64.deb`.
-- **On other Linux distributions:** [download the AppImage](https://github.com/eduwxyz/tucano/releases/latest/download/tucano-linux-x86_64.AppImage), make it executable (`chmod +x`) and open it. It needs FUSE, which most systems have. On Ubuntu 24.04 and later, prefer the .deb: it installs the AppArmor profile Electron apps need there.
-- On ARM64 Linux, take the files that end in `-arm64` (`tucano-linux-arm64.deb`, `tucano-linux-arm64.AppImage`).
-- **On Windows:** paste this in PowerShell. It installs Tucano for your user, with no admin rights, and opens it:
+- **On a Mac:** [download the .dmg](https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-arm64.dmg), open it and drag Arara into **Applications**. On an Intel Mac, take [arara-mac-x64.dmg](https://github.com/eduwxyz/tucano/releases/latest/download/arara-mac-x64.dmg) instead. The app is signed and notarized by Apple, so it opens with no warning.
+- **On Ubuntu, Debian and their family** (Mint, Pop!_OS…): [download the .deb](https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-amd64.deb) and open it, or run `sudo apt install ./arara-linux-amd64.deb`.
+- **On other Linux distributions:** [download the AppImage](https://github.com/eduwxyz/tucano/releases/latest/download/arara-linux-x86_64.AppImage), make it executable (`chmod +x`) and open it. It needs FUSE, which most systems have. On Ubuntu 24.04 and later, prefer the .deb: it installs the AppArmor profile Electron apps need there.
+- On ARM64 Linux, take the files that end in `-arm64` (`arara-linux-arm64.deb`, `arara-linux-arm64.AppImage`).
+- **On Windows:** paste this in PowerShell. It installs Arara for your user, with no admin rights, and opens it:
 
   ```powershell
   irm https://github.com/eduwxyz/tucano/releases/latest/download/install.ps1 | iex
   ```
 
-  Or [download the installer](https://github.com/eduwxyz/tucano/releases/latest/download/tucano-win-x64.exe) and open it. It isn't code-signed, so the first time Windows says it protected your PC: click **More info**, then **Run anyway**. The PowerShell command skips that warning, since a file PowerShell downloads isn't marked as coming from the internet.
+  Or [download the installer](https://github.com/eduwxyz/tucano/releases/latest/download/arara-win-x64.exe) and open it. It isn't code-signed, so the first time Windows says it protected your PC: click **More info**, then **Run anyway**. The PowerShell command skips that warning, since a file PowerShell downloads isn't marked as coming from the internet.
 
 Or from the Terminal, on a Mac or on Linux:
 
@@ -130,15 +132,15 @@ Or from the Terminal, on a Mac or on Linux:
 curl -fsSL https://github.com/eduwxyz/tucano/releases/latest/download/install.sh | sh
 ```
 
-It downloads the latest release and opens it. On a Mac it puts Tucano in **Applications**; on Linux it installs the .deb with apt (it asks for your password) or, without apt, the AppImage in `~/.local/bin` with an entry in the applications menu. Run on Windows (in Git Bash, say), it points you to the PowerShell command above.
+It downloads the latest release and opens it. On a Mac it puts Arara in **Applications**; on Linux it installs the .deb with apt (it asks for your password) or, without apt, the AppImage in `~/.local/bin` with an entry in the applications menu. Run on Windows (in Git Bash, say), it points you to the PowerShell command above.
 
-**On a server** (a VPS, to keep routines running while your computer sleeps): Tucano can also run without a window and be used from a browser. See [docs/server.md](docs/server.md). This is experimental.
+**On a server** (a VPS, to keep routines running while your computer sleeps): Arara can also run without a window and be used from a browser. See [docs/server.md](docs/server.md). This is experimental.
 
-From 0.1.2 on, Tucano updates itself: it downloads a new version in the background and shows **Restart** in the sidebar when it's ready (or it goes in the next time you quit). Earlier versions update with the same download or command. On Linux the AppImage and the .deb update themselves too; the .deb asks for your password to put the update in. So does Windows, with no warning.
+From 0.1.2 on, Arara updates itself: it downloads a new version in the background and shows **Restart** in the sidebar when it's ready (or it goes in the next time you quit). Earlier versions update with the same download or command. On Linux the AppImage and the .deb update themselves too; the .deb asks for your password to put the update in. So does Windows, with no warning.
 
-**3. The first run is the setup.** Tucano speaks English and Portuguese; pick one on the first screen, or later in **Settings**. Then, in a few steps: your name; which harnesses agents may use (each with a **Test now** button that sends a real question); the models that route channels and keep memory; what every agent should know about you; your tools (optional); your skills (optional); and your first agent, from a template or from scratch. It ends in a `#general` channel with your agent already working.
+**3. The first run is the setup.** Arara speaks English and Portuguese; pick one on the first screen, or later in **Settings**. Then, in a few steps: your name; which harnesses agents may use (each with a **Test now** button that sends a real question); the models that route channels and keep memory; what every agent should know about you; your tools (optional); your skills (optional); and your first agent, from a template or from scratch. It ends in a `#general` channel with your agent already working.
 
-The first time Tucano saves a connector password, macOS asks whether it may use the **Keychain**: click **Always Allow**. On Linux it uses the system keyring (GNOME Keyring or KWallet); with none open, Tucano doesn't save passwords, and says how to set one up. On Windows there's nothing to allow: Windows encrypts the key with your user's login.
+The first time Arara saves a connector password, macOS asks whether it may use the **Keychain**: click **Always Allow**. On Linux it uses the system keyring (GNOME Keyring or KWallet); with none open, Arara doesn't save passwords, and says how to set one up. On Windows there's nothing to allow: Windows encrypts the key with your user's login.
 
 ## Using it
 
@@ -150,7 +152,7 @@ The first time Tucano saves a connector password, macOS asks whether it may use 
 | **⌘,** | Settings |
 | **Right-click** | On a channel: agents, rename, delete. On an agent: message, edit, archive |
 
-On Linux and Windows, use **Ctrl** instead of **⌘**. Closing the window keeps Tucano running in the tray, by the clock (routines and triggers go on); quit it from the tray icon.
+On Linux and Windows, use **Ctrl** instead of **⌘**. Closing the window keeps Arara running in the tray, by the clock (routines and triggers go on); quit it from the tray icon.
 
 - **Connect a tool:** **Connectors → Add**, paste the MCP server's address. OAuth servers open the browser; the others ask for a token. Then, on each agent's page, set its access to each connector.
 - **Archived agents** leave the sidebar and stop answering, but keep their history and receipts. Find them under **Archived** to bring them back.
@@ -164,7 +166,7 @@ flowchart LR
   subgraph Mac["Your computer"]
     UI["Window<br/>(React)"] <-->|MessagePort| Core["Core process<br/>SQLite · runs · memory · routines"]
     Core -->|"one turn, isolated"| CLI["Harness CLI<br/>claude · codex · cursor · grok · opencode · pi"]
-    CLI -->|"secret per-turn URL<br/>only this agent's tools"| GW["Tucano MCP gateway"]
+    CLI -->|"secret per-turn URL<br/>only this agent's tools"| GW["Arara MCP gateway"]
     GW --> Tools["Connectors (MCP)<br/>computer · browser · memory"]
     GW -.->|"write action"| OK{{"Your approval"}}
   end
@@ -173,33 +175,33 @@ flowchart LR
 
 - **Main process** (Electron): the window, notifications, the agents' browsers, the system's vault (the macOS Keychain, the Linux keyring, Windows' data protection).
 - **Core** (a utility process): SQLite, harnesses, runs, connectors, memory and routines. No agent work runs in the window.
-- **Each reply** opens the harness CLI isolated from your personal configuration, with no built-in tools and no saved session. Tucano builds the context every turn: the workspace, the agent's instructions, its memories and skills, and the recent conversation.
+- **Each reply** opens the harness CLI isolated from your personal configuration, with no built-in tools and no saved session. Arara builds the context every turn: the workspace, the agent's instructions, its memories and skills, and the recent conversation.
 - **The gateway** is a local MCP server and the CLI's only source of tools. Each turn gets a secret URL listing just that agent's tools; any other call is refused. Sensitive calls stop there and become an approval, which runs exactly the call you saw.
 
 More on the permission model in [SECURITY.md](SECURITY.md).
 
 ## Your data
 
-Everything lives in `~/Library/Application Support/Tucano/` (on Linux, `~/.config/Tucano/`; on Windows, `%APPDATA%\Tucano`): the database (`tucano.db`), a daily backup in `backups/`, each agent's computer folder and the files agents show you. Connector passwords and tokens are encrypted with a key in the macOS Keychain (on Linux, the system keyring; on Windows, protected by your user's login) before they reach the database.
+Everything lives in `~/Library/Application Support/Arara/` (on Linux, `~/.config/Arara/`; on Windows, `%APPDATA%\Arara`): the database (`arara.db`), a daily backup in `backups/`, each agent's computer folder and the files agents show you. Connector passwords and tokens are encrypted with a key in the macOS Keychain (on Linux, the system keyring; on Windows, protected by your user's login) before they reach the database.
 
 <details>
 <summary>Uninstall</summary>
 
-1. Quit Tucano (⌘Q) and delete `/Applications/Tucano.app`.
-2. To delete your data too: `rm -rf ~/Library/Application\ Support/Tucano`.
-3. If you used the Linux computer, delete the `tucano-*` containers in Docker Desktop.
-4. Optionally, delete the **Tucano Safe Storage** item in Keychain Access.
+1. Quit Arara (⌘Q) and delete `/Applications/Arara.app`.
+2. To delete your data too: `rm -rf ~/Library/Application\ Support/Arara`.
+3. If you used the Linux computer, delete the `arara-*` containers in Docker Desktop.
+4. Optionally, delete the **Arara Safe Storage** item in Keychain Access.
 
-On Linux: quit Tucano from its tray icon, then `sudo apt remove tucano` (or delete `~/.local/bin/Tucano.AppImage` and `~/.local/share/applications/tucano.desktop`). Your data is in `~/.config/Tucano`.
+On Linux: quit Arara from its tray icon, then `sudo apt remove arara` (or delete `~/.local/bin/Arara.AppImage` and `~/.local/share/applications/arara.desktop`). Your data is in `~/.config/Arara`.
 
-On Windows: quit Tucano from its icon by the clock, then uninstall it in **Settings › Apps › Installed apps**. Your data stays in `%APPDATA%\Tucano`; delete that folder to remove it too.
+On Windows: quit Arara from its icon by the clock, then uninstall it in **Settings › Apps › Installed apps**. Your data stays in `%APPDATA%\Arara`; delete that folder to remove it too.
 </details>
 
 <details>
 <summary>Troubleshooting</summary>
 
 **Claude Code shows as "not installed".**
-Tucano looks for `claude` in the same `PATH` as your Terminal. Run `which claude`: if nothing comes back, the install didn't finish. If it does, quit Tucano (⌘Q) and open it again.
+Arara looks for `claude` in the same `PATH` as your Terminal. Run `which claude`: if nothing comes back, the install didn't finish. If it does, quit Arara (⌘Q) and open it again.
 
 **Claude Code shows as "not signed in".**
 Run `claude auth login` in the Terminal, then click **Check again** in Settings.
@@ -217,7 +219,7 @@ Add yourself to the `docker` group with `sudo usermod -aG docker $USER`, then lo
 Click **Authorize in the browser**, on the agent's page or in Connectors, and sign in to the tool.
 
 **"This Linux has no keyring open" when saving a password.**
-Tucano keeps passwords only in the system keyring. Install `gnome-keyring` (or turn on KWallet, on KDE), log out and back in, and try again.
+Arara keeps passwords only in the system keyring. Install `gnome-keyring` (or turn on KWallet, on KDE), log out and back in, and try again.
 
 **The AppImage doesn't open on Ubuntu 24.04 or later.**
 Ubuntu restricts the sandbox Electron apps use. Install the .deb instead: it brings the AppArmor profile that allows it.
@@ -226,19 +228,19 @@ Ubuntu restricts the sandbox Electron apps use. Install the .deb instead: it bri
 The installer isn't code-signed, so SmartScreen doesn't know it yet. Click **More info**, then **Run anyway**, or install with the PowerShell command, which doesn't get the warning. On a company PC, IT may block apps that aren't signed.
 
 **macOS asks for the Keychain after updating from 0.1.0.**
-0.1.0 wasn't signed with Tucano's Apple certificate; later versions are, so it asks only this once. Click **Always Allow**.
+0.1.0 wasn't signed with Arara's Apple certificate; later versions are, so it asks only this once. Click **Always Allow**.
 </details>
 
 ## Development
 
 ```bash
-git clone https://github.com/eduwxyz/tucano.git
-cd tucano
+git clone https://github.com/eduwxyz/tucano.git arara
+cd arara
 npm install
 npm run dev
 ```
 
-You need Node 24+ and one harness signed in. `npm run dev` keeps its own data in `~/Library/Application Support/Tucano Dev` (on Linux, `~/.config/Tucano Dev`), apart from an installed Tucano. With `TUCANO_FAKE_ENGINES=1`, agents answer with a scripted engine and a sample team, with no subscription at all.
+You need Node 24+ and one harness signed in. `npm run dev` keeps its own data in `~/Library/Application Support/Arara Dev` (on Linux, `~/.config/Arara Dev`), apart from an installed Arara. With `ARARA_FAKE_ENGINES=1`, agents answer with a scripted engine and a sample team, with no subscription at all.
 
 | Command | What it does |
 |---|---|
@@ -246,10 +248,10 @@ You need Node 24+ and one harness signed in. `npm run dev` keeps its own data in
 | `npm run typecheck` | Type checks everything |
 | `npm test` | The core's tests: CLI stream parsers with recorded outputs, context, runs, limits, governance, routines, memory |
 | `npm run build` | Builds into `out/` |
-| `npm run install-app` | Builds `Tucano.app` and installs it in `/Applications` |
+| `npm run install-app` | Builds `Arara.app` and installs it in `/Applications` |
 | `npm run release` | Builds the `.dmg` and `.zip` and publishes `package.json`'s version as a GitHub release (`-- --no-publish` only builds) |
 | `node scripts/screens.mjs <folder>` | Opens the build with Playwright on a temporary database and saves screenshots |
-| `npm run dist:win` | On Windows: builds the installer, `dist/tucano-win-x64.exe` (not code-signed) |
+| `npm run dist:win` | On Windows: builds the installer, `dist/arara-win-x64.exe` (not code-signed) |
 
 **On Windows?** Development works there too, with Git for Windows. See [docs/windows.md](docs/windows.md) for what you need, how it differs from the Mac, and every change made for it.
 
@@ -261,7 +263,7 @@ Questions, ideas and setups: join us on [Discord](https://discord.gg/uQp4x7wUgT)
 
 ## License
 
-[Apache-2.0](LICENSE). Tucano is not affiliated with Anthropic, OpenAI or any of the tools it connects to.
+[Apache-2.0](LICENSE). Arara is not affiliated with Anthropic, OpenAI or any of the tools it connects to.
 
 The apps feature runs on [agent-desktop](https://github.com/vercel-labs/agent-desktop) by Vercel Labs (Apache-2.0), installed separately. Thank you!
 

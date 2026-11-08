@@ -1,4 +1,4 @@
-// A harness's sign-in on Tucano as a server, from the browser (src/core/login-terminal.ts): the CLI's
+// A harness's sign-in on Arara as a server, from the browser (src/core/login-terminal.ts): the CLI's
 // login runs in the server's own terminal, and this window shows its screen, the page to open and
 // the code to type there, and sends back what the person types (a code to paste, a menu's arrows).
 import { useEffect, useRef, useState, type ReactNode } from 'react'

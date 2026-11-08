@@ -142,7 +142,7 @@ export class Routines {
     }
   }
 
-  // `owner`: the person a new one is for (unset: the Tucano's owner). A 'channel' routine is the
+  // `owner`: the person a new one is for (unset: the Arara's owner). A 'channel' routine is the
   // team's: it posts in a channel and tells only who watches it.
   save(input: RoutineInput, owner?: string): Routine {
     const { db } = this.deps

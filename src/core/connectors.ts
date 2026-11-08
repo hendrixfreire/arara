@@ -145,12 +145,12 @@ const oauthError = (a: Answer): string | undefined => {
 const unreadableMessage = (auth: Connector['auth']): string =>
   auth === 'oauth'
     ? L(
-        'Não consegui abrir o login salvo deste conector: o sistema não liberou a chave do Tucano. Nada foi apagado. Reinicie o Tucano e, se o sistema pedir acesso às chaves, permita; se não resolver, autorize de novo.',
-        "I couldn't open this connector's saved sign-in: the system didn't release Tucano's key. Nothing was deleted. Restart Tucano and, if the system asks for access to the keys, allow it; if that doesn't help, authorize again."
+        'Não consegui abrir o login salvo deste conector: o sistema não liberou a chave da Arara. Nada foi apagado. Reinicie a Arara e, se o sistema pedir acesso às chaves, permita; se não resolver, autorize de novo.',
+        "I couldn't open this connector's saved sign-in: the system didn't release Arara's key. Nothing was deleted. Restart Arara and, if the system asks for access to the keys, allow it; if that doesn't help, authorize again."
       )
     : L(
-        'Não consegui abrir as credenciais salvas deste conector: o sistema não liberou a chave do Tucano. Nada foi apagado. Reinicie o Tucano e, se o sistema pedir acesso às chaves, permita; se não resolver, salve a credencial de novo.',
-        "I couldn't open this connector's saved credentials: the system didn't release Tucano's key. Nothing was deleted. Restart Tucano and, if the system asks for access to the keys, allow it; if that doesn't help, save the credential again."
+        'Não consegui abrir as credenciais salvas deste conector: o sistema não liberou a chave da Arara. Nada foi apagado. Reinicie a Arara e, se o sistema pedir acesso às chaves, permita; se não resolver, salve a credencial de novo.',
+        "I couldn't open this connector's saved credentials: the system didn't release Arara's key. Nothing was deleted. Restart Arara and, if the system asks for access to the keys, allow it; if that doesn't help, save the credential again."
       )
 
 // The call never ran, so it can go again on a new connection: the server forgot this session (it expired
@@ -373,7 +373,7 @@ export class ConnectorManager {
     this.setStatus(id, 'connecting')
 
     const client = new Client(
-      { name: 'tucano', version: '0.1.0' },
+      { name: 'arara', version: '0.1.0' },
       { listChanged: { tools: { onChanged: () => void this.refreshTools(id).catch(() => {}) } } }
     )
     let transport: Transport
@@ -663,7 +663,7 @@ export class ConnectorManager {
       },
       get clientMetadata(): OAuthClientMetadata {
         return {
-          client_name: 'Tucano',
+          client_name: 'Arara',
           redirect_uris: [redirectUrl],
           grant_types: ['authorization_code', 'refresh_token'],
           response_types: ['code'],

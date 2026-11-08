@@ -1,4 +1,4 @@
-// A Tucano on a server, opened from this app: the link that pairs it, and what belongs to it.
+// A Arara on a server, opened from this app: the link that pairs it, and what belongs to it.
 //
 //   tucano://connect?url=https://ana.example.com&token=…   (`server.js link` prints it)
 //   tucano://connect?url=https://ana.example.com&code=…    (a one-time code: `server.js pair`, for the phone)

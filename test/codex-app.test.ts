@@ -102,7 +102,7 @@ describe('Codex app-server isolation', () => {
       sandbox: 'read-only',
       approvalPolicy: 'never',
       developerInstructions: expect.stringMatching(/^Você é Theo\.\n\nO sandbox do próprio Codex aqui é vazio de propósito e não limita as suas ferramentas\. Nunca diga que a sessão é só leitura/), // with the app's tools
-      config: { model_reasoning_effort: 'low', web_search: 'disabled', 'mcp_servers.tucano': { url, default_tools_approval_mode: 'approve', tool_timeout_sec: 900 } }
+      config: { model_reasoning_effort: 'low', web_search: 'disabled', 'mcp_servers.arara': { url, default_tools_approval_mode: 'approve', tool_timeout_sec: 900 } }
     })
     expect(codexAppArgs(['-c', 'model_provider="corp"']).join(' ')).not.toContain('/mcp/')
     expect(codexThread({ model: 'm', effort: 'low', system: 'x', cwd: '/tmp/x', web: true }).config).toEqual({ model_reasoning_effort: 'low', web_search: 'live' })

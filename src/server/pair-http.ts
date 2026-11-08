@@ -17,7 +17,7 @@ export interface PairDoor {
   doors: Doors
   // The core's key for a new device of this person (null: the owner), or undefined.
   mint(person: string | null, label: string): Promise<string | undefined>
-  owner(): string // whose Tucano it is, by name ('' before they said it)
+  owner(): string // whose Arara it is, by name ('' before they said it)
   nameOf(person: string | null): string | undefined
 }
 
@@ -41,12 +41,12 @@ export function htmlPage(res: ServerResponse, html: string, status = 200): void 
 }
 
 const shell = (inner: string): string =>
-  `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Tucano</title><style>${PAGE_STYLE}</style><main>${inner}</main>`
+  `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>Arara</title><style>${PAGE_STYLE}</style><main>${inner}</main>`
 
-// "Entrar no Tucano de <owner>": whose it is, as whom, and one button that spends the code.
+// "Entrar na Arara de <owner>": whose it is, as whom, and one button that spends the code.
 export function pairPage(o: { owner: string; code: string; as?: string }): string {
   const whose = o.owner.trim()
-  const title = whose ? `Entrar no Tucano de ${whose} · Sign in to ${whose}'s Tucano` : 'Entrar no Tucano · Sign in to Tucano'
+  const title = whose ? `Entrar na Arara de ${whose} · Sign in to ${whose}'s Arara` : 'Entrar na Arara · Sign in to Arara'
   const as = o.as?.trim()
   return shell(
     `<h2>${esc(title)}</h2>${as ? `<p>Este navegador vai entrar como <b>${esc(as)}</b>. · This browser will sign in as <b>${esc(as)}</b>.</p>` : ''}<p>O link vale uma vez. Se não foi você quem pediu, feche esta página. · The link works once. If you didn't ask for it, close this page.</p><form method="post" action="./pair"><input type="hidden" name="code" value="${esc(o.code)}"><button type="submit">Entrar neste navegador · Sign in on this browser</button></form>`

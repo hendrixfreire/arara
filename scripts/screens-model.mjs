@@ -5,8 +5,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 const out = process.argv[2]
 mkdirSync(out, { recursive: true })
-const data = mkdtempSync(join(tmpdir(), 'tucano-'))
-const app = await electron.launch({ args: ['.'], env: { ...process.env, TUCANO_DATA: data, TUCANO_SEED: '1' } })
+const data = mkdtempSync(join(tmpdir(), 'arara-'))
+const app = await electron.launch({ args: ['.'], env: { ...process.env, ARARA_DATA: data, ARARA_SEED: '1' } })
 const win = await app.firstWindow()
 await win.setViewportSize({ width: 1360, height: 880 })
 await win.waitForSelector('.sidebar')

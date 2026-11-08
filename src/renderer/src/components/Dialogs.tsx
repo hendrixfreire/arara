@@ -261,7 +261,7 @@ function OAuthDialog({ id, url, onClose }: { id: string; url: string; onClose: (
         </a>
       </p>
       {automatic ? (
-        <p className="small muted">{L('2. Depois de permitir, volte pra cá: o Tucano conecta sozinho e esta janela fecha.', '2. After you allow it, come back here: Tucano connects on its own and this closes.')}</p>
+        <p className="small muted">{L('2. Depois de permitir, volte pra cá: a Arara conecta sozinho e esta janela fecha.', '2. After you allow it, come back here: Arara connects on its own and this closes.')}</p>
       ) : (
         <label className="field">
           <span className="field__label">{L('2. Cole aqui o endereço em que ela terminou', '2. Paste the address it ended on')}</span>
@@ -270,8 +270,8 @@ function OAuthDialog({ id, url, onClose }: { id: string; url: string; onClose: (
           </span>
           <span className="hint">
             {L(
-              'Depois de permitir, o navegador vai pra um endereço que começa com http://127.0.0.1 e mostra que a página não abre. É normal: o Tucano está no servidor. Copie o endereço inteiro da barra e cole aqui.',
-              'After you allow it, the browser goes to an address starting with http://127.0.0.1 and says the page can’t be reached. That’s expected: Tucano is on the server. Copy the whole address from the bar and paste it here.'
+              'Depois de permitir, o navegador vai pra um endereço que começa com http://127.0.0.1 e mostra que a página não abre. É normal: a Arara está no servidor. Copie o endereço inteiro da barra e cole aqui.',
+              'After you allow it, the browser goes to an address starting with http://127.0.0.1 and says the page can’t be reached. That’s expected: Arara is on the server. Copy the whole address from the bar and paste it here.'
             )}
           </span>
         </label>

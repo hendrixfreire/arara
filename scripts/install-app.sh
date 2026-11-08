@@ -3,13 +3,13 @@
 # it unable to quit normally, so it is closed first (after its replies end).
 # An old agent-desk.app (the app's first name) is closed and removed.
 set -e
-APP=/Applications/Tucano.app
+APP=/Applications/Arara.app
 OLD=/Applications/agent-desk.app
-BUILT="$HOME/Library/Caches/tucano/dist/mac-arm64/Tucano.app"
-running() { pgrep -f "$APP/Contents/MacOS/Tucano\$" >/dev/null || pgrep -f "$OLD/Contents/MacOS/agent-desk\$" >/dev/null; }
+BUILT="$HOME/Library/Caches/arara/dist/mac-arm64/Arara.app"
+running() { pgrep -f "$APP/Contents/MacOS/Arara\$" >/dev/null || pgrep -f "$OLD/Contents/MacOS/agent-desk\$" >/dev/null; }
 if running; then
   echo "Closing the running app…"
-  for name in Tucano agent-desk; do
+  for name in Arara agent-desk; do
     osascript -e 'with timeout of 20 seconds' -e "tell application \"$name\" to quit" -e 'end timeout' >/dev/null 2>&1 || true
   done
   for _ in $(seq 1 30); do running || break; sleep 1; done

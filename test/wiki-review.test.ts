@@ -7,7 +7,7 @@ import { Wiki } from '../src/core/wiki'
 import { lint, logSections, parseReview, WikiReviewer } from '../src/core/wiki-review'
 
 function wiki(): Wiki {
-  const root = mkdtempSync(join(tmpdir(), 'tucano-wiki-'))
+  const root = mkdtempSync(join(tmpdir(), 'arara-wiki-'))
   const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db') })
   w.init(false)
   const save = (title: string, body: string, kind = 'Projeto'): void => void w.save({ title, body, kind, by: 'me', byName: 'Ana' })

@@ -141,8 +141,8 @@ export const imageRefused = (message: string): boolean => /unknown option|unreco
 // instead of answering as if it had seen them.
 export const imagesLeftOut = (): string =>
   L(
-    '\n\n(Aviso do Tucano: as imagens anexadas nesta conversa não puderam ser mostradas a você desta vez, porque o Cursor CLI não aceitou anexá-las. Se a pessoa perguntar sobre uma imagem, diga que não conseguiu vê-la.)',
-    "\n\n(Note from Tucano: the images attached in this conversation couldn't be shown to you this time, because Cursor CLI didn't take them. If you're asked about an image, say you couldn't see it.)"
+    '\n\n(Aviso da Arara: as imagens anexadas nesta conversa não puderam ser mostradas a você desta vez, porque o Cursor CLI não aceitou anexá-las. Se a pessoa perguntar sobre uma imagem, diga que não conseguiu vê-la.)',
+    "\n\n(Note from Arara: the images attached in this conversation couldn't be shown to you this time, because Cursor CLI didn't take them. If you're asked about an image, say you couldn't see it.)"
   )
 
 // The permissions of a turn: Cursor's file reads, writes (deleting and saving
@@ -308,7 +308,7 @@ export function cursorEngine(bin: () => string | undefined, appDir: string, shel
       const env: NodeJS.ProcessEnv = { ...process.env, ...(await shellEnv()), ...cursorHomeEnv(dirs.home, appDir), CURSOR_CONFIG_DIR: dirs.config, CURSOR_DATA_DIR: dirs.data, NO_OPEN_BROWSER: '1' }
       try {
         if (turn.mcpUrl && (await quiet(path, ['mcp', 'enable', GATEWAY_NAME], dirs.workspace, env)) !== 0) {
-          yield { type: 'error', message: L('O Cursor não aceitou as ferramentas do Tucano (cursor-agent mcp enable).', "Cursor didn't take Tucano's tools (cursor-agent mcp enable).") }
+          yield { type: 'error', message: L('O Cursor não aceitou as ferramentas da Arara (cursor-agent mcp enable).', "Cursor didn't take Arara's tools (cursor-agent mcp enable).") }
           return
         }
         const sent = turn.system.length + turn.prompt.length

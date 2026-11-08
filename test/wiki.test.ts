@@ -6,7 +6,7 @@ import { fileOf, linksIn, parsePage, summaryOf, Wiki, WikiConflict, wikiCall } f
 import { wikiAccess } from '../src/shared/types'
 
 const fresh = (): Wiki => {
-  const root = mkdtempSync(join(tmpdir(), 'tucano-wiki-'))
+  const root = mkdtempSync(join(tmpdir(), 'arara-wiki-'))
   const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db') })
   w.init(false)
   return w
@@ -57,7 +57,7 @@ describe('the wiki folder', () => {
     expect(w.page('Marcos Lima')!.body).toContain('v2')
   })
 
-  it('picks up a page changed outside Tucano, and keeps it in the history', () => {
+  it('picks up a page changed outside Arara, and keeps it in the history', () => {
     const w = fresh()
     w.save({ title: 'Marcos Lima', body: 'Cliente.', ...by })
     writeFileSync(join(w.dir, 'pages', 'Marcos Lima.md'), '---\ntipo: Pessoa\n---\n\nCliente desde março.\n')
@@ -107,7 +107,7 @@ describe('the agents and the wiki', () => {
 
 describe('reading the folder behind the window', () => {
   it('a start indexes the folder without blocking, then watches it', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'tucano-wiki-'))
+    const root = mkdtempSync(join(tmpdir(), 'arara-wiki-'))
     const dir = join(root, 'vault')
     mkdirSync(join(dir, '.obsidian'), { recursive: true })
     mkdirSync(join(dir, 'Clientes'))

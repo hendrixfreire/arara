@@ -11,10 +11,10 @@ import type { Person } from '../src/shared/types'
 
 describe('self-signed certificate', () => {
   it('is a valid X.509 signed by its own key, with the fingerprint the QR carries', () => {
-    const c = makeCertificate('Tucano', ['eduardos-mac.local', '192.168.1.20'], new Date('2026-11-07T12:00:00Z'))
+    const c = makeCertificate('Arara', ['eduardos-mac.local', '192.168.1.20'], new Date('2026-11-07T12:00:00Z'))
     const x = new X509Certificate(c.cert)
     expect(x.verify(x.publicKey)).toBe(true)
-    expect(x.subject).toContain('CN=Tucano')
+    expect(x.subject).toContain('CN=Arara')
     expect(x.subjectAltName).toContain('DNS:eduardos-mac.local')
     expect(x.subjectAltName).toContain('IP Address:192.168.1.20')
     expect(new Date(x.validTo).getUTCFullYear()).toBe(2036)
@@ -89,7 +89,7 @@ describe('HomeLink', () => {
   let dir: string
   let link: HomeLink
   let core: ReturnType<typeof fakeCore>
-  const tls = makeCertificate('Tucano', ['localhost'])
+  const tls = makeCertificate('Arara', ['localhost'])
 
   beforeEach(() => {
     dir = mkdtempSync(join(tmpdir(), 'home-link-'))
@@ -184,7 +184,7 @@ describe('HomeLink, a phone disconnected from the computer', () => {
       },
       dataDir: () => dir
     }
-    link = new HomeLink({ tls: makeCertificate('Tucano', ['localhost']), codesFile: join(dir, 'codes.json'), core: () => core })
+    link = new HomeLink({ tls: makeCertificate('Arara', ['localhost']), codesFile: join(dir, 'codes.json'), core: () => core })
     const port = await link.start(47390, '127.0.0.1')
     const code = new URL(link.makeCode().link).searchParams.get('code')!
     const { key } = JSON.parse((await call(port, '/pair', { method: 'POST', body: JSON.stringify({ code, name: 'iPhone de Eduardo', platform: 'ios' }) })).body) as { key: string }
@@ -218,7 +218,7 @@ describe('HomeLink, a phone disconnected from the computer', () => {
   it('never spends a code on a GET', async () => {
     dir = mkdtempSync(join(tmpdir(), 'home-link-get-'))
     const core = fakeCore(dir)
-    link = new HomeLink({ tls: makeCertificate('Tucano', ['localhost']), codesFile: join(dir, 'codes.json'), core: () => core })
+    link = new HomeLink({ tls: makeCertificate('Arara', ['localhost']), codesFile: join(dir, 'codes.json'), core: () => core })
     const port = await link.start(47395, '127.0.0.1')
     const code = new URL(link.makeCode().link).searchParams.get('code')!
     for (const path of [`/?code=${code}`, `/pair?code=${code}`]) expect((await call(port, path)).status).toBe(401)
@@ -251,7 +251,7 @@ describe('homeHost', () => {
 
   it('makes each QR code with the address it has now', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'home-host-'))
-    const link = new HomeLink({ tls: makeCertificate('Tucano', []), codesFile: join(dir, 'codes.json'), core: () => undefined })
+    const link = new HomeLink({ tls: makeCertificate('Arara', []), codesFile: join(dir, 'codes.json'), core: () => undefined })
     try {
       const port = await link.start(47390, '192.168.0.10')
       expect(new URL(link.makeCode().link).searchParams.get('url')).toBe(`https://192.168.0.10:${port}`)

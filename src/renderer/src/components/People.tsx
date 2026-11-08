@@ -1,4 +1,4 @@
-// The people of a Tucano with a team: the first access's name, Settings › Pessoas and
+// The people of a Arara with a team: the first access's name, Settings › Pessoas and
 // Settings › Atividade, and the "Só um admin…" note where an action is the admins'.
 import qrcode from 'qrcode-generator'
 import { useEffect, useState, type ReactNode } from 'react'
@@ -66,7 +66,7 @@ export function NameModal(): ReactNode {
   }
   return (
     <Modal title={L('Como os agentes te chamam?', 'What should the agents call you?')} onClose={doneNaming}>
-      <p className="small modal__lead">{L('É o nome que os agentes usam com você e que as outras pessoas do Tucano veem.', 'It’s the name the agents use with you, and the one the other people in this Tucano see.')}</p>
+      <p className="small modal__lead">{L('É o nome que os agentes usam com você e que as outras pessoas da Arara veem.', 'It’s the name the agents use with you, and the one the other people in this Arara see.')}</p>
       <label className="field">
         <span className="field__label">{L('Seu nome', 'Your name')}</span>
         <input autoFocus value={name} maxLength={60} onChange={(e) => (setName(e.target.value), setError(''))} onKeyDown={(e) => e.key === 'Enter' && save()} />
@@ -136,8 +136,8 @@ export function PeoplePane(): ReactNode {
       {windowless() && <PhoneCard />}
 
       <Card
-        title={L(`Pessoas ${team ? `de ${team}` : 'do Tucano'}`, `People ${team ? `of ${team}` : 'in this Tucano'}`)}
-        lead={L('Quem tem acesso a este Tucano e o que cada um pode fazer. As DMs de cada pessoa são só dela.', 'Who has access to this Tucano and what each one can do. Each person’s DMs are theirs alone.')}
+        title={L(`Pessoas ${team ? `de ${team}` : 'da Arara'}`, `People ${team ? `of ${team}` : 'in this Arara'}`)}
+        lead={L('Quem tem acesso a esta Arara e o que cada um pode fazer. As DMs de cada pessoa são só dela.', 'Who has access to this Arara and what each one can do. Each person’s DMs are theirs alone.')}
         action={
           admin && !inviting ? (
             <button className="btn btn--primary btn--sm" onClick={() => setInviting(true)}>
@@ -346,7 +346,7 @@ export function Qr({ text }: { text: string }): ReactNode {
   return <div className="device-qr" role="img" aria-label={L('QR code de conexão', 'Connection QR code')} dangerouslySetInnerHTML={{ __html: q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }) }} />
 }
 
-// On a server: the Tucano app on a phone signs in as me with a one-time code (src/server/pair-codes.ts).
+// On a server: the Arara app on a phone signs in as me with a one-time code (src/server/pair-codes.ts).
 // Each phone gets a key of its own; removing someone ends all of theirs.
 function PhoneCard(): ReactNode {
   const me = useStore(youPerson)
@@ -381,7 +381,7 @@ function PhoneCard(): ReactNode {
   return (
     <Card
       title={L('Conectar um celular', 'Connect a phone')}
-      lead={L('Use o Tucano no iPhone com a sua conta daqui: suas DMs, suas aprovações e as perguntas que os agentes fazem pra você.', 'Use Tucano on an iPhone with your account here: your DMs, your approvals and the questions agents ask you.')}
+      lead={L('Use a Arara no iPhone com a sua conta daqui: suas DMs, suas aprovações e as perguntas que os agentes fazem pra você.', 'Use Arara on an iPhone with your account here: your DMs, your approvals and the questions agents ask you.')}
       action={
         !code ? (
           <button className="btn btn--primary btn--sm" onClick={make}>
@@ -404,7 +404,7 @@ function PhoneCard(): ReactNode {
             <div className="device-pair__text">
               <ol className="small steps-list">
                 <li>{L('No iPhone, abra a Câmera ou o app do Tucano e aponte pro código.', 'On the iPhone, open the Camera or the Tucano app and point it at the code.')}</li>
-                <li>{L('Toque em Abrir no Tucano e confirme.', 'Tap Open in Tucano and confirm.')}</li>
+                <li>{L('Toque em Abrir na Arara e confirme.', 'Tap Open in Arara and confirm.')}</li>
               </ol>
               <p className="muted small">
                 {L('Vale uma vez, por mais', 'Good once, for')} {Math.floor(left / 60)}:{String(left % 60).padStart(2, '0')}.
@@ -576,8 +576,8 @@ const KINDS = (): [string, string][] => [
 // the 30 days, like the DM; the others go to the owner (db.handOver).
 export const removalText = (name: string): string =>
   L(
-    `O acesso de ${name} acaba agora, em todos os aparelhos. Os agentes e as rotinas fora das DMs passam pro dono do Tucano; as aprovações pendentes ficam com os admins.\n\nAs DMs de ${name} (com as rotinas que estão nelas, paradas) e as memórias ficam guardadas por 30 dias: um novo convite que traz a pessoa de volta devolve tudo. Depois disso, são apagadas.`,
-    `${name}'s access ends now, on every device. Their agents and the routines outside DMs go to the Tucano's owner; pending approvals go to the admins.\n\n${name}'s DMs (with the routines in them, stopped) and memories are kept for 30 days: an invite that brings them back restores everything. After that, they're deleted.`
+    `O acesso de ${name} acaba agora, em todos os aparelhos. Os agentes e as rotinas fora das DMs passam pro dono da Arara; as aprovações pendentes ficam com os admins.\n\nAs DMs de ${name} (com as rotinas que estão nelas, paradas) e as memórias ficam guardadas por 30 dias: um novo convite que traz a pessoa de volta devolve tudo. Depois disso, são apagadas.`,
+    `${name}'s access ends now, on every device. Their agents and the routines outside DMs go to the Arara's owner; pending approvals go to the admins.\n\n${name}'s DMs (with the routines in them, stopped) and memories are kept for 30 days: an invite that brings them back restores everything. After that, they're deleted.`
   )
 
 // "Ana aprovou um pedido de Leo", in words, from what the log kept. Tools as the approval card says them.
@@ -595,7 +595,7 @@ export function activityText(e: ActivityEntry, s: Pick<State, 'people' | 'agents
     case 'person.joined':
       return L(`entrou como ${role(d['role'])}`, `joined as ${role(d['role'])}`)
     case 'person.restored':
-      return L('voltou ao Tucano', 'came back')
+      return L('voltou à Arara', 'came back')
     case 'person.removed':
       return L(`removeu ${named || who(e.target)}`, `removed ${named || who(e.target)}`)
     case 'person.role':
@@ -649,9 +649,9 @@ export function ActivityPane(): ReactNode {
     )
   useEffect(() => load(), [personId, kind])
   useEffect(() => void removedPeople().then((r) => setRemoved(new Map(r.map((p) => [p.id, p.name]))), () => {}), [])
-  const name = (id?: string): string => (id ? (personById(s, id)?.name ?? removed.get(id) ?? L('Alguém', 'Someone')) : 'Tucano')
+  const name = (id?: string): string => (id ? (personById(s, id)?.name ?? removed.get(id) ?? L('Alguém', 'Someone')) : 'Arara')
   return (
-    <Card title={L('Atividade', 'Activity')} lead={L('Quem fez o quê no Tucano. O que se diz nas DMs nunca aparece aqui.', 'Who did what in this Tucano. What’s said in DMs never shows here.')}>
+    <Card title={L('Atividade', 'Activity')} lead={L('Quem fez o quê na Arara. O que se diz nas DMs nunca aparece aqui.', 'Who did what in this Arara. What’s said in DMs never shows here.')}>
       <div className="row activity-filters">
         <select value={personId} aria-label={L('Pessoa', 'Person')} onChange={(e) => setPersonId(e.target.value)}>
           <option value="">{L('Todas as pessoas', 'Everyone')}</option>

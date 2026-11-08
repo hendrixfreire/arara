@@ -29,7 +29,7 @@ const status = (id: string): string | undefined => connectors.get(id)?.status
 const text = (r: { content: { type: string; text?: string }[] }): string => r.content.map((c) => c.text ?? '').join('')
 
 beforeEach(() => {
-  db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-reconnect-')), 'test.db'))
+  db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-reconnect-')), 'test.db'))
   connectors = new ConnectorManager({ db, secrets: new Secrets(db, plainCipher), emit: () => {}, openUrl: () => {}, oauthCallbackUrl: () => 'http://127.0.0.1:1/oauth/callback' })
 })
 afterEach(async () => {
@@ -40,7 +40,7 @@ afterEach(async () => {
 describe('a local (stdio) connector whose process ends', () => {
   it('comes back by itself, and its tools work again', async () => {
     // A server that answers "ping" and ends its own process on "sair", like one that crashes or quits when idle.
-    const script = join(mkdtempSync(join(tmpdir(), 'tucano-stdio-')), 'server.mjs')
+    const script = join(mkdtempSync(join(tmpdir(), 'arara-stdio-')), 'server.mjs')
     writeFileSync(
       script,
       `const { Server } = await import('${sdk}/server/index.js')
@@ -126,7 +126,7 @@ describe('which failed calls go again on a new connection', () => {
 describe('settled()', () => {
   it('waits for a stdio connector that is still connecting, and is immediate when none is', async () => {
     await connectors.settled() // nothing connecting
-    const script = join(mkdtempSync(join(tmpdir(), 'tucano-stdio-')), 'server.mjs')
+    const script = join(mkdtempSync(join(tmpdir(), 'arara-stdio-')), 'server.mjs')
     writeFileSync(
       script,
       `const { Server } = await import('${sdk}/server/index.js')

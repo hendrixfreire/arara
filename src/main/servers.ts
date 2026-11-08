@@ -1,4 +1,4 @@
-// Tucanos on servers (docs/server.md), shown in the app's own window: picking one puts its page
+// Araras on servers (docs/server.md), shown in the app's own window: picking one puts its page
 // over the app, under a bar the app draws (BAR px) to go back. The page is in a view of its own,
 // which brings its own bridge to its core over HTTP: it never gets this app's preload, so a server,
 // even one taken over, can't reach this computer through it. Each server keeps its own session
@@ -92,7 +92,7 @@ export class Servers {
     if ((await this.pair(link, true)) !== 'invalid') return
     await dialog.showMessageBox({
       type: 'warning',
-      message: L('Esse não é um link de conexão do Tucano', "That's not a Tucano connection link"),
+      message: L('Esse não é um link de conexão da Arara', "That's not an Arara connection link"),
       detail: L('O link de conexão começa com tucano://connect e sai do servidor (node out/main/server.js link).', 'A connection link starts with tucano://connect and comes from the server (node out/main/server.js link).')
     })
   }
@@ -109,10 +109,10 @@ export class Servers {
       buttons: [L('Conectar', 'Connect'), L('Cancelar', 'Cancel')],
       defaultId: 0,
       cancelId: 1,
-      message: L(`Conectar ao Tucano em ${name}?`, `Connect to the Tucano at ${name}?`),
+      message: L(`Conectar à Arara em ${name}?`, `Connect to the Arara at ${name}?`),
       detail: L(
-        'Esse link dá acesso a um Tucano num servidor: quem tem o link controla os agentes de lá. Conecte só se foi você quem criou esse servidor ou se confia em quem mandou o link.',
-        'This link gives access to a Tucano on a server: whoever has it controls the agents there. Connect only if you made that server or trust whoever sent the link.'
+        'Esse link dá acesso a uma Arara num servidor: quem tem o link controla os agentes de lá. Conecte só se foi você quem criou esse servidor ou se confia em quem mandou o link.',
+        'This link gives access to a Arara on a server: whoever has it controls the agents there. Connect only if you made that server or trust whoever sent the link.'
       )
     })
     if (response !== 0) return 'cancelled'
@@ -153,7 +153,7 @@ export class Servers {
     this.deps.changed()
   }
 
-  // Back to this computer's Tucano, in the same window.
+  // Back to this computer's Arara, in the same window.
   showLocal(): void {
     if (this.active) this.setOpen(this.active, false)
     this.active = null
@@ -169,12 +169,12 @@ export class Servers {
     if (!win || win.isDestroyed()) return
     for (const [id, v] of this.views) if (id !== this.active) win.contentView.removeChildView(v)
     const view = this.active ? this.views.get(this.active) : undefined
-    if (!view) return void win.setTitle('Tucano')
+    if (!view) return void win.setTitle('Arara')
     const { width, height } = win.getContentBounds()
     view.setBounds({ x: 0, y: BAR, width, height: Math.max(0, height - BAR) })
     win.contentView.addChildView(view)
     const s = this.list().find((x) => x.id === this.active)
-    if (s) win.setTitle(`Tucano · ${serverName(s.origin)}`)
+    if (s) win.setTitle(`Arara · ${serverName(s.origin)}`)
   }
 
   private async make(s: Saved): Promise<WebContentsView | null> {
@@ -201,7 +201,7 @@ export class Servers {
     // An agent's page, opened from the panel: in a window of this server's own session, where its
     // sign-in is (the system's browser hasn't signed in to the server).
     wc.setWindowOpenHandler(({ url }) => {
-      if (onServer(url, s.origin) && new URL(url).pathname.startsWith('/preview/')) return { action: 'allow', overrideBrowserWindowOptions: { width: 1100, height: 760, title: `Tucano · ${name}`, webPreferences } }
+      if (onServer(url, s.origin) && new URL(url).pathname.startsWith('/preview/')) return { action: 'allow', overrideBrowserWindowOptions: { width: 1100, height: 760, title: `Arara · ${name}`, webPreferences } }
       if (isOutsideLink(url) && !onServer(url, s.origin)) void shell.openExternal(url)
       return { action: 'deny' }
     })
@@ -268,8 +268,8 @@ export class Servers {
       buttons: [L('Esquecer', 'Forget'), L('Cancelar', 'Cancel')],
       defaultId: 1,
       cancelId: 1,
-      message: L(`Esquecer o Tucano em ${serverName(s.origin)}?`, `Forget the Tucano at ${serverName(s.origin)}?`),
-      detail: L('Só este computador esquece o acesso. O Tucano do servidor continua lá, com tudo.', 'Only this computer forgets the access. The Tucano on the server stays there, with everything.')
+      message: L(`Esquecer a Arara em ${serverName(s.origin)}?`, `Forget the Arara at ${serverName(s.origin)}?`),
+      detail: L('Só este computador esquece o acesso. A Arara do servidor continua lá, com tudo.', 'Only this computer forgets the access. The Arara on the server stays there, with everything.')
     })
     if (response !== 0) return false
     if (this.active === id) this.showLocal()
@@ -312,5 +312,5 @@ export class Servers {
 // When the server doesn't answer: what to check, in the window itself (no app bridge here either).
 function unreachable(name: string, origin: string, url: string): string {
   const esc = (t: string): string => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
-  return `<!doctype html><meta charset="utf-8"><title>Tucano</title><style>body{font:15px system-ui;margin:0;display:grid;place-items:center;height:100vh;background:#f6f3ee;color:#1d1a16}@media(prefers-color-scheme:dark){body{background:#1a1917;color:#f1ece4}}main{max-width:440px;padding:24px}p{opacity:.75;line-height:1.5}a{color:inherit;font-weight:600}</style><main><h2>${esc(L(`O Tucano em ${name} não respondeu`, `The Tucano at ${name} didn't answer`))}</h2><p>${esc(L('Confira a internet e se o servidor está no ar.', 'Check the internet and whether the server is up.'))}</p><p><a href="${esc(origin)}/">${esc(L('Tentar de novo', 'Try again'))}</a></p><p><small>${esc(url)}</small></p></main>`
+  return `<!doctype html><meta charset="utf-8"><title>Arara</title><style>body{font:15px system-ui;margin:0;display:grid;place-items:center;height:100vh;background:#f6f3ee;color:#1d1a16}@media(prefers-color-scheme:dark){body{background:#1a1917;color:#f1ece4}}main{max-width:440px;padding:24px}p{opacity:.75;line-height:1.5}a{color:inherit;font-weight:600}</style><main><h2>${esc(L(`A Arara em ${name} não respondeu`, `The Arara at ${name} didn't answer`))}</h2><p>${esc(L('Confira a internet e se o servidor está no ar.', 'Check the internet and whether the server is up.'))}</p><p><a href="${esc(origin)}/">${esc(L('Tentar de novo', 'Try again'))}</a></p><p><small>${esc(url)}</small></p></main>`
 }

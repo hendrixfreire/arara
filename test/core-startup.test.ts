@@ -25,7 +25,7 @@ vi.mock('../src/core/engines/detect', async (original) => ({
   }
 }))
 
-const dataDir = mkdtempSync(join(tmpdir(), 'tucano-startup-'))
+const dataDir = mkdtempSync(join(tmpdir(), 'arara-startup-'))
 const parent = Object.assign(new EventEmitter(), { postMessage: vi.fn() })
 const saved = { ...process.env }
 afterAll(() => {
@@ -59,8 +59,8 @@ function connect(): { events: CoreEvent[]; call: (method: string) => Promise<unk
 
 describe('the core starting', () => {
   it('says it is ready before the harnesses are checked, and tells the window when they are', async () => {
-    Object.assign(process.env, { TUCANO_DATA: dataDir, TUCANO_DEFAULT_WORKSPACE: '0', TUCANO_SEED: '0', TUCANO_WEBHOOK_PORT: '47967', TUCANO_GIT_PORT: '47968', TUCANO_WIKI: join(dataDir, 'wiki') })
-    delete process.env['TUCANO_FAKE_ENGINES']
+    Object.assign(process.env, { ARARA_DATA: dataDir, ARARA_DEFAULT_WORKSPACE: '0', ARARA_SEED: '0', ARARA_WEBHOOK_PORT: '47967', ARARA_GIT_PORT: '47968', ARARA_WIKI: join(dataDir, 'wiki') })
+    delete process.env['ARARA_FAKE_ENGINES']
     ;(process as unknown as { parentPort: typeof parent }).parentPort = parent
     const started = Date.now()
     await import('../src/core/index')

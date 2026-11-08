@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-// The guide the Tuca reads to orient people about Tucano: one page per topic, its title on the first
+// The guide the Tuca reads to orient people about Arara: one page per topic, its title on the first
 // line and a one-line summary on the second (the index is built from those two lines).
 const pages = import.meta.glob('../src/core/guide/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const slugOf = (path: string): string => path.split('/').pop()!.replace(/\.md$/, '')

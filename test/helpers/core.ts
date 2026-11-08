@@ -30,7 +30,7 @@ export interface TestCore {
 }
 
 export async function bootCore(opts: { server?: boolean; seed?: boolean } = {}): Promise<TestCore> {
-  const dataDir = mkdtempSync(join(tmpdir(), 'tucano-core-'))
+  const dataDir = mkdtempSync(join(tmpdir(), 'arara-core-'))
   const toMain: Record<string, unknown>[] = []
   const waits = new Map<string, (m: Record<string, unknown>) => void>()
   const parent = new Port((msg) => {
@@ -39,10 +39,10 @@ export async function bootCore(opts: { server?: boolean; seed?: boolean } = {}):
     const w = typeof m['id'] === 'string' ? waits.get(m['id']) : undefined
     if (w) w(m)
   })
-  process.env['TUCANO_DATA'] = dataDir
-  process.env['TUCANO_FAKE_ENGINES'] = '1'
-  if (opts.seed === false) process.env['TUCANO_DEFAULT_WORKSPACE'] = '0'
-  if (opts.server) process.env['TUCANO_SERVER'] = '1'
+  process.env['ARARA_DATA'] = dataDir
+  process.env['ARARA_FAKE_ENGINES'] = '1'
+  if (opts.seed === false) process.env['ARARA_DEFAULT_WORKSPACE'] = '0'
+  if (opts.server) process.env['ARARA_SERVER'] = '1'
   ;(process as unknown as { parentPort: Port }).parentPort = parent
   await import('../../src/core/index')
   let seq = 0

@@ -22,18 +22,18 @@ afterEach(() => {
 
 it('uses legacy ports by default and validates per-workspace ports', () => {
   expect(workspacePorts({})).toEqual({ webhook: 47717, git: 47718 })
-  expect(workspacePorts({ TUCANO_WEBHOOK_PORT: '49001', TUCANO_GIT_PORT: '49002' })).toEqual({ webhook: 49001, git: 49002 })
-  for (const port of ['0', 'NaN', '65536', '47718', '4000.1']) expect(() => workspacePorts({ TUCANO_WEBHOOK_PORT: port })).toThrow()
+  expect(workspacePorts({ ARARA_WEBHOOK_PORT: '49001', ARARA_GIT_PORT: '49002' })).toEqual({ webhook: 49001, git: 49002 })
+  for (const port of ['0', 'NaN', '65536', '47718', '4000.1']) expect(() => workspacePorts({ ARARA_WEBHOOK_PORT: port })).toThrow()
 })
 
 it('starts newly created workspaces with onboarding, even when the original install uses demo seeds', () => {
   const original = open(':memory:')
-  const env = { TUCANO_FAKE_ENGINES: '1', TUCANO_SEED: '1' }
+  const env = { ARARA_FAKE_ENGINES: '1', ARARA_SEED: '1' }
   initializeWorkspace(original, env)
   expect(original.agents().length).toBeGreaterThan(0)
   for (const seed of [undefined, '0', '1']) {
     const workspace = open(':memory:')
-    initializeWorkspace(workspace, { ...env, TUCANO_DEFAULT_WORKSPACE: '0', TUCANO_SEED: seed })
+    initializeWorkspace(workspace, { ...env, ARARA_DEFAULT_WORKSPACE: '0', ARARA_SEED: seed })
     expect(workspace.getSettings(defaults)).toMatchObject({ onboarding: { done: false } })
     expect(workspace.agents()).toEqual([])
     expect(workspace.conversations()).toEqual([])
@@ -43,13 +43,13 @@ it('starts newly created workspaces with onboarding, even when the original inst
 })
 
 it('preserves existing agents and onboarding state on restart, independently in each workspace', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'tucano-workspace-agents-'))
+  const dir = mkdtempSync(join(tmpdir(), 'arara-workspace-agents-'))
   dirs.push(dir)
   const agent: Agent = { id: 'same-agent', name: 'Aurora Company', handle: 'aurora', role: '', color: 'sky', instructions: 'Company only', modelId: 'sonnet', effort: 'low', limit: 1000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false }
   const work = new Db(join(dir, 'work.db'))
   const personal = new Db(join(dir, 'personal.db'))
-  initializeWorkspace(work, { TUCANO_DEFAULT_WORKSPACE: '0' })
-  initializeWorkspace(personal, { TUCANO_DEFAULT_WORKSPACE: '0' })
+  initializeWorkspace(work, { ARARA_DEFAULT_WORKSPACE: '0' })
+  initializeWorkspace(personal, { ARARA_DEFAULT_WORKSPACE: '0' })
   work.saveAgent(agent)
   personal.saveAgent({ ...agent, name: 'Boreal Personal', handle: 'boreal', instructions: 'Personal only' })
   work.setSettings({ onboarding: { done: true } })
@@ -58,7 +58,7 @@ it('preserves existing agents and onboarding state on restart, independently in 
   personal.close()
   const reopenedWork = open(join(dir, 'work.db'))
   const reopenedPersonal = open(join(dir, 'personal.db'))
-  for (const db of [reopenedWork, reopenedPersonal]) initializeWorkspace(db, { TUCANO_DEFAULT_WORKSPACE: '0', TUCANO_FAKE_ENGINES: '1', TUCANO_SEED: '1' })
+  for (const db of [reopenedWork, reopenedPersonal]) initializeWorkspace(db, { ARARA_DEFAULT_WORKSPACE: '0', ARARA_FAKE_ENGINES: '1', ARARA_SEED: '1' })
   expect(reopenedWork.agents().map((a) => a.name)).toEqual(['Aurora Company'])
   expect(reopenedPersonal.agents().map((a) => a.name)).toEqual(['Boreal Personal'])
   expect(reopenedWork.agent(agent.id)?.instructions).toBe('Company only')
@@ -97,9 +97,9 @@ it('keeps unread counts and memory data in the owning database with identical ID
 })
 
 it('migrates every opened workspace and backs up older schemas before changing them', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'tucano-migrations-'))
+  const dir = mkdtempSync(join(tmpdir(), 'arara-migrations-'))
   dirs.push(dir)
-  const file = join(dir, 'tucano.db')
+  const file = join(dir, 'arara.db')
   // A database from before the unread table (two migrations back: people came after it).
   const version = MIGRATIONS.length - 1
   const raw = new DatabaseSync(file)
@@ -119,7 +119,7 @@ it('migrates every opened workspace and backs up older schemas before changing t
 })
 
 it('duplicates configuration and credentials without copying history or mutating the source', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'tucano-duplicate-'))
+  const dir = mkdtempSync(join(tmpdir(), 'arara-duplicate-'))
   dirs.push(dir)
   const sourceFile = join(dir, 'source.db')
   const source = open(sourceFile)
@@ -186,7 +186,7 @@ it('duplicates configuration and credentials without copying history or mutating
 })
 
 it('brings only what was picked to a new workspace, and what depends on it comes without what stayed', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'tucano-parts-'))
+  const dir = mkdtempSync(join(tmpdir(), 'arara-parts-'))
   dirs.push(dir)
   const source = open(join(dir, 'source.db'))
   source.setSettings({ ...defaults, workspaceName: 'Edu', context: 'SECRET CONTEXT', routerModel: 'sonnet', defaultLimit: 4242, wikiDir: '/vault', channelLayout: { order: [] } as unknown as Settings['channelLayout'], onboarding: { done: true } })

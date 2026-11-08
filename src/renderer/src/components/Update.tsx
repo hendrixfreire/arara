@@ -1,4 +1,4 @@
-// A newer Tucano: a note at the foot of the sidebar once it's downloaded, the state in
+// A newer Arara: a note at the foot of the sidebar once it's downloaded, the state in
 // Settings, and what's new once it's running. The main process looks and downloads (src/main/updates.ts).
 import { useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react'
 import Markdown from 'react-markdown'
@@ -10,21 +10,21 @@ import { updateSettings, useStore, workingAgents } from '../store'
 import { Modal } from './Modal'
 import { ago, Icon } from './ui'
 
-const RELEASES = 'https://github.com/eduwxyz/tucano/releases'
+const RELEASES = 'https://github.com/hendrixfreire/arara/releases'
 
 let current: UpdateState | null = null
 const listeners = new Set<() => void>()
 let watching = false
 
 function watch(): void {
-  if (watching || !window.tucano?.updateState) return
+  if (watching || !window.arara?.updateState) return
   watching = true
   const set = (s: UpdateState): void => {
     current = s
     listeners.forEach((l) => l())
   }
-  void window.tucano.updateState().then(set)
-  window.tucano.onUpdate(set)
+  void window.arara.updateState().then(set)
+  window.arara.onUpdate(set)
 }
 
 function useUpdate(): UpdateState | null {
@@ -52,7 +52,7 @@ export function UpdateNote(): ReactNode {
   return (
     <div className="update-note">
       <div className="update-note__text">
-        <strong>{L(`Tucano ${u.next} pronto`, `Tucano ${u.next} is ready`)}</strong>
+        <strong>{L(`Arara ${u.next} pronto`, `Arara ${u.next} is ready`)}</strong>
         {working > 0 ? (
           <span className="muted small">{workingNote(working)}</span>
         ) : (
@@ -61,7 +61,7 @@ export function UpdateNote(): ReactNode {
           </a>
         )}
       </div>
-      <button className={`btn btn--sm ${working > 0 ? '' : 'btn--primary'}`} onClick={() => window.tucano.installUpdate()}>
+      <button className={`btn btn--sm ${working > 0 ? '' : 'btn--primary'}`} onClick={() => window.arara.installUpdate()}>
         {working > 0 ? L('Reiniciar mesmo assim', 'Restart anyway') : L('Reiniciar', 'Restart')}
       </button>
     </div>
@@ -75,19 +75,19 @@ function status(u: UpdateState): string {
     case 'checking':
       return L('Procurando uma versão nova…', 'Looking for a new version…')
     case 'downloading':
-      return L(`Baixando o Tucano ${u.next}… ${u.percent ?? 0}%`, `Downloading Tucano ${u.next}… ${u.percent ?? 0}%`)
+      return L(`Baixando a Arara ${u.next}… ${u.percent ?? 0}%`, `Downloading Arara ${u.next}… ${u.percent ?? 0}%`)
     case 'ready':
-      return L(`O Tucano ${u.next} está pronto. Ele entra quando você reiniciar ou fechar o app.`, `Tucano ${u.next} is ready. It goes in when you restart or quit the app.`)
+      return L(`A Arara ${u.next} está pronta. Ela entra quando você reiniciar ou fechar o app.`, `Arara ${u.next} is ready. It goes in when you restart or quit the app.`)
     case 'error':
       return u.errorKind === 'other'
         ? L('Não deu pra atualizar sozinho. Baixe a versão nova em Releases.', 'Couldn’t update on its own. Download the new version from Releases.')
         : u.errorKind === 'offline'
-          ? L('Sem internet pra procurar uma versão nova. O Tucano tenta de novo sozinho mais tarde.', 'No internet to look for a new version. Tucano tries again on its own later.')
+          ? L('Sem internet pra procurar uma versão nova. A Arara tenta de novo sozinho mais tarde.', 'No internet to look for a new version. Arara tries again on its own later.')
           : L('Não deu pra procurar uma versão nova agora. Tente de novo mais tarde.', 'Couldn’t look for a new version just now. Try again later.')
     default:
       return u.checkedAt
         ? L(`É a versão mais recente. Conferido ${ago(u.checkedAt)}.`, `It’s the latest version. Checked ${ago(u.checkedAt)}.`)
-        : L('O Tucano procura versões novas sozinho e avisa quando uma estiver pronta.', 'Tucano looks for new versions by itself and tells you when one is ready.')
+        : L('A Arara procura versões novas sozinho e avisa quando uma estiver pronta.', 'Arara looks for new versions by itself and tells you when one is ready.')
   }
 }
 
@@ -105,11 +105,11 @@ export function UpdateSettings(): ReactNode {
       </span>
       <div className="row">
         {u.status === 'ready' ? (
-          <button className={`btn btn--sm ${working > 0 ? '' : 'btn--primary'}`} onClick={() => window.tucano.installUpdate()}>
+          <button className={`btn btn--sm ${working > 0 ? '' : 'btn--primary'}`} onClick={() => window.arara.installUpdate()}>
             {working > 0 ? L('Reiniciar mesmo assim', 'Restart anyway') : L('Reiniciar e atualizar', 'Restart and update')}
           </button>
         ) : (
-          <button className="btn btn--sm" disabled={u.status === 'off' || busy} onClick={() => window.tucano.checkUpdates()}>
+          <button className="btn btn--sm" disabled={u.status === 'off' || busy} onClick={() => window.arara.checkUpdates()}>
             {L('Procurar atualizações', 'Check for updates')}
           </button>
         )}
@@ -195,7 +195,7 @@ export function WhatsNew(): ReactNode {
   const at = Math.min(page, pages.length - 1)
   const last = at === pages.length - 1
   return (
-    <Modal title={L(`Novidades do Tucano ${version}`, `What’s new in Tucano ${version}`)} onClose={close} className="whats-new">
+    <Modal title={L(`Novidades da Arara ${version}`, `What’s new in Arara ${version}`)} onClose={close} className="whats-new">
       <div className={`whats-new__body ${pages.length > 1 ? 'whats-new__body--paged' : ''}`}>
         <NewsPageView p={pages[at]!} titled={news.length > 1} />
       </div>

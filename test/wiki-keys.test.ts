@@ -10,7 +10,7 @@ const roots: string[] = []
 // Best effort: on Windows a database still open keeps its folder busy.
 afterAll(() => roots.forEach((r) => { try { rmSync(r, { recursive: true, force: true }) } catch {} }))
 const fresh = (): Wiki => {
-  const root = mkdtempSync(join(tmpdir(), 'tucano-wikikeys-'))
+  const root = mkdtempSync(join(tmpdir(), 'arara-wikikeys-'))
   roots.push(root)
   const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db'), dmOf: (id) => (id === 'dm1' ? 'ana' : null) })
   w.init(false)

@@ -12,11 +12,11 @@ const out = process.argv.find((a, i) => i >= 2 && !a.startsWith('--')) ?? 'scree
 const real = process.argv.includes('--real')
 mkdirSync(out, { recursive: true })
 
-const data = mkdtempSync(join(tmpdir(), 'tucano-'))
-for (const dir of [tmpdir(), '/tmp']) rmSync(join(dir, 'tucano-demo-tasks.json'), { force: true }) // the demo connector starts from its sample list
+const data = mkdtempSync(join(tmpdir(), 'arara-'))
+for (const dir of [tmpdir(), '/tmp']) rmSync(join(dir, 'arara-demo-tasks.json'), { force: true }) // the demo connector starts from its sample list
 const app = await electron.launch({
   args: ['.'],
-  env: { ...process.env, TUCANO_DATA: data, TUCANO_SEED: '1', ...(real ? {} : { TUCANO_FAKE_ENGINES: '1' }) }
+  env: { ...process.env, ARARA_DATA: data, ARARA_SEED: '1', ...(real ? {} : { ARARA_FAKE_ENGINES: '1' }) }
 })
 const win = await app.firstWindow()
 await win.setViewportSize({ width: 1280, height: 820 })
@@ -218,6 +218,6 @@ console.log(errors.length ? `ERRORS:\n${errors.join('\n')}` : 'no console errors
 console.log(`data: ${data}`)
 await app.close()
 // Computers made by this run go with it.
-const prefix = `tucano-${createHash('sha1').update(data).digest('hex').slice(0, 6)}-`
+const prefix = `arara-${createHash('sha1').update(data).digest('hex').slice(0, 6)}-`
 const ids = execFileSync('docker', ['ps', '-aq', '--filter', `name=${prefix}`], { encoding: 'utf8' }).trim().split('\n').filter(Boolean)
 if (ids.length) execFileSync('docker', ['rm', '-f', ...ids], { stdio: 'ignore' })

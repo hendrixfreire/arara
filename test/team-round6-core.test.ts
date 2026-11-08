@@ -1,4 +1,4 @@
-// Tucano Team v1, sixth round: what the real core answers each person over its API (fake engines).
+// Arara Team v1, sixth round: what the real core answers each person over its API (fake engines).
 // One core for the whole file: the describes run in order and build on each other.
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -51,7 +51,7 @@ describe('A. the heritage reaches no member through any message path', () => {
     old = (await ana.call<Snap>('snapshot')).messages.filter((m) => m.conversationId === geral)
     const msg = old.find((m) => m.text.startsWith('ANTIGA'))!
     // An agent's file shown in that message (as show_file saves one).
-    const db = new DatabaseSync(join(core.dataDir, 'tucano.db'))
+    const db = new DatabaseSync(join(core.dataDir, 'arara.db'))
     db.prepare('INSERT INTO artifacts (id, agent_id, conversation_id, message_id, kind, name, title, source, size, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(ART, 'lia', geral, msg.id, 'text', 'plano.md', 'Plano', 'plano.md', 20, msg.at)
     db.close()
     mkdirSync(join(core.dataDir, 'artifacts', ART), { recursive: true })

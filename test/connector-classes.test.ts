@@ -15,7 +15,7 @@ const cls = (db: Db, name: string) => db.tools('s').find((t) => t.name === name)
 
 describe("a tool's class across syncs", () => {
   it('upgrading: an automatic class takes the new rules; one set by hand stays', () => {
-    const file = join(mkdtempSync(join(tmpdir(), 'tucano-classes-')), 'tucano.db')
+    const file = join(mkdtempSync(join(tmpdir(), 'arara-classes-')), 'arara.db')
     let db = new Db(file)
     db.saveConnector({ id: 's', name: 'Slack', kind: 'remote', url: 'https://mcp.slack.com/mcp', auth: 'oauth' })
     db.syncTools('s', listed(['chat_post_message', 'reply_to_thread', 'share_file', 'list_messages']))
@@ -35,7 +35,7 @@ describe("a tool's class across syncs", () => {
   })
 
   it('refreshing: a class chosen by hand stays, and going back to the automatic one follows the rules again', () => {
-    const db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-classes-')), 'tucano.db'))
+    const db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-classes-')), 'arara.db'))
     db.saveConnector({ id: 's', name: 'Slack', kind: 'remote', url: 'https://mcp.slack.com/mcp', auth: 'oauth' })
     db.syncTools('s', listed(['chat_post_message', 'create_task']))
     db.updateTool('s', 'chat_post_message', { cls: 'write' })

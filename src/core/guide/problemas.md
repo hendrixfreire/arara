@@ -36,8 +36,8 @@
 - Aprovou e não viu o resultado: ele chega numa nova mensagem do agente.
 
 ## Microfone (ditado)
-- "O microfone está bloqueado": libere o Tucano nas configurações de privacidade do sistema (no Mac, Ajustes do Sistema › Privacidade e Segurança › Microfone).
+- "O microfone está bloqueado": libere a Arara nas configurações de privacidade do sistema (no Mac, Ajustes do Sistema › Privacidade e Segurança › Microfone).
 - "Não chegou som do microfone": confira qual microfone está em uso nas configurações de som do sistema.
 
 ## Apps do computador
-"Falta a permissão de Acessibilidade": libere o Tucano em Ajustes › Privacidade e Segurança › Acessibilidade (no Mac).
+"Falta a permissão de Acessibilidade": libere a Arara em Ajustes › Privacidade e Segurança › Acessibilidade (no Mac).

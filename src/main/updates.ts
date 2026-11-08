@@ -1,4 +1,4 @@
-// Updates (the installed app only): Tucano looks for a newer release on GitHub,
+// Updates (the installed app only): Arara looks for a newer release on GitHub,
 // downloads it in the background and says so; the person restarts when it suits
 // them, or it goes in the next time the app quits. The release carries each system's
 // feed: latest-mac.yml next to the .zip (scripts/release.sh), latest-linux*.yml and
@@ -23,7 +23,7 @@ export class Updates {
 
   constructor(private readonly onChange: (s: UpdateState) => void) {
     // A test points the app at a local server instead of GitHub.
-    const feed = process.env['TUCANO_UPDATE_URL']
+    const feed = process.env['ARARA_UPDATE_URL']
     this.state = { version: app.getVersion(), status: app.isPackaged || feed ? 'idle' : 'off' }
     if (this.state.status === 'off') return
     if (feed) this.updater.setFeedURL({ provider: 'generic', url: feed })
@@ -41,7 +41,7 @@ export class Updates {
       this.set(
         offline(e)
           ? { status: 'error', errorKind: 'offline', error: L('Sem internet pra procurar uma versão nova. Tento de novo mais tarde.', 'No internet to look for a new version. I’ll try again later.') }
-          : { status: 'error', errorKind: 'other', error: L('Não consegui atualizar sozinho. Baixe a versão nova na página de versões do Tucano.', 'I couldn’t update on my own. Download the new version from Tucano’s releases page.') }
+          : { status: 'error', errorKind: 'other', error: L('Não consegui atualizar sozinho. Baixe a versão nova na página de versões da Arara.', 'I couldn’t update on my own. Download the new version from Arara’s releases page.') }
       )
     })
   }

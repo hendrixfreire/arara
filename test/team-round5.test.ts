@@ -1,4 +1,4 @@
-// Tucano Team v1, fifth round: the pieces under the core (connectors each role reads, the wiki's
+// Arara Team v1, fifth round: the pieces under the core (connectors each role reads, the wiki's
 // held titles after a delete or a rename, a restore that would publish DM text, titles with
 // invisible characters, names against agents, lookalike letters, backlinks past ASCII, the
 // heritage's channel messages, two wordings).
@@ -22,14 +22,14 @@ const roots: string[] = []
 // Best effort: on Windows a database still open keeps its folder busy.
 afterAll(() => roots.forEach((r) => { try { rmSync(r, { recursive: true, force: true }) } catch {} }))
 const tmp = (): string => {
-  const d = mkdtempSync(join(tmpdir(), 'tucano-r5-'))
+  const d = mkdtempSync(join(tmpdir(), 'arara-r5-'))
   roots.push(d)
   return d
 }
 const agent = (id: string, name: string, handle: string, archived = false) => ({ id, name, handle, role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived }) as const
 
 function twoPeople(): { db: Db; people: People; ana: Person; bia: Person } {
-  const db = new Db(join(tmp(), 'tucano.db'))
+  const db = new Db(join(tmp(), 'arara.db'))
   db.saveAgent(agent('a1', 'Lia', 'lia'))
   db.renamePerson(db.ownerId(), 'Ana')
   db.addPerson({ id: 'bia', name: 'Bia', role: 'member', about: '' })
@@ -185,7 +185,7 @@ describe('5. names against agents', () => {
     expect(people.agentNameError({ name: 'Carla', handle: 'c' })).toMatch(/pessoa|person/)
   })
   it('alone, the owner may be a Nina next to the agent Nina', () => {
-    const db = new Db(join(tmp(), 'tucano.db'))
+    const db = new Db(join(tmp(), 'arara.db'))
     db.renamePerson(db.ownerId(), 'Nina')
     expect(new People(db).agentNameError({ name: 'Nina', handle: 'nina' })).toBeUndefined()
   })
@@ -251,7 +251,7 @@ describe('8. channel messages from before the heritage are the owner’s', () =>
   })
 
   it('alone (no heritage), every message is there and no line is drawn', () => {
-    const db = new Db(join(tmp(), 'tucano.db'))
+    const db = new Db(join(tmp(), 'arara.db'))
     db.createConversation({ id: 'ch', kind: 'channel', name: 'geral', members: [] })
     db.saveMessage({ id: 'm', conversationId: 'ch', author: { kind: 'person', id: db.ownerId() }, text: 'oi', at: 1 })
     const snap = new People(db).snapshotFor(db.owner(), { ...base, messages: db.messages() })
@@ -286,7 +286,7 @@ describe('9. two wordings', () => {
     expect(settingsPatchError({ quota: 1 })).not.toMatch(/quota/)
   })
   it('the router’s limit note reads as one sentence, no parentheses around the reason', async () => {
-    const db = new Db(join(tmp(), 'tucano.db'))
+    const db = new Db(join(tmp(), 'arara.db'))
     db.saveAgent(agent('a1', 'Lia', 'lia'))
     db.saveAgent(agent('a2', 'Theo', 'theo'))
     db.createConversation({ id: 'c1', kind: 'channel', name: 'geral', members: ['a1', 'a2'] })

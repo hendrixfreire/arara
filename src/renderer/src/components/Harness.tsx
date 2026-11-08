@@ -304,7 +304,7 @@ function HarnessRow({ engine, st, picked, toggle }: { engine: EngineId; st: Engi
       )}
       {st.warning && <p className="hint hint--warn harness__body">{st.warning}</p>}
       {st.route === 'gateway' && picked && <p className="hint harness__body">{L(`Os agentes usam esse mesmo gateway. A telemetria do ${ENGINES[engine].label} fica desligada, pra nada sair por fora dele.`, `Agents use this same gateway. ${ENGINES[engine].label}'s telemetry stays off, so nothing leaves around it.`)}</p>}
-      {st.soon && st.installed && <p className="hint harness__body">{L(`A sua configuração já foi encontrada. O Tucano ainda não roda agentes no ${ENGINES[engine].label}: chega numa próxima versão.`, `Your setup was found. Tucano doesn't run agents on ${ENGINES[engine].label} yet: it's coming in a future version.`)}</p>}
+      {st.soon && st.installed && <p className="hint harness__body">{L(`A sua configuração já foi encontrada. A Arara ainda não roda agentes no ${ENGINES[engine].label}: chega numa próxima versão.`, `Your setup was found. Arara doesn't run agents on ${ENGINES[engine].label} yet: it's coming in a future version.`)}</p>}
       {testing && (
         <div className="harness__body">
           <div className="harness__test">
@@ -370,7 +370,7 @@ export function HarnessMcps({ onAdded }: { onAdded: (id: string) => void }): Rea
     <section className="card from-harness">
       <div className="from-harness__head">
         <strong>{L('No Claude Code, Codex e outros que você usa', 'In Claude Code, Codex and others you use')}</strong>
-        <span className="muted small">{L('Os servidores MCP que você já configurou. Ao adicionar, os agentes passam a usar pelo Tucano, com as permissões e aprovações daqui.', 'The MCP servers you already set up. Once added, agents use them through Tucano, with the permissions and approvals set here.')}</span>
+        <span className="muted small">{L('Os servidores MCP que você já configurou. Ao adicionar, os agentes passam a usar pela Arara, com as permissões e aprovações daqui.', 'The MCP servers you already set up. Once added, agents use them through Arara, with the permissions and approvals set here.')}</span>
       </div>
       {found.map((m) => (
         <div key={m.key} className="from-harness__row">
@@ -380,7 +380,7 @@ export function HarnessMcps({ onAdded }: { onAdded: (id: string) => void }): Rea
           <span className="grow">
             <strong>{m.name}</strong>
             <span className="muted small mono truncate">{m.address}</span>
-            {m.missing && !m.added && <span className="hint hint--warn">{L('Usa cabeçalhos que o Tucano não manda', 'Uses headers Tucano doesn’t send')} ({m.missing.join(', ')}){L(': pode não conectar.', ': it may not connect.')}</span>}
+            {m.missing && !m.added && <span className="hint hint--warn">{L('Usa cabeçalhos que a Arara não manda', 'Uses headers Arara doesn’t send')} ({m.missing.join(', ')}){L(': pode não conectar.', ': it may not connect.')}</span>}
             {error?.key === m.key && <span className="hint hint--warn">{error.message}</span>}
           </span>
           {m.harnesses.map((e) => (

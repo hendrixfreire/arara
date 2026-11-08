@@ -357,7 +357,7 @@ describe('Claude Code with a session', () => {
   })
 
   it('keeps its file under the config folder, by working folder', () => {
-    expect(claudeProjectDir('/cfg', 'E:\\tucano-tmp\\probe-agent')).toBe(join('/cfg', 'projects', 'E--tucano-tmp-probe-agent'))
+    expect(claudeProjectDir('/cfg', 'E:\\arara-tmp\\probe-agent')).toBe(join('/cfg', 'projects', 'E--arara-tmp-probe-agent'))
   })
 
   it('names a long working folder as Claude Code does: cut at 200, then a hash of the whole path', () => {

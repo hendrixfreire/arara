@@ -1,4 +1,4 @@
-// The people of a Tucano: who a connection is, what each one may see, and how someone new
+// The people of a Arara: who a connection is, what each one may see, and how someone new
 // comes in (an invite, then a key). A desktop has one person, its owner; a server has
 // whoever was invited. A DM is its person's alone: not even the owner reads it.
 import { createHash, randomBytes, randomUUID } from 'node:crypto'
@@ -25,7 +25,7 @@ export const newKey = (): string => `p_${randomBytes(32).toString('base64url')}`
 export const newInviteCode = (): string => randomBytes(24).toString('base64url')
 export const hashSecret = (secret: string): string => createHash('sha256').update(secret).digest('base64url')
 
-// A DM is its person's (one without an owner, from before people, is the Tucano owner's); a channel is everyone's.
+// A DM is its person's (one without an owner, from before people, is the Arara owner's); a channel is everyone's.
 export const dmOwner = (c: Pick<Conversation, 'kind' | 'owner'>, ownerId: string): string | undefined => (c.kind === 'dm' ? (c.owner ?? ownerId) : undefined)
 
 // The person an agent belongs to (its approvals are theirs), while they have access.
@@ -46,7 +46,7 @@ export const routinePerson = (db: Db, r: Pick<Routine, 'scope' | 'owner'> | unde
   r && r.scope !== 'channel' && r.owner ? db.person(r.owner) : undefined
 
 // Whom a reply is for: a DM's person; in a channel, whoever wrote last in what it reads (a
-// routine's person for a routine run; a channel routine, the Tucano's owner); otherwise the owner.
+// routine's person for a routine run; a channel routine, the Arara's owner); otherwise the owner.
 export function requesterOf(db: Db, conv: Pick<Conversation, 'kind' | 'owner'>, history: Message[]): Person {
   const owner = db.owner()
   const dm = dmOwner(conv, owner.id)
@@ -217,17 +217,17 @@ export class People {
   // ---------- what each one sees ----------
 
   // The settings as this person gets them: the owner's are the settings; anyone else's display
-  // preferences are their own (the Tucano's theme and language until they pick).
+  // preferences are their own (the Arara's theme and language until they pick).
   settingsFor(person: Pick<Person, 'id' | 'role'>, s: Settings): Settings {
     if (person.role === 'owner') return s
-    // The introduction sets the Tucano up (models, agents): theirs only if they ask to see it again.
+    // The introduction sets the Arara up (models, agents): theirs only if they ask to see it again.
     // The wiki's folder is a path on the owner's machine.
     const { sounds: _s, channelLayout: _c, folded: _f, onboarding: _o, wikiDir: _w, ...rest } = s
     return { ...rest, onboarding: { done: true }, ...this.db.prefs(person.id) }
   }
 
   // A settings change by this person: their display preferences are kept on them (the owner's are
-  // the settings themselves); what's left is the Tucano's, for the caller to save.
+  // the settings themselves); what's left is the Arara's, for the caller to save.
   takePrefs<T extends Partial<Settings>>(person: Pick<Person, 'id' | 'role'>, patch: T): Partial<T> {
     if (person.role === 'owner') return patch
     const mine = Object.fromEntries(Object.entries(patch).filter(([k]) => isPersonalSetting(k))) as Partial<Settings>
@@ -242,7 +242,7 @@ export class People {
   }
 
   // Whether a message is this person's to read, by when it was said: what a channel held before
-  // the Tucano had more people (the heritage) stays the owner's. Not deleted, not anyone else's.
+  // the Arara had more people (the heritage) stays the owner's. Not deleted, not anyone else's.
   // Alone, or before the heritage, everything is. A DM is its person's whole.
   visibleAt(person: Pick<Person, 'id' | 'role'>, m: Pick<Message, 'conversationId' | 'at'>): boolean {
     if (person.role === 'owner') return true
@@ -588,7 +588,7 @@ export class People {
 
   // Whether this name would read as someone else's: a person here, one removed who may still come
   // back (until purged), or, once there are people to call, an agent (by its name or its handle: @lia
-  // would call both). A Tucano of one calls no person: its owner may be a Nina next to the agent Nina.
+  // would call both). A Arara of one calls no person: its owner may be a Nina next to the agent Nina.
   nameTaken(name: string, except?: string, team = this.db.people().length > 1): boolean {
     const k = nameKey(name)
     if (!k) return false
@@ -618,7 +618,7 @@ export class People {
   remove(by: Person, id: string, now = Date.now()): { person: Person; agents: string[]; routines: string[] } {
     const p = this.db.person(id)
     if (!p) throw new Error(L('Essa pessoa não está mais aqui.', 'That person is no longer here.'))
-    if (p.role === 'owner') throw new Error(L('O dono do Tucano não pode ser removido.', "The Tucano's owner can't be removed."))
+    if (p.role === 'owner') throw new Error(L('O dono da Arara não pode ser removido.', "The Arara's owner can't be removed."))
     if (!can(by, { kind: 'person', target: p })) {
       if (p.role === 'admin' && by.role === 'admin' && p.id !== by.id) throw new Error(L('Só o dono remove um admin.', 'Only the owner removes an admin.'))
       must(by, { kind: 'person', target: p })
@@ -631,13 +631,13 @@ export class People {
     })
   }
 
-  // Someone leaves on their own (the phone app's "Sair deste Tucano", the account deletion app
+  // Someone leaves on their own (the phone app's "Sair desta Arara", the account deletion app
   // stores ask for): access ends now, and what was theirs alone goes now too, not in 30 days (their
   // DMs, memories, own routines). What they made for the team (agents, a channel's routines) goes
   // to the owner, as when someone is removed; what they said in channels stays the channel's. The
-  // owner can't leave their own Tucano.
+  // owner can't leave their own Arara.
   leave(by: Person, now = Date.now()): { agents: string[]; routines: string[]; purged: Purged } {
-    if (by.role === 'owner') throw new Error(L('O dono não sai do próprio Tucano. Pra apagar tudo, desligue o servidor e apague a pasta de dados dele.', "The owner can't leave their own Tucano. To delete everything, stop the server and delete its data folder."))
+    if (by.role === 'owner') throw new Error(L('O dono não sai da própria Arara. Pra apagar tudo, desligue o servidor e apague a pasta de dados dela.', "The owner can't leave their own Arara. To delete everything, stop the server and delete its data folder."))
     const out = this.db.tx(() => {
       this.db.removePerson(by.id)
       const given = this.db.handOver(by.id)
@@ -668,7 +668,7 @@ export class People {
       this.db.addActivity({ personId: by.id, kind: 'person.delegation', target: by.id, detail: { to: null }, at: now })
       return
     }
-    if (to === by.id || !this.db.person(to)) throw new Error(L('Escolha outra pessoa do Tucano.', 'Pick someone else in this Tucano.'))
+    if (to === by.id || !this.db.person(to)) throw new Error(L('Escolha outra pessoa da Arara.', 'Pick someone else in this Arara.'))
     if (typeof until !== 'number' || !Number.isFinite(until) || until <= now) throw new Error(L('Escolha até quando.', 'Pick until when.'))
     this.db.setDelegation(by.id, to, until)
     this.db.addActivity({ personId: by.id, kind: 'person.delegation', target: by.id, detail: { to, until }, at: now })

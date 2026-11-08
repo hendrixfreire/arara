@@ -40,7 +40,7 @@ function open(size: number, at: At, close: () => void): Zip {
   const count = end.readUInt16LE(e + 10)
   const dirSize = end.readUInt32LE(e + 12)
   const dirOffset = end.readUInt32LE(e + 16)
-  if (count === 0xffff || dirOffset === 0xffffffff) throw new Error(L('Esse .zip é grande demais (ZIP64), e o Tucano ainda não lê esse tipo.', "That .zip is too big (ZIP64), and Tucano doesn't read that kind yet."))
+  if (count === 0xffff || dirOffset === 0xffffffff) throw new Error(L('Esse .zip é grande demais (ZIP64), e a Arara ainda não lê esse tipo.', "That .zip is too big (ZIP64), and Arara doesn't read that kind yet."))
   if (count > MAX_ENTRIES || dirOffset + dirSize > size) throw broken()
   const dir = at(dirOffset, dirSize)
   const entries = new Map<string, ZipEntry>()
@@ -65,14 +65,14 @@ function open(size: number, at: At, close: () => void): Zip {
     read(name, max) {
       const z = entries.get(name)
       if (!z) return undefined
-      if (z.size > max) throw new Error(L(`"${name}" passa do tamanho que o Tucano lê.`, `"${name}" is over the size Tucano reads.`))
+      if (z.size > max) throw new Error(L(`"${name}" passa do tamanho que a Arara lê.`, `"${name}" is over the size Arara reads.`))
       const head = at(z.offset, 30)
       if (head.readUInt32LE(0) !== LOCAL) throw broken()
       const start = z.offset + 30 + head.readUInt16LE(26) + head.readUInt16LE(28)
       if (start + z.compressed > size) throw broken()
       const raw = at(start, z.compressed)
       if (z.method === 0) return raw
-      if (z.method !== 8) throw new Error(L(`"${name}" usa uma compressão que o Tucano não lê.`, `"${name}" uses a compression Tucano doesn't read.`))
+      if (z.method !== 8) throw new Error(L(`"${name}" usa uma compressão que a Arara não lê.`, `"${name}" uses a compression Arara doesn't read.`))
       try {
         return inflateRawSync(raw, { maxOutputLength: Math.max(1, z.size) })
       } catch {

@@ -11,7 +11,7 @@ import { applyOp, Wiki } from '../src/core/wiki'
 import { curatorSystem, parseCuration, WikiCurator } from '../src/core/wiki-curator'
 
 const fresh = (): Wiki => {
-  const root = mkdtempSync(join(tmpdir(), 'tucano-wiki-'))
+  const root = mkdtempSync(join(tmpdir(), 'arara-wiki-'))
   const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db') })
   w.init(false)
   return w
@@ -253,7 +253,7 @@ describe('the curator and replies that overlap', () => {
 
   // Real Db, Wiki and Runner. Lia works until `end()`; Theo is done at once.
   function world(theoSays = THEO) {
-    const db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-wiki-')), 'test.db'))
+    const db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-wiki-')), 'test.db'))
     db.saveAgent(agent('lia'))
     db.saveAgent(agent('theo'))
     db.createConversation({ id: 'c', kind: 'channel', name: 'geral', members: ['lia', 'theo'] })
@@ -272,7 +272,7 @@ describe('the curator and replies that overlap', () => {
       }
     }
     const engines: Record<EngineId, Engine> = { claude, codex: fakeEngine('codex'), opencode: fakeEngine('opencode'), pi: fakeEngine('pi'), gemini: fakeEngine('gemini'), cursor: fakeEngine('cursor'), grok: fakeEngine('grok') }
-    const runner = new Runner({ db, engines, settings: async () => settings, emit: () => {}, workDir: mkdtempSync(join(tmpdir(), 'tucano-wiki-')) })
+    const runner = new Runner({ db, engines, settings: async () => settings, emit: () => {}, workDir: mkdtempSync(join(tmpdir(), 'arara-wiki-')) })
     const by = (who: string): Message | undefined => db.messages().find((m) => m.author.kind === 'agent' && m.author.id === who)
     // Lia is asked first and is at work when Theo is asked and answers: two messages, since agents called in one may take turns.
     const overlap = async (): Promise<void> => {
@@ -371,7 +371,7 @@ describe('the curator and replies that overlap', () => {
 
 describe('the wiki in another folder', () => {
   it('moves to another folder with an index of its own, and comes back', () => {
-    const root = mkdtempSync(join(tmpdir(), 'tucano-wiki-'))
+    const root = mkdtempSync(join(tmpdir(), 'arara-wiki-'))
     const w = new Wiki({ dir: join(root, 'a'), indexPath: join(root, 'a.db') })
     w.init(false)
     w.save({ title: 'Na pasta A', body: 'a', ...by })

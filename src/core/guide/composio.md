@@ -7,7 +7,7 @@ A Composio é um serviço que liga agentes a centenas de apps (Google, Notion, H
 Nos outros conectores, os dados vão do serviço direto pro seu computador. Na Composio não:
 - Tudo o que os agentes leem e mandam (e-mails, planilhas, documentos) passa pelos servidores dela.
 - O acesso às suas contas (Google, Notion…) fica guardado com a Composio, não no seu computador.
-- Ela registra cada chamada, com o que foi pedido e o que voltou, e diz guardar isso por até 1 ano. O Tucano não controla o que ela guarda nem por quanto tempo.
+- Ela registra cada chamada, com o que foi pedido e o que voltou, e diz guardar isso por até 1 ano. A Arara não controla o que ela guarda nem por quanto tempo.
 
 Se preferir que nada passe por terceiros, use os conectores diretos (pro Google, veja **google**). A janela de conectar e a página do conector repetem esse aviso.
 
@@ -19,7 +19,7 @@ Se preferir que nada passe por terceiros, use os conectores diretos (pro Google,
 As contas de cada app você liga na hora: na primeira vez que um agente precisa do Gmail, por exemplo, a Composio devolve um link de login, e o agente mostra pra você abrir.
 
 ## Ferramentas e aprovações
-A Composio não mostra uma ferramenta por ação. Ela dá umas poucas que acham e rodam as ações dos apps, e o Tucano julga cada chamada pelo que ela roda:
+A Composio não mostra uma ferramenta por ação. Ela dá umas poucas que acham e rodam as ações dos apps, e a Arara julga cada chamada pelo que ela roda:
 - **COMPOSIO_SEARCH_TOOLS** e **COMPOSIO_GET_TOOL_SCHEMAS** só procuram: são de leitura.
 - **COMPOSIO_MULTI_EXECUTE_TOOL** roda as ações que vão nos argumentos (GMAIL_FETCH_EMAILS, GMAIL_SEND_EMAIL…). Sua classe é **por chamada**: vale pela ação mais forte. Só leituras (buscar, listar, ler) rodam na hora, inclusive pra quem só tem **Ler**. Escritas (criar um rascunho) precisam de **Ler e escrever**. Sensíveis (enviar, responder, postar, apagar, rodar código) pedem aprovação, e o card mostra cada ação. Uma chamada fora do formato documentado também pede aprovação (quem só lê recebe uma recusa).
 - **COMPOSIO_PROXY_EXECUTE** manda uma requisição direta à API de um app: GET e HEAD leem (a não ser que o caminho diga uma mudança, como chat.postMessage); POST, PUT e PATCH escrevem; DELETE pede aprovação.

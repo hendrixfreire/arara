@@ -1,6 +1,6 @@
-# Tucano on Windows
+# Arara on Windows
 
-Tucano was built for macOS. This document covers running it on Windows: what you need, how to run and package it, how it behaves differently from the Mac, and **every change** made to get there, file by file.
+Arara was built for macOS. This document covers running it on Windows: what you need, how to run and package it, how it behaves differently from the Mac, and **every change** made to get there, file by file.
 
 Status: **runs on Windows 10/11 (x64)**, in development (`npm run dev`) and as an installed app, from each release (see [Installing](#installing)). Typecheck and the full test suite pass on Windows, including the Docker tests, and run on Windows for every pull request. A real agent turn through Claude Code works end to end. The Windows build is **not code-signed**.
 
@@ -21,11 +21,11 @@ Status: **runs on Windows 10/11 (x64)**, in development (`npm run dev`) and as a
 irm https://github.com/eduwxyz/tucano/releases/latest/download/install.ps1 | iex
 ```
 
-`install.ps1` downloads the release's `tucano-win-x64.exe` and runs it silently (`/S`): a one-click NSIS installer that puts Tucano in `%LOCALAPPDATA%\Programs\tucano`, for the current user, with no admin rights, and lists it in **Installed apps**. Then it opens the app. An open Tucano is asked to quit first (`Tucano.exe --quit`, which quits it the way its tray menu does); data in `%APPDATA%\Tucano` is never touched, and uninstalling leaves it too.
+`install.ps1` downloads the release's `arara-win-x64.exe` and runs it silently (`/S`): a one-click NSIS installer that puts Arara in `%LOCALAPPDATA%\Programs\arara`, for the current user, with no admin rights, and lists it in **Installed apps**. Then it opens the app. An open Arara is asked to quit first (`Arara.exe --quit`, which quits it the way its tray menu does); data in `%APPDATA%\Arara` is never touched, and uninstalling leaves it too.
 
 The installer isn't code-signed, and that's a choice for now. A file downloaded by a browser carries the "from the internet" mark (Mark of the Web), and SmartScreen warns before an unsigned one runs (**More info › Run anyway**), once per version. A file PowerShell downloads doesn't carry it, so the command above never shows the warning. Company PCs may block unsigned apps altogether, by policy.
 
-`install.ps1` is ASCII only: Windows PowerShell 5.1 reads a download with no charset (GitHub serves release files as `application/octet-stream`) as Latin-1, so the Portuguese messages are written with `\u` escapes. Everything runs inside a script block that catches its own errors, since `exit` would close the window `iex` runs in. `TUCANO_EXE` (a URL or a file) installs another build, for testing, and then doesn't open it.
+`install.ps1` is ASCII only: Windows PowerShell 5.1 reads a download with no charset (GitHub serves release files as `application/octet-stream`) as Latin-1, so the Portuguese messages are written with `\u` escapes. Everything runs inside a script block that catches its own errors, since `exit` would close the window `iex` runs in. `ARARA_EXE` (a URL or a file) installs another build, for testing, and then doesn't open it.
 
 ### Updates
 
@@ -33,19 +33,19 @@ Each release carries `latest.yml`, the Windows update feed, next to the installe
 
 ### How a release gets the Windows files
 
-`scripts/release.sh` (on the Mac) creates the release with the Mac files, `install.sh` and `install.ps1`. Publishing it starts `.github/workflows/windows.yml` on `windows-latest`, which builds the installer, installs it with `install.ps1` as a check, and attaches `tucano-win-x64.exe`, its blockmap and `latest.yml` to the release, a few minutes after it's out. `workflow_dispatch` with a tag does the same for an existing release. A pull request that touches the packaging or `install.ps1` runs the build and the install check without publishing.
+`scripts/release.sh` (on the Mac) creates the release with the Mac files, `install.sh` and `install.ps1`. Publishing it starts `.github/workflows/windows.yml` on `windows-latest`, which builds the installer, installs it with `install.ps1` as a check, and attaches `arara-win-x64.exe`, its blockmap and `latest.yml` to the release, a few minutes after it's out. `workflow_dispatch` with a tag does the same for an existing release. A pull request that touches the packaging or `install.ps1` runs the build and the install check without publishing.
 
 ## Running it
 
 ```powershell
-git clone https://github.com/eduwxyz/tucano.git
-cd tucano
+git clone https://github.com/eduwxyz/tucano.git arara
+cd arara
 npm install
 npm run dev
 ```
 
 - **Electron's binary.** Electron 44 downloads its binary the first time it runs, not at `npm install`. If `npm run dev` stops on that (offline, proxy), run `node node_modules/electron/install.js` once.
-- **Data folder.** `npm run dev` keeps its data in `%APPDATA%\Tucano Dev`; the installed app uses `%APPDATA%\Tucano`. `TUCANO_DATA`, `TUCANO_FAKE_ENGINES=1` and `TUCANO_SEED` work as on the Mac (in PowerShell: `$env:TUCANO_FAKE_ENGINES = '1'; npm run dev`).
+- **Data folder.** `npm run dev` keeps its data in `%APPDATA%\Arara Dev`; the installed app uses `%APPDATA%\Arara`. `ARARA_DATA`, `ARARA_FAKE_ENGINES=1` and `ARARA_SEED` work as on the Mac (in PowerShell: `$env:ARARA_FAKE_ENGINES = '1'; npm run dev`).
 - **Checks:** `npm run typecheck` and `npm test`. The Docker tests run when Docker Desktop is running and `node:22-bookworm` is pulled; otherwise they are skipped.
 - **Screenshots:** `node scripts/screens.mjs <folder>` works as on the Mac.
 
@@ -55,7 +55,7 @@ npm run dev
 npm run dist:win
 ```
 
-This builds `dist\tucano-win-x64.exe`, the same one-click per-user installer the releases carry. `npx electron-builder --win --dir --x64` builds just the unpacked app, in `dist\win-unpacked\Tucano.exe`. `$env:TUCANO_EXE = 'dist\tucano-win-x64.exe'; .\install.ps1` installs a local build the way people will. `npm run dist`, `npm run install-app` and `npm run release` remain macOS-only (Apple signing, notarization, `/Applications`); releases get the Windows files from GitHub Actions (above).
+This builds `dist\arara-win-x64.exe`, the same one-click per-user installer the releases carry. `npx electron-builder --win --dir --x64` builds just the unpacked app, in `dist\win-unpacked\Arara.exe`. `$env:ARARA_EXE = 'dist\arara-win-x64.exe'; .\install.ps1` installs a local build the way people will. `npm run dist`, `npm run install-app` and `npm run release` remain macOS-only (Apple signing, notarization, `/Applications`); releases get the Windows files from GitHub Actions (above).
 
 ## How it behaves differently from the Mac
 
@@ -64,12 +64,12 @@ This builds `dist\tucano-win-x64.exe`, the same one-click per-user installer the
 | Finding harness CLIs | The login shell's `PATH` (apps opened from Finder get a minimal one) | The process `PATH` as is (Windows gives every app the full one), trying each `PATHEXT` extension: `claude.exe`, `codex.cmd`… |
 | Running a CLI | Spawned directly | `.exe` spawned directly; an npm `.cmd` shim is read and its target run directly (`node <package>\cli.js`, or the package's `.exe`); any other `.cmd`/`.bat` through `cmd.exe`, with every argument escaped for it, refusing a multi-line argument (Node refuses to spawn a `.cmd` directly) |
 | Stopping a CLI or command | `SIGTERM`/`SIGKILL` to the process group | `taskkill /t /f` on the process tree, plus the MSYS process group (see below) |
-| *This Mac / This PC* computer | `/bin/bash`, the login shell's environment | Git's MSYS `bash.exe` (with `MSYSTEM` and the Git tools on `PATH`, as Git Bash's launcher sets them), the app's environment minus `TUCANO_*`, `ELECTRON_*`, `VITE_*` and `NODE_OPTIONS`; `cmd.exe` if Git isn't installed. The agent's tool description and system prompt say which shell it is |
+| *This Mac / This PC* computer | `/bin/bash`, the login shell's environment | Git's MSYS `bash.exe` (with `MSYSTEM` and the Git tools on `PATH`, as Git Bash's launcher sets them), the app's environment minus `ARARA_*`, `ELECTRON_*`, `VITE_*` and `NODE_OPTIONS`; `cmd.exe` if Git isn't installed. The agent's tool description and system prompt say which shell it is |
 | Folders that can't be lent | `~/Library`, dot folders | Also `%USERPROFILE%\AppData` |
 | Signing in to a harness | Opens Terminal.app via `osascript` | Opens a console window running a small `login.cmd` in the data folder |
 | `apiKeyHelper` (Claude Code on a gateway) | Runs in the login shell (`$SHELL -lc`) | Runs in Git Bash, or `cmd.exe` |
 | Sounds | `afplay` | PowerShell's `Media.SoundPlayer` |
-| Notifications | Native | Native toasts (needs the app id `dev.tucano.app`, set at start) |
+| Notifications | Native | Native toasts (needs the app id `dev.arara.app`, set at start) |
 | Menu | App menu (About, Services, Hide, Quit), Edit, View, Window | File (About, Exit), Edit, View, Window |
 | Shortcuts | ⌘K, ⌘N, ⌘1…9, ⌘, | Ctrl+K, Ctrl+N, Ctrl+1…9, Ctrl+, (and the labels say so) |
 | Install hints for missing harnesses | `curl … \| bash` in Terminal | `irm … \| iex` / `npm install -g …` in PowerShell |
@@ -79,17 +79,17 @@ This builds `dist\tucano-win-x64.exe`, the same one-click per-user installer the
 
 ### Why npm shims don't go through `cmd.exe`
 
-Claude Code and Pi get the system prompt as an argument (`--system-prompt`), many lines long, and the flags that keep them isolated (`--no-builtin-tools`, `--offline`, `--strict-mcp-config`…) come after it. `cmd.exe` ends a command at a line break, with or without quotes or carets, so through `cmd.exe` those flags were silently dropped and the CLI ran with its own tools and config: everything Tucano governs. Pi installed with npm is always a `.cmd`, and so is Claude Code installed with `npm install -g`. npm's shims all end in `"%_prog%" "%dp0%\node_modules\…\cli.js" %*`, so `spawnable` reads the target and runs it itself, and `cmd.exe` never sees the arguments. A `.cmd` that isn't such a shim still goes through `cmd.exe`, and a multi-line argument for it is refused rather than truncated.
+Claude Code and Pi get the system prompt as an argument (`--system-prompt`), many lines long, and the flags that keep them isolated (`--no-builtin-tools`, `--offline`, `--strict-mcp-config`…) come after it. `cmd.exe` ends a command at a line break, with or without quotes or carets, so through `cmd.exe` those flags were silently dropped and the CLI ran with its own tools and config: everything Arara governs. Pi installed with npm is always a `.cmd`, and so is Claude Code installed with `npm install -g`. npm's shims all end in `"%_prog%" "%dp0%\node_modules\…\cli.js" %*`, so `spawnable` reads the target and runs it itself, and `cmd.exe` never sees the arguments. A `.cmd` that isn't such a shim still goes through `cmd.exe`, and a multi-line argument for it is refused rather than truncated.
 
 ### Why Git Bash runs without its launcher, and the MSYS process group
 
-`C:\Program Files\Git\bin\bash.exe` is a small launcher that starts the real shell, `usr\bin\bash.exe`. Tucano starts the real one directly, with the environment the launcher would set: `MSYSTEM` is `UCRT64` on recent Git installs (or `MINGW64`), and `<git>\ucrt64\bin` (or `mingw64\bin`) and `<git>\usr\bin` go first on `PATH`. That way the pid Tucano holds is the shell's own.
+`C:\Program Files\Git\bin\bash.exe` is a small launcher that starts the real shell, `usr\bin\bash.exe`. Arara starts the real one directly, with the environment the launcher would set: `MSYSTEM` is `UCRT64` on recent Git installs (or `MINGW64`), and `<git>\ucrt64\bin` (or `mingw64\bin`) and `<git>\usr\bin` go first on `PATH`. That way the pid Arara holds is the shell's own.
 
-That matters for stopping commands. Git Bash emulates `fork`, so a job sent to the background (`npm run dev &`, `sleep 30 & …`) ends up with a Windows parent that has already exited. `taskkill /t` can't find it from the shell, and the orphan keeps the output pipe open, so a timed-out command would never return. MSYS still keeps its own process groups, so before calling `taskkill`, Tucano runs Git's `ps` and adds the Windows pid of every process in the shell's group. `test/mac.test.ts` ("stops a command at its time limit, with its children") covers this, and no `sleep` is left behind afterwards.
+That matters for stopping commands. Git Bash emulates `fork`, so a job sent to the background (`npm run dev &`, `sleep 30 & …`) ends up with a Windows parent that has already exited. `taskkill /t` can't find it from the shell, and the orphan keeps the output pipe open, so a timed-out command would never return. MSYS still keeps its own process groups, so before calling `taskkill`, Arara runs Git's `ps` and adds the Windows pid of every process in the shell's group. `test/mac.test.ts` ("stops a command at its time limit, with its children") covers this, and no `sleep` is left behind afterwards.
 
 ### Docker on Windows
 
-The Linux computer works unchanged, including lending a Windows folder (`-v C:\Users\…\project:/projetos/project`) and `host.docker.internal`. The one difference is a Docker CLI bug: on Windows, `docker cp -L` resolves an absolute link target (`/etc/hostname`) against the link's own folder (`/work/etc/hostname`), so showing a file through a symlink failed. On Windows, Tucano resolves the path inside the container first (`readlink -f`, which still can't reach the host) and copies the plain file.
+The Linux computer works unchanged, including lending a Windows folder (`-v C:\Users\…\project:/projetos/project`) and `host.docker.internal`. The one difference is a Docker CLI bug: on Windows, `docker cp -L` resolves an absolute link target (`/etc/hostname`) against the link's own folder (`/work/etc/hostname`), so showing a file through a symlink failed. On Windows, Arara resolves the path inside the container first (`readlink -f`, which still can't reach the host) and copies the plain file.
 
 ## Every change
 
@@ -117,13 +117,13 @@ The Linux computer works unchanged, including lending a Windows folder (`-v C:\U
 | `mac.ts`, `computer.ts`, `context.ts`, `team.ts` | Nothing in the copy: since the Linux support every message says "this computer" and names the system with `systemName()` | The model and the person never read "Mac" on a PC |
 | `skills.ts` | A linked skill's folder uses `dirname(source)`, and its name `basename(dirname(source))` | `source.lastIndexOf('/')` / `split('/')` broke on `C:\…\SKILL.md`: the support files weren't listed and the fallback name was wrong |
 | `local-skills.ts` | Support files are listed with `/` | So the listing the model reads (`refs/a.md`) is the same on both systems; reading it back works with either separator |
-| `index.ts` | `runHelper` (`apiKeyHelper`) uses `shellCommand` on Windows; `loginEngine` on Windows writes `login.cmd` in the data folder and opens it in a new console (`start "Tucano" cmd.exe /k`), setting `HOME` and `CODEX_HOME` for Codex, and answers `opened: true` (`terminalCommand` has no terminal for Windows) | `osascript` and Terminal.app don't exist; a script avoids `cmd.exe`'s quoting rules for paths with spaces |
+| `index.ts` | `runHelper` (`apiKeyHelper`) uses `shellCommand` on Windows; `loginEngine` on Windows writes `login.cmd` in the data folder and opens it in a new console (`start "Arara" cmd.exe /k`), setting `HOME` and `CODEX_HOME` for Codex, and answers `opened: true` (`terminalCommand` has no terminal for Windows) | `osascript` and Terminal.app don't exist; a script avoids `cmd.exe`'s quoting rules for paths with spaces |
 
 ### Main process (`src/main/index.ts`)
 
 | Change | Why |
 |---|---|
-| `app.setAppUserModelId('dev.tucano.app')` on Windows | Windows shows toast notifications only for an app with an id; it matches the installer's `appId` |
+| `app.setAppUserModelId('dev.arara.app')` on Windows | Windows shows toast notifications only for an app with an id; it matches the installer's `appId` |
 | The agent-desk migration runs only on macOS | It calls `/usr/bin/security` and moves a macOS Keychain key; agent-desk never existed on Windows |
 | The sound `player` on Windows is PowerShell's `Media.SoundPlayer` | `afplay` is macOS-only; this needs nothing installed |
 
@@ -149,7 +149,7 @@ Shortcuts (Ctrl off a Mac), their labels (`shortcut(platform, key)`), the menu a
 
 | File | Change |
 |---|---|
-| `package.json` | `build.win` (NSIS, `build/icon.png`, `tucano-win-${arch}.${ext}`), `build.nsis` (one-click, per user) and the `dist:win` script |
+| `package.json` | `build.win` (NSIS, `build/icon.png`, `arara-win-${arch}.${ext}`), `build.nsis` (one-click, per user) and the `dist:win` script |
 | `README.md`, `README.pt-BR.md` | A `npm run dist:win` row, and a "On Windows?" note pointing here |
 | `CONTRIBUTING.md` | Windows in Setup (and its dev data folder), and a convention: OS differences live in `platform.ts`, paths go through `path`, commands through `spawnable`/`shellCommand` |
 
@@ -157,11 +157,11 @@ Shortcuts (Ctrl off a Mac), their labels (`shortcut(platform, key)`), the menu a
 
 - `npm run typecheck`: clean.
 - `npm test`: every test passes, including the 17 Docker tests with Docker Desktop 29.6 running. Without Docker running, those are skipped, as on the Mac.
-- `npm run build`, then `scripts/screens.mjs` with the fake engines, through all 27 screens (with `TUCANO_LOCALE=pt-BR`, which the selectors need): channels, router, handoffs, `ask_user`, connectors with the demo MCP server, grants, approvals, memory, summaries, and the Linux computer in Docker with a lent command, a service on port 8000, a screenshot and the side panel.
+- `npm run build`, then `scripts/screens.mjs` with the fake engines, through all 27 screens (with `ARARA_LOCALE=pt-BR`, which the selectors need): channels, router, handoffs, `ask_user`, connectors with the demo MCP server, grants, approvals, memory, summaries, and the Linux computer in Docker with a lent command, a service on port 8000, a screenshot and the side panel.
 - One real turn with Claude Code 2.x (`claude.exe`): detected and signed in, the agent replied through the per-turn MCP gateway, receipt included.
 - The packaged app (`electron-builder --win --dir`): starts, finds its bundled sounds, has the Windows menu, and Ctrl+K opens *Go to*.
 
-And on macOS, to check nothing changed there: the same branch on GitHub Actions' `macos-latest` (macOS 26.6, Apple silicon, Node 24.21). `npm run typecheck` is clean. `npm test` reports 227 passed and 11 skipped: the Docker tests (no Docker on that runner) and the three Windows-only ones in `platform.test.ts`. `mac.test.ts` runs in full there, with the real `/bin/bash`. `electron-builder --mac --dir` packages an ad-hoc signed `Tucano.app` that passes `codesign --verify --deep --strict` and keeps running. `scripts/screens.mjs` (with `TUCANO_LOCALE=pt-BR`, since its selectors are in Portuguese) gets through 19 screens, up to the Linux computer, which needs Docker.
+And on macOS, to check nothing changed there: the same branch on GitHub Actions' `macos-latest` (macOS 26.6, Apple silicon, Node 24.21). `npm run typecheck` is clean. `npm test` reports 227 passed and 11 skipped: the Docker tests (no Docker on that runner) and the three Windows-only ones in `platform.test.ts`. `mac.test.ts` runs in full there, with the real `/bin/bash`. `electron-builder --mac --dir` packages an ad-hoc signed `Arara.app` that passes `codesign --verify --deep --strict` and keeps running. `scripts/screens.mjs` (with `ARARA_LOCALE=pt-BR`, since its selectors are in Portuguese) gets through 19 screens, up to the Linux computer, which needs Docker.
 
 ## Known limitations
 

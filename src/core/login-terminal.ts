@@ -1,7 +1,7 @@
 // A harness's sign-in on a server, from the page or the phone: the CLI's own login command runs in
 // a terminal of the server's (a pseudo-terminal, via `script`), and its screen goes to whoever asked,
 // as text (vt-screen.ts), with what they type going back. The person signs in on the provider's own
-// page, as in a terminal: Tucano passes keys and shows the screen, and never handles the login
+// page, as in a terminal: Arara passes keys and shows the screen, and never handles the login
 // itself (the CLI saves it where it always does).
 //
 // Per harness, the way in that works with no browser on this machine: a device code where the CLI

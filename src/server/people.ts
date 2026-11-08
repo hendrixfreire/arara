@@ -1,4 +1,4 @@
-// The people of a Tucano as the server meets them: a browser signs in with the owner's token
+// The people of a Arara as the server meets them: a browser signs in with the owner's token
 // or a person's key (the core says whose), each event stream is someone's, and a notification
 // reaches only the streams of the people it's for. Someone new comes in through an invite's page.
 import type { Person } from '../shared/types'
@@ -158,12 +158,12 @@ export const PAGE_STYLE =
   'body{font:15px system-ui;display:grid;place-items:center;min-height:100vh;margin:0;background:#f6f3ee;color:#1d1a16}@media(prefers-color-scheme:dark){body{background:#1a1917;color:#f1ece4}input{background:#262421;color:inherit}}main{max-width:460px;padding:24px}p{opacity:.8;line-height:1.5}form{display:grid;gap:10px;margin-top:16px}input{font:inherit;padding:10px 12px;border:1px solid #8884;border-radius:8px}button{font:inherit;padding:10px 12px;border:0;border-radius:8px;background:#1d1a16;color:#f6f3ee;cursor:pointer}.err{color:#b3261e;opacity:1}@media(prefers-color-scheme:dark){button{background:#f1ece4;color:#1a1917}}'
 export const PAGE_CSP = "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'"
 
-// "Você foi convidado pro Tucano de <name>": a name, and in. The code goes back in a hidden field;
+// "Você foi convidado pra Arara de <name>": a name, and in. The code goes back in a hidden field;
 // whether it's still good is only known on Entrar (no page tells a guesser which codes exist).
 export function invitePage(o: { owner: string; code: string; name?: string; error?: string }): string {
   const whose = o.owner.trim()
-  const title = whose ? `Você foi convidado pro Tucano de ${whose} · You were invited to ${whose}'s Tucano` : 'Você foi convidado pro Tucano · You were invited to a Tucano'
-  return `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Tucano</title><style>${PAGE_STYLE}</style><main><h2>${esc(title)}</h2><p>Diga seu nome: é como as pessoas e os agentes vão te chamar. · Tell us your name: it's what people and agents will call you.</p>${o.error ? `<p class="err">${esc(o.error)}</p>` : ''}<form method="post" action="./join"><input type="hidden" name="code" value="${esc(o.code)}"><input name="name" autocomplete="name" maxlength="60" required autofocus placeholder="Seu nome · Your name" value="${esc(o.name ?? '')}"><button type="submit">Entrar · Join</button></form></main>`
+  const title = whose ? `Você foi convidado pra Arara de ${whose} · You were invited to ${whose}'s Arara` : 'Você foi convidado pra Arara · You were invited to a Arara'
+  return `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Arara</title><style>${PAGE_STYLE}</style><main><h2>${esc(title)}</h2><p>Diga seu nome: é como as pessoas e os agentes vão te chamar. · Tell us your name: it's what people and agents will call you.</p>${o.error ? `<p class="err">${esc(o.error)}</p>` : ''}<form method="post" action="./join"><input type="hidden" name="code" value="${esc(o.code)}"><input name="name" autocomplete="name" maxlength="60" required autofocus placeholder="Seu nome · Your name" value="${esc(o.name ?? '')}"><button type="submit">Entrar · Join</button></form></main>`
 }
 
 // The join form's fields, from the page's form or a program's JSON.
@@ -182,9 +182,9 @@ export function joinFields(body: string, contentType: string | undefined): { cod
   return { code: typeof code === 'string' ? code.slice(0, 200) : '', name: typeof name === 'string' ? name.slice(0, 200) : '' }
 }
 
-// What a removed person's browser reads, instead of everything: nothing about the Tucano itself.
-export const NO_ACCESS_PAGE = `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Tucano</title><style>${PAGE_STYLE}</style><main><h2>Você não tem mais acesso a este Tucano. · You no longer have access to this Tucano.</h2><p>Se foi engano, peça um novo convite a quem cuida dele. · If that's a mistake, ask whoever runs it for a new invite.</p></main>`
+// What a removed person's browser reads, instead of everything: nothing about the Arara itself.
+export const NO_ACCESS_PAGE = `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Arara</title><style>${PAGE_STYLE}</style><main><h2>Você não tem mais acesso a esta Arara. · You no longer have access to this Arara.</h2><p>Se foi engano, peça um novo convite a quem cuida dela. · If that's a mistake, ask whoever runs it for a new invite.</p></main>`
 
 // What a browser that isn't signed in reads.
 export const UNAUTHORIZED_TEXT =
-  'Tucano: open the link from `node out/main/server.js link`, or the invite link someone sent you.\nTucano: abra o link que o `node out/main/server.js link` mostra, ou o link de convite que te mandaram.'
+  'Arara: open the link from `node out/main/server.js link`, or the invite link someone sent you.\nArara: abra o link que o `node out/main/server.js link` mostra, ou o link de convite que te mandaram.'

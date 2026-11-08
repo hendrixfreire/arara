@@ -156,7 +156,7 @@ describe('what happens to a call', () => {
   const free: Policy = { globalLevel: 'free', guard: true }
   const v = (o: Partial<Parameters<typeof verdict>[0]>) => verdict({ cls: 'write', kinds: [], p: normal, ...o })
 
-  it('normal is how Tucano always worked', () => {
+  it('normal is how Arara always worked', () => {
     expect(v({ cls: 'read' }).run).toBe(true)
     expect(v({ cls: 'write' }).run).toBe(true)
     expect(v({ cls: 'sensitive', kinds: ['delete'] })).toMatchObject({ run: false, why: 'class' })
