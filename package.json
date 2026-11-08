@@ -156,7 +156,7 @@
       {
         "name": "Arara",
         "schemes": [
-          "arara"
+          "tucano"
         ]
       }
     ]
