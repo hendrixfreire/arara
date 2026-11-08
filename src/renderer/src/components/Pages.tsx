@@ -82,7 +82,7 @@ import { ApprovalCard, QuestionCard, questionDrafts, toolWords } from './Convers
 import { ProposalCard } from './Tuca'
 import { confirmDialog } from './Dialogs'
 import { Modal } from './Modal'
-import { AgentAvatar, AVATARS, Icon, NumberInput, SleepingToucan, time, tokens, UsageBar } from './ui'
+import { AgentAvatar, AVATARS, Icon, NumberInput, SleepingMacaw, time, tokens, UsageBar } from './ui'
 import { Select } from './Select'
 import { UpdateSettings } from './Update'
 import { hasServers, ServersCard } from './Servers'
@@ -1212,7 +1212,7 @@ function MyApprovals(): ReactNode {
     <Page title={L('Aprovações', 'Approvals')} subtitle={L('Nada sensível acontece sem você. Cada aprovação cobre uma ação exata.', 'Nothing sensitive happens without you. Each approval covers one exact action.')}>
       {pending.length === 0 ? (
         <div className="empty empty--rest">
-          <SleepingToucan />
+          <SleepingMacaw />
           <p>{L('Nada esperando por você.', 'Nothing waiting for you.')}</p>
           <p className="muted">{L('Quando um agente quiser publicar código, colocar algo no ar, apagar ou enviar algo pra fora, o pedido aparece aqui e na conversa.', 'When an agent wants to publish code, put something live, delete or send something out, the request shows up here and in the conversation.')}</p>
         </div>
@@ -1290,7 +1290,7 @@ export function InboxPage(): ReactNode {
     <Page title={L('Pra você', 'For you')} subtitle={L('O que espera por você: aprovações que você decide e perguntas dos agentes a você.', 'What waits on you: approvals you decide and the agents’ questions to you.')}>
       {nothing && (
         <div className="empty empty--rest">
-          <SleepingToucan />
+          <SleepingMacaw />
           <p>{L('Nada esperando por você.', 'Nothing waiting for you.')}</p>
           <p className="muted">{L('Quando um agente precisar da sua aprovação ou te fizer uma pergunta, aparece aqui e na conversa.', 'When an agent needs your approval or asks you something, it shows up here and in the conversation.')}</p>
         </div>

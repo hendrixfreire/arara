@@ -1,6 +1,6 @@
 /* ---------- tokens ---------- */
-/* Warm neutrals and the toucan's orange, from the logo. Primary actions are ink
-   (cream in the dark); the orange marks focus, links, mentions and what's alive. */
+/* Warm neutrals and the macaw's blue, from the logo. Primary actions are ink
+   (cream in the dark); the blue marks focus, links, mentions and what's alive. */
 :root {
   --bg: #f3f0ea;
   --panel: #fffefb;
@@ -12,8 +12,8 @@
   --text: #1d1a16;
   --text-2: #5f584e;
   --text-3: #948b7f;
-  --accent: #d9581a;
-  --accent-soft: rgba(228, 99, 28, 0.12);
+  --accent: #176b9b;
+  --accent-soft: rgba(23, 107, 155, 0.12);
   --accent-text: #ffffff;
   --primary: #1d1a16;
   --primary-text: #fffaf3;
@@ -74,8 +74,8 @@
     --text: #efeae2;
     --text-2: #aaa39a;
     --text-3: #7a746b;
-    --accent: #ff8a3d;
-    --accent-soft: rgba(255, 138, 61, 0.14);
+    --accent: #70c6f1;
+    --accent-soft: rgba(112, 198, 241, 0.14);
     --accent-text: #1a1917;
     --primary: #f1ece4;
     --primary-text: #1a1917;
@@ -105,8 +105,8 @@
   --text: #efeae2;
   --text-2: #aaa39a;
   --text-3: #7a746b;
-  --accent: #ff8a3d;
-  --accent-soft: rgba(255, 138, 61, 0.14);
+  --accent: #70c6f1;
+  --accent-soft: rgba(112, 198, 241, 0.14);
   --accent-text: #1a1917;
   --primary: #f1ece4;
   --primary-text: #1a1917;
@@ -747,7 +747,7 @@ h3 {
 }
 /* The Tuca at work: his lower beak goes, as if muttering. Done: the same squint. */
 .avatar--tuca .tuca__jaw {
-  transform-origin: 53px 57px;
+  transform-origin: 67px 54px;
 }
 .avatar--tuca.is-busy .tuca__jaw {
   animation: chew 1.2s var(--ease-in-out) infinite;
@@ -758,7 +758,7 @@ h3 {
   }
 }
 .avatar--tuca .tuca__eye {
-  transform-origin: 38px 47px;
+  transform-origin: 55px 43px;
 }
 .avatar--tuca.is-happy .tuca__eye {
   --happy-y: 0;
@@ -1092,12 +1092,12 @@ h3 {
   font-size: 15px;
   margin-top: 4px;
 }
-.sleeping-toucan__z {
+.sleeping-macaw__z {
   fill: var(--text-3);
   font-family: var(--font);
   animation: drift 3.2s var(--ease-out) infinite;
 }
-.sleeping-toucan__z--2 {
+.sleeping-macaw__z--2 {
   animation-delay: 1.6s;
 }
 @keyframes drift {
@@ -8776,7 +8776,7 @@ button.agent-card__now:hover {
 
 /* ---------- the first run (Intro.tsx) ----------
    Its own look, from the phone app's: warm paper, cream cards with soft shadows, round pills in the
-   toucan's orange, Nunito for the headings and a lilac for what's picked. The rest of the app keeps
+   macaw's blue, Nunito for the headings and a lilac for what's picked. The rest of the app keeps
    its own look; the tour's balloons and the missions share these colors. */
 :root {
   --i-bg: #f4efe6;
@@ -8785,15 +8785,15 @@ button.agent-card__now:hover {
   --i-ink-2: #5f584e;
   --i-ink-3: #6e675c;
   --i-muted: #8a8174;
-  --i-accent: #c84e12;
-  --i-accent-hover: #b0430f;
-  --i-link: #b8460f;
-  --i-link-hover: #8f3609;
+  --i-accent: #176b9b;
+  --i-accent-hover: #12577f;
+  --i-link: #176b9b;
+  --i-link-hover: #104e72;
   --i-quiet: #e9e1d4;
   --i-line: #efe8dc;
   --i-dot: #d9cfbf;
-  --i-peach: #fbe6d8;
-  --i-blob: #f08a3e;
+  --i-peach: #e0f0f7;
+  --i-blob: #2185b5;
   --i-teal: #ddf1ef;
   --i-teal-ink: #2f5551;
   --i-teal-sub: #3f6f6b;
@@ -8819,13 +8819,13 @@ button.agent-card__now:hover {
     --i-ink-2: #cbc3b7;
     --i-ink-3: #aaa296;
     --i-muted: #9a9286;
-    --i-link: #f6a36b;
-    --i-link-hover: #ffc196;
+    --i-link: #70c6f1;
+    --i-link-hover: #a6ddf7;
     --i-quiet: #2b2723;
     --i-line: #322d28;
     --i-dot: #4a443d;
-    --i-peach: #3a2519;
-    --i-blob: #c8601f;
+    --i-peach: #163544;
+    --i-blob: #237da5;
     --i-teal: #142e2b;
     --i-teal-ink: #b6e2dc;
     --i-teal-sub: #8fc4bd;
@@ -8849,13 +8849,13 @@ button.agent-card__now:hover {
   --i-ink-2: #cbc3b7;
   --i-ink-3: #aaa296;
   --i-muted: #9a9286;
-  --i-link: #f6a36b;
-  --i-link-hover: #ffc196;
+  --i-link: #70c6f1;
+  --i-link-hover: #a6ddf7;
   --i-quiet: #2b2723;
   --i-line: #322d28;
   --i-dot: #4a443d;
-  --i-peach: #3a2519;
-  --i-blob: #c8601f;
+  --i-peach: #163544;
+  --i-blob: #237da5;
   --i-teal: #142e2b;
   --i-teal-ink: #b6e2dc;
   --i-teal-sub: #8fc4bd;
@@ -9196,7 +9196,7 @@ button.agent-card__now:hover {
   color: var(--i-ink-2);
 }
 
-/* The art beside each step: a colored panel with the toucan, faces and the Tuca talking. */
+/* The art beside each step: a colored panel with the macaw, faces and the Tuca talking. */
 .intro-art {
   position: relative;
   width: min(560px, 42%);
@@ -10375,11 +10375,11 @@ button.agent-card__now:hover {
   z-index: 60;
   pointer-events: none;
 }
-/* The shade has a hole where the thing is, ringed in orange; clicks go through to the screen. */
+/* The shade has a hole where the thing is, ringed in blue; clicks go through to the screen. */
 .coach__hole {
   position: fixed;
   border-radius: 26px;
-  box-shadow: 0 0 0 3px #f08a3e, 0 0 0 10px rgba(240, 138, 62, 0.22), 0 0 0 200vmax rgba(29, 26, 22, 0.45);
+  box-shadow: 0 0 0 3px #2185b5, 0 0 0 10px rgba(112, 198, 241, 0.22), 0 0 0 200vmax rgba(29, 26, 22, 0.45);
   transition: top var(--dur-base) var(--ease-out), left var(--dur-base) var(--ease-out), width var(--dur-base) var(--ease-out), height var(--dur-base) var(--ease-out);
 }
 .coach__card {
@@ -10402,7 +10402,7 @@ button.agent-card__now:hover {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.6px;
-  color: #f6a36b;
+  color: #70c6f1;
 }
 .coach__title {
   font-family: var(--i-display);
@@ -10451,7 +10451,7 @@ button.agent-card__now:hover {
   border: 0;
   padding: 0;
   background: none;
-  color: #f6a36b;
+  color: #70c6f1;
   font: inherit;
   font-size: 14px;
   font-weight: 600;
