@@ -92,7 +92,7 @@ export class Gateway {
     if (route) {
       const text = await route(url).catch((e: unknown) => `Erro: ${e instanceof Error ? e.message : String(e)}`)
       res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' })
-      res.end(`<!doctype html><meta charset="utf-8"><title>Tucano</title><body style="font:16px system-ui;padding:48px;color:#222">${text.replace(/</g, '&lt;')}</body>`)
+      res.end(`<!doctype html><meta charset="utf-8"><title>Arara</title><body style="font:16px system-ui;padding:48px;color:#222">${text.replace(/</g, '&lt;')}</body>`)
       return
     }
 
@@ -104,7 +104,7 @@ export class Gateway {
     }
 
     // Stateless: a fresh MCP server per request, bound to this session's tools.
-    const server = new Server({ name: 'tucano', version: '0.1.0' }, { capabilities: { tools: {} } })
+    const server = new Server({ name: 'arara', version: '0.1.0' }, { capabilities: { tools: {} } })
     server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: session.tools }))
     server.setRequestHandler(CallToolRequestSchema, async (r) => {
       const name = r.params.name

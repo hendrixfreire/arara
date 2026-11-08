@@ -1,4 +1,4 @@
-// Who may do what in a Tucano with people. Every RPC method says what it needs (NEEDS): anyone
+// Who may do what in a Arara with people. Every RPC method says what it needs (NEEDS): anyone
 // with access, an admin, or only the owner; 'target' methods are anyone's at the door and check
 // the thing they touch with `can` (an approval, a question, a routine, a memory, a person).
 // The desktop's one person is the owner, so on a desktop everything is allowed, as always.
@@ -9,7 +9,7 @@ import { delegating, scopePerson, type Person, type Question, type Role, type Ro
 export const isAdmin = (p: Pick<Person, 'role'>): boolean => p.role === 'owner' || p.role === 'admin'
 
 export const adminError = (): string => L('Só um admin pode fazer isso.', 'Only an admin can do that.')
-export const ownerError = (): string => L('Só o dono do Tucano pode fazer isso.', "Only the Tucano's owner can do that.")
+export const ownerError = (): string => L('Só o dono da Arara pode fazer isso.', "Only the Arara's owner can do that.")
 
 // What a person may change of the settings without being an admin: how the app looks to them.
 // Each person's own (kept on them, see People.settingsFor); the owner's are the settings themselves.
@@ -71,8 +71,8 @@ export function must(person: Person, action: Action): void {
 }
 
 function personError(by: Person, target: Pick<Person, 'id' | 'role'>): string {
-  if (target.role === 'owner') return L('O acesso do dono do Tucano não muda.', "The Tucano owner's access doesn't change.")
-  if (target.id === by.id) return L('Seu próprio acesso quem muda é o dono do Tucano.', 'Only the Tucano owner changes your own access.')
+  if (target.role === 'owner') return L('O acesso do dono da Arara não muda.', "The Arara owner's access doesn't change.")
+  if (target.id === by.id) return L('Seu próprio acesso quem muda é o dono da Arara.', 'Only the Arara owner changes your own access.')
   return ownerError()
 }
 

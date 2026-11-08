@@ -18,7 +18,7 @@ describe.skipIf(!hasChrome())('closing an agent’s Chrome', () => {
     })
     await new Promise<void>((r) => server.listen(0, '127.0.0.1', r))
     url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/`
-    chrome = new ChromeBrowsers(mkdtempSync(join(tmpdir(), 'tucano-chrome-')), () => {})
+    chrome = new ChromeBrowsers(mkdtempSync(join(tmpdir(), 'arara-chrome-')), () => {})
   })
 
   afterAll(() => {
@@ -34,7 +34,7 @@ describe.skipIf(!hasChrome())('closing an agent’s Chrome', () => {
   }, 60_000)
 
   it('closes a Chrome left idle, and reopens it on the same page, still signed in', async () => {
-    const idle = new ChromeBrowsers(mkdtempSync(join(tmpdir(), 'tucano-chrome-')), () => {}, undefined, undefined, false, 600)
+    const idle = new ChromeBrowsers(mkdtempSync(join(tmpdir(), 'arara-chrome-')), () => {}, undefined, undefined, false, 600)
     try {
       await idle.run('bia', 'open', { url: `${url}login` })
       await idle.run('bia', 'open', { url: `${url}page` })

@@ -8,7 +8,7 @@ export type PhoneState = { on: boolean; address: string; connected: number; work
 
 declare global {
   interface Window {
-    tucano: {
+    arara: {
       workspaces?: {
         list: () => Promise<WorkspaceList>
         create: (name?: string) => Promise<void>
@@ -38,11 +38,11 @@ declare global {
         onChanged: (cb: (state: PhoneState) => void) => () => void
       }
       servers?: {
-        // desktop only: Tucanos on servers, shown in this window over the app; open: the one on screen
+        // desktop only: Araras on servers, shown in this window over the app; open: the one on screen
         list: () => Promise<{ id: string; name: string; origin: string; open: boolean }[]>
         pair: (link: string) => Promise<'paired' | 'cancelled' | 'invalid' | 'unsafe'>
         open: (id: string) => void
-        local: () => void // back to this computer's Tucano
+        local: () => void // back to this computer's Arara
         forget: (id: string) => Promise<boolean>
         onChanged: (cb: () => void) => () => void // returns the unsubscribe
       }
@@ -73,13 +73,13 @@ export function connect(onEvent: (e: CoreEvent) => void): Promise<void> {
       resolve()
     }
     window.addEventListener('message', onMessage)
-    window.tucano.connect()
+    window.arara.connect()
   })
 }
 
 // The core's process ended: nothing in flight will be answered, and nothing new goes out.
 let down = false
-const downError = (): Error => new Error(L('O Tucano parou de funcionar. Reabra pra continuar.', 'Tucano stopped working. Reopen it to go on.'))
+const downError = (): Error => new Error(L('A Arara parou de funcionar. Reabra pra continuar.', 'Arara stopped working. Reopen it to go on.'))
 export function disconnect(): void {
   down = true
   port = null
@@ -88,7 +88,7 @@ export function disconnect(): void {
 }
 
 export function call<M extends Method>(method: M, ...params: Params<M> extends undefined ? [] : [Params<M>]): Promise<Result<M>> {
-  if (!port) return Promise.reject(down ? downError() : new Error(L('O Tucano ainda está abrindo. Tente de novo em instantes.', 'Tucano is still starting. Try again in a moment.')))
+  if (!port) return Promise.reject(down ? downError() : new Error(L('A Arara ainda está abrindo. Tente de novo em instantes.', 'Arara is still starting. Try again in a moment.')))
   const id = ++seq
   const req: Request = { id, method, params: params[0] }
   return new Promise((resolve, reject) => {

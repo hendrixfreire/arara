@@ -162,7 +162,7 @@ export class WikiCurator {
     const { db, wiki } = this.deps
     const conv = db.conversation(conversationId)
     if (!conv || conv.wikiCapture === false) return // a conversation kept out of the wiki
-    // A DM is its person's alone: once the Tucano is a team (its first invite on), no DM (the owner's
+    // A DM is its person's alone: once the Arara is a team (its first invite on), no DM (the owner's
     // either) goes into the team's wiki on its own. One person alone keeps what it always did.
     if (conv.kind === 'dm' && ((db.teamMode?.() ?? (db.people?.({}).length ?? 1) > 1) || (conv.owner && db.ownerId && conv.owner !== db.ownerId()))) return
     const since = wiki.mark(conversationId)

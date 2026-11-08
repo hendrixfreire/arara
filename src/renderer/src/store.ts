@@ -136,7 +136,7 @@ export const initials = (name: string): string =>
     .join('') || 'EU'
 
 // When each thread was last seen, in this window's storage: only a convenience, so it may be empty.
-const SEEN_KEY = 'tucano.threadSeen'
+const SEEN_KEY = 'arara.threadSeen'
 const loadSeen = (): Record<string, number> => {
   try {
     return JSON.parse(localStorage.getItem(SEEN_KEY) ?? '{}') as Record<string, number>
@@ -585,12 +585,12 @@ function apply(e: CoreEvent): void {
 }
 
 export async function start(): Promise<void> {
-  window.tucano.onNavigate((id, thread) => {
+  window.arara.onNavigate((id, thread) => {
     navigate({ kind: 'conversation', id })
     if (thread) openThread(thread)
   })
-  window.tucano.onNavigatePage?.((page) => navigate({ kind: page }))
-  window.tucano.onCoreDown?.(() => {
+  window.arara.onNavigatePage?.((page) => navigate({ kind: page }))
+  window.arara.onCoreDown?.(() => {
     disconnect()
     set((s) => ({ ...s, coreDown: true }))
   })
@@ -598,7 +598,7 @@ export async function start(): Promise<void> {
   subscribe(() => {
     const id = state.view?.kind === 'conversation' ? state.view.id : null
     if (id !== viewing) {
-      window.tucano.viewing((viewing = id))
+      window.arara.viewing((viewing = id))
       if (id && state.ready) void call('markRead', { conversationId: id })
     }
   })
@@ -671,7 +671,7 @@ export const amOwner = (s: Pick<State, 'people' | 'you'>): boolean => (youPerson
 // A channel's name, topic and agents: whoever made it (the owner, for one from before) and the admins.
 export const canEditChannel = (s: Pick<State, 'people' | 'you'>, c: Pick<Conversation, 'kind' | 'createdBy'>): boolean =>
   c.kind === 'channel' && (amAdmin(s) || (c.createdBy ?? s.people.find((p) => p.role === 'owner')?.id) === s.you)
-// A Tucano with a team: more than one person, or a server (where people come in). A desktop alone
+// A Arara with a team: more than one person, or a server (where people come in). A desktop alone
 // shows nothing of people, as always.
 export const teamMode = (s: Pick<State, 'people'>): boolean => s.people.length > 1 || windowless()
 export const roleLabel = (r: Person['role']): string => (r === 'owner' ? L('Dono', 'Owner') : r === 'admin' ? 'Admin' : L('Membro', 'Member'))
@@ -954,9 +954,9 @@ export const computerAction = (agentId: string, action: 'start' | 'restart' | 'e
   void fire(L('Não consegui mexer no computador do agente.', "I couldn't act on the agent's computer."), 'computerAction', { agentId, action })
 export const stopService = (agentId: string, name: string): void => void fire(L('Não consegui parar o serviço.', "I couldn't stop the service."), 'stopService', { agentId, name })
 export const browserAction = (agentId: string, action: 'show' | 'hide' | 'clear'): void => void fire(L('Não consegui mexer no navegador do agente.', "I couldn't act on the agent's browser."), 'browserAction', { agentId, action })
-// Tucano as a server: the page is in a browser and the agent's has no window, so I
+// Arara as a server: the page is in a browser and the agent's has no window, so I
 // drive it from its picture in the panel.
-export const windowless = (): boolean => !!(window as { __TUCANO_WEB__?: boolean }).__TUCANO_WEB__
+export const windowless = (): boolean => !!(window as { __ARARA_WEB__?: boolean }).__ARARA_WEB__
 // A page an agent serves, as this browser reaches it: on a server, at the server's
 // address (it passes running services through on a private network).
 // A page an agent serves on the server's loopback, from here. Behind https it has an address of its
@@ -968,9 +968,9 @@ export const reachable = (url: string): string => {
   return location.protocol === 'https:' ? `${location.origin}/preview/${m[1]}${m[2] || '/'}` : `http://${location.hostname}:${m[1]}${m[2]}`
 }
 export const browserInput = (agentId: string, input: BrowserInput): void => void call('browserInput', { agentId, input }).catch(() => {})
-// In a browser (Tucano as a server) the page opens it itself: the server has no screen.
+// In a browser (Arara as a server) the page opens it itself: the server has no screen.
 export const openExternal = (url: string): void =>
-  (window as { __TUCANO_WEB__?: boolean }).__TUCANO_WEB__ ? void window.open(url, '_blank', 'noopener') : void fire(L('Não consegui abrir o link.', "I couldn't open the link."), 'openExternal', { url })
+  (window as { __ARARA_WEB__?: boolean }).__ARARA_WEB__ ? void window.open(url, '_blank', 'noopener') : void fire(L('Não consegui abrir o link.', "I couldn't open the link."), 'openExternal', { url })
 
 export const saveRoutine = (routine: RoutineInput): Promise<Routine> => call('saveRoutine', { routine })
 export const setJevKey = (key: string | null): Promise<void> => call('setJevKey', { key })
@@ -1031,7 +1031,7 @@ export const dmWith = (agentId: string): Promise<string> => call('openDm', { age
 
 // Opens the Mac's folder picker; resolves with why it couldn't be lent, if so.
 export async function lendFolder(agentId: string): Promise<string | null> {
-  const path = await window.tucano.pickFolder()
+  const path = await window.arara.pickFolder()
   if (!path) return null
   try {
     await call('lendFolder', { agentId, path })

@@ -33,9 +33,9 @@ describe('pi', () => {
   })
 
   it("runs it with only the app's extension and none of the user's setup", () => {
-    const args = piArgs({ model: 'openai-codex/gpt-5.6-luna', effort: 'high', system: 'Você é a Iris.' }, '/x/tucano-tools.mjs')
+    const args = piArgs({ model: 'openai-codex/gpt-5.6-luna', effort: 'high', system: 'Você é a Iris.' }, '/x/arara-tools.mjs')
     for (const flag of ['--no-session', '--no-extensions', '--no-builtin-tools', '--no-skills', '--no-context-files', '--no-approve']) expect(args).toContain(flag)
-    expect(args.slice(args.indexOf('-e'), args.indexOf('-e') + 2)).toEqual(['-e', '/x/tucano-tools.mjs'])
+    expect(args.slice(args.indexOf('-e'), args.indexOf('-e') + 2)).toEqual(['-e', '/x/arara-tools.mjs'])
     expect(args.slice(args.indexOf('--thinking'), args.indexOf('--thinking') + 2)).toEqual(['--thinking', 'high'])
   })
 

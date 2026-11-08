@@ -3,7 +3,7 @@ import { isAppPage, isOutsideLink } from '../src/shared/links'
 import { LOCAL_LINK } from '../src/shared/path-text'
 import { safeUrl } from '../src/renderer/src/links'
 
-const BUILT = 'file:///Applications/Tucano.app/Contents/Resources/app.asar/out/renderer/index.html'
+const BUILT = 'file:///Applications/Arara.app/Contents/Resources/app.asar/out/renderer/index.html'
 const DEV = 'http://localhost:5173'
 
 describe('the app window only shows the app', () => {
@@ -14,9 +14,9 @@ describe('the app window only shows the app', () => {
 
   it('never takes a local page for the app, which would hand it the bridge to the core', () => {
     expect(isAppPage('file:///Users/x/report.html', BUILT)).toBe(false)
-    expect(isAppPage('file:///Applications/Tucano.app/Contents/Resources/app.asar/out/renderer/other.html', BUILT)).toBe(false)
+    expect(isAppPage('file:///Applications/Arara.app/Contents/Resources/app.asar/out/renderer/other.html', BUILT)).toBe(false)
     expect(isAppPage('file:///Users/x/report.html', DEV)).toBe(false)
-    expect(isAppPage('tucano://artifact/x/a.html', BUILT)).toBe(false)
+    expect(isAppPage('arara://artifact/x/a.html', BUILT)).toBe(false)
   })
 
   it('takes the dev server for the app while developing, and nothing else', () => {
@@ -35,7 +35,7 @@ describe('links handed to the system', () => {
     expect(isOutsideLink('https://linear.app/x')).toBe(true)
     expect(isOutsideLink('http://localhost:3000')).toBe(true)
     expect(isOutsideLink('mailto:a@b.co')).toBe(true)
-    for (const url of ['file:///etc/passwd', 'javascript:alert(1)', 'smb://host/share', 'x-apple.systempreferences:', 'tucano://artifact/x', '/Users/x/report.html'])
+    for (const url of ['file:///etc/passwd', 'javascript:alert(1)', 'smb://host/share', 'x-apple.systempreferences:', 'arara://artifact/x', '/Users/x/report.html'])
       expect(isOutsideLink(url)).toBe(false)
   })
 })

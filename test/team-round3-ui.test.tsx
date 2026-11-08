@@ -1,4 +1,4 @@
-// Tucano Team v1, third round: what the screens say.
+// Arara Team v1, third round: what the screens say.
 import { describe, expect, it } from 'vitest'
 import type { ActivityEntry } from '../src/shared/types'
 import { activityText, removalText } from '../src/renderer/src/components/People'
@@ -8,7 +8,7 @@ describe('L. the people screen', () => {
     const t = removalText('Bia')
     expect(t).not.toContain('as rotinas dele passam pro dono')
     expect(t).toMatch(/rotinas.*DMs.*30 dias|DMs.*rotinas.*30 dias/s)
-    expect(t).toContain('passam pro dono do Tucano')
+    expect(t).toContain('passam pro dono da Arara')
   })
 
   it('the purge in the log names the person, even once no one remembers them', () => {

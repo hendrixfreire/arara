@@ -43,8 +43,8 @@ export function CoreDown(): ReactNode {
     <div className="core-down" role="alert">
       <span>
         {L(
-          "O Tucano parou de funcionar. Seus agentes e conversas estão salvos.",
-          "Tucano stopped working. Your agents and conversations are saved."
+          "A Arara parou de funcionar. Seus agentes e conversas estão salvos.",
+          "Arara stopped working. Your agents and conversations are saved."
         )}
       </span>
       <button

@@ -76,12 +76,12 @@ export function opencodeConfig(turn: Pick<Turn, 'system' | 'mcpUrl' | 'web'>, pr
     snapshot: false,
     mcp: turn.mcpUrl ? { [GATEWAY_NAME]: { type: 'remote', url: turn.mcpUrl, enabled: true } } : {},
     tools: { '*': false, [`${GATEWAY_NAME}_*`]: true, webfetch: !!turn.web, websearch: !!turn.web },
-    agent: { tucano: { mode: 'primary', prompt: turn.system } }
+    agent: { arara: { mode: 'primary', prompt: turn.system } }
   }
 }
 
 export function opencodeArgs(turn: Pick<Turn, 'model' | 'images'>): string[] {
-  return ['run', '--pure', '--format', 'json', '--agent', 'tucano', '-m', turn.model, ...(turn.images ?? []).filter((i) => existsSync(i.path)).flatMap((i) => ['-f', i.path])]
+  return ['run', '--pure', '--format', 'json', '--agent', 'arara', '-m', turn.model, ...(turn.images ?? []).filter((i) => existsSync(i.path)).flatMap((i) => ['-f', i.path])]
 }
 
 // One JSON event per line: step_start, text (a whole part), tool_use, step_finish (with tokens), error.

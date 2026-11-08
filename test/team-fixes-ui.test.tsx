@@ -1,4 +1,4 @@
-// Tucano Team v1, what a person reads on the screens: an agent's page a member only looks at has
+// Arara Team v1, what a person reads on the screens: an agent's page a member only looks at has
 // no hints or buttons for changing it, the activity log names tools as the approval card does,
 // and a group of buttons under a field's name is not one big label.
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -122,9 +122,9 @@ describe('the words and the layout a person reads (round 2, 13)', () => {
     expect(html).toContain('class="history-row__what"')
   })
 
-  it("a removed person's browser reads that they no longer have access, and nothing about the Tucano", async () => {
+  it("a removed person's browser reads that they no longer have access, and nothing about the Arara", async () => {
     const { NO_ACCESS_PAGE } = await import('../src/server/people')
-    expect(NO_ACCESS_PAGE).toContain('Você não tem mais acesso a este Tucano.')
+    expect(NO_ACCESS_PAGE).toContain('Você não tem mais acesso a esta Arara.')
     expect(NO_ACCESS_PAGE).not.toMatch(/server\.js|link/)
   })
 })

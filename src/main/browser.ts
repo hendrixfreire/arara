@@ -55,7 +55,7 @@ export class Browsers {
     if (existing && !existing.isDestroyed()) return existing
     const ses = session.fromPartition(this.partition(agentId))
     // A plain Chrome, as far as sites can tell: some refuse logins in "embedded" browsers.
-    ses.setUserAgent(ses.getUserAgent().replace(/\s(agent-desk|Tucano|Electron)\/\S+/g, ''))
+    ses.setUserAgent(ses.getUserAgent().replace(/\s(agent-desk|Arara|Electron)\/\S+/g, ''))
     ses.setPermissionRequestHandler((_wc, _perm, done) => done(false)) // no camera, mic, location, notifications
     ses.on('will-download', (_e, item) => item.cancel())
     const win = new BrowserWindow({

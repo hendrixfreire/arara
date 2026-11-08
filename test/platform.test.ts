@@ -116,14 +116,14 @@ describe("the agents' Chrome", () => {
 
 describe('opening at login on Linux', () => {
   it('is a desktop entry in the autostart folder', () => {
-    expect(autostartFile('/home/edu', {})).toBe(join('/home/edu', '.config', 'autostart', 'tucano.desktop'))
-    expect(autostartFile('/home/edu', { XDG_CONFIG_HOME: '/cfg' })).toBe(join('/cfg', 'autostart', 'tucano.desktop'))
-    const entry = autostartEntry('/opt/Tucano/tucano')
-    expect(entry).toContain('[Desktop Entry]\nType=Application\nName=Tucano\nExec=/opt/Tucano/tucano\n')
+    expect(autostartFile('/home/edu', {})).toBe(join('/home/edu', '.config', 'autostart', 'arara.desktop'))
+    expect(autostartFile('/home/edu', { XDG_CONFIG_HOME: '/cfg' })).toBe(join('/cfg', 'autostart', 'arara.desktop'))
+    const entry = autostartEntry('/opt/Arara/arara')
+    expect(entry).toContain('[Desktop Entry]\nType=Application\nName=Arara\nExec=/opt/Arara/arara\n')
   })
 
   it('quotes a path with spaces', () => {
-    expect(autostartEntry('/home/edu/Apps/Tucano 0.2.AppImage')).toContain('Exec="/home/edu/Apps/Tucano 0.2.AppImage"')
+    expect(autostartEntry('/home/edu/Apps/Arara 0.2.AppImage')).toContain('Exec="/home/edu/Apps/Arara 0.2.AppImage"')
   })
 })
 
@@ -136,7 +136,7 @@ describe('Docker on Linux', () => {
   it('says what is wrong with Docker itself', () => {
     expect(dockerProblem('permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock')).toContain('usermod -aG docker')
     expect(dockerProblem('Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?')).toMatch(/Docker/)
-    expect(dockerProblem('Error: No such container: tucano-x')).toBeUndefined()
+    expect(dockerProblem('Error: No such container: arara-x')).toBeUndefined()
   })
 })
 
@@ -158,12 +158,12 @@ describe('spawning a CLI', () => {
   // A .cmd that isn't an npm shim still goes through cmd.exe: each argument has to reach the
   // program intact, including Codex's -c TOML values with quotes, & and %.
   it.runIf(win)('passes arguments through any other .cmd script unchanged', () => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano shim '))
+    const dir = mkdtempSync(join(tmpdir(), 'arara shim '))
     const echo = join(dir, 'echo-args.js')
     writeFileSync(echo, 'process.stdout.write(JSON.stringify(process.argv.slice(2)))')
     const shim = join(dir, 'fake cli.cmd')
     writeFileSync(shim, `@"${process.execPath}" "${echo}" %*\r\n`)
-    const args = ['exec', '--json', '-c', 'mcp_servers.tucano.url="http://127.0.0.1:5000/mcp/a?b=1&c=2"', 'two words', '100%', '%PATH%', 'a^b', '(x)|<y>', 'back\\slash\\', 'say "hi"', '']
+    const args = ['exec', '--json', '-c', 'mcp_servers.arara.url="http://127.0.0.1:5000/mcp/a?b=1&c=2"', 'two words', '100%', '%PATH%', 'a^b', '(x)|<y>', 'back\\slash\\', 'say "hi"', '']
     const s = spawnable(shim, args)
     expect(s.verbatim).toBe(true)
     const out = spawnSync(s.file, s.args, { windowsVerbatimArguments: true, encoding: 'utf8' }).stdout
@@ -182,7 +182,7 @@ describe('spawning a CLI', () => {
   const lines = ['--system-prompt', 'line one\nline two\r\n& echo pwned %PATH%', '--no-builtin-tools', '--offline']
 
   it.runIf(win)('runs an npm shim directly, so a multi-line argument and every flag after it arrive', () => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano shim '))
+    const dir = mkdtempSync(join(tmpdir(), 'arara shim '))
     mkdirSync(join(dir, 'node_modules', 'fake-cli'), { recursive: true })
     writeFileSync(join(dir, 'node_modules', 'fake-cli', 'cli.js'), 'process.stdout.write(JSON.stringify(process.argv.slice(2)))')
     writeFileSync(join(dir, 'fake.cmd'), npmShim('node_modules\\fake-cli\\cli.js'))
@@ -194,7 +194,7 @@ describe('spawning a CLI', () => {
   })
 
   it.runIf(win)("runs a package's own .exe straight from its shim", () => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano shim '))
+    const dir = mkdtempSync(join(tmpdir(), 'arara shim '))
     mkdirSync(join(dir, 'node_modules', 'fake-cli', 'bin'), { recursive: true })
     writeFileSync(join(dir, 'node_modules', 'fake-cli', 'bin', 'fake.exe'), '')
     writeFileSync(join(dir, 'fake.cmd'), `@ECHO off\r\n"%~dp0\\node_modules\\fake-cli\\bin\\fake.exe"   %*\r\n`)
@@ -202,7 +202,7 @@ describe('spawning a CLI', () => {
   })
 
   it.runIf(win)('refuses a multi-line argument for any other script, instead of losing the flags after it', () => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano shim '))
+    const dir = mkdtempSync(join(tmpdir(), 'arara shim '))
     writeFileSync(join(dir, 'own.cmd'), `@"${process.execPath}" -e "" %*\r\n`)
     expect(() => spawnable(join(dir, 'own.cmd'), lines)).toThrow(/line breaks/)
   })
@@ -252,10 +252,10 @@ describe('folders the CLIs install into', () => {
 // A sign-in console on Windows, from a user folder with accents (C:\Users\Glaúcia): cmd reads
 // the script in its own code page, so the paths go in the environment, not in the script.
 it.skipIf(process.platform !== 'win32')('opens a sign-in console that works from a folder with accents', async () => {
-  const dir = join(mkdtempSync(join(tmpdir(), 'tucano-')), 'Glaúcia Ação')
+  const dir = join(mkdtempSync(join(tmpdir(), 'arara-')), 'Glaúcia Ação')
   mkdirSync(dir, { recursive: true })
   const marker = join(dir, 'ran.txt')
-  openWindowsConsole(join(dir, 'login.cmd'), ['echo %TUCANO_HOME%> "%TUCANO_MARK%"', 'exit'], { TUCANO_HOME: dir, TUCANO_MARK: marker })
+  openWindowsConsole(join(dir, 'login.cmd'), ['echo %ARARA_HOME%> "%ARARA_MARK%"', 'exit'], { ARARA_HOME: dir, ARARA_MARK: marker })
   for (let i = 0; i < 40 && !existsSync(marker); i++) await new Promise((r) => setTimeout(r, 250))
   expect(existsSync(marker)).toBe(true)
   // The console wrote the folder in its code page; the folder itself was found, accents and all.
@@ -264,16 +264,16 @@ it.skipIf(process.platform !== 'win32')('opens a sign-in console that works from
 
 describe("Chrome's keyring on a server", () => {
   it('uses its own cookie store on a Linux server, where nobody can unlock the desktop keyring', () => {
-    expect(chromeKeyringFlags('linux', { TUCANO_SERVER: '1' })).toEqual(['--password-store=basic'])
+    expect(chromeKeyringFlags('linux', { ARARA_SERVER: '1' })).toEqual(['--password-store=basic'])
   })
 
   it('leaves a desktop alone: its cookies are in the keyring already', () => {
     expect(chromeKeyringFlags('linux', {})).toEqual([])
-    expect(chromeKeyringFlags('linux', { TUCANO_SERVER: '0' })).toEqual([])
+    expect(chromeKeyringFlags('linux', { ARARA_SERVER: '0' })).toEqual([])
   })
 
   it('is a Linux matter only', () => {
-    expect(chromeKeyringFlags('mac', { TUCANO_SERVER: '1' })).toEqual([])
-    expect(chromeKeyringFlags('windows', { TUCANO_SERVER: '1' })).toEqual([])
+    expect(chromeKeyringFlags('mac', { ARARA_SERVER: '1' })).toEqual([])
+    expect(chromeKeyringFlags('windows', { ARARA_SERVER: '1' })).toEqual([])
   })
 })

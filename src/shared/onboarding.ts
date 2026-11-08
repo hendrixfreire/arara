@@ -193,7 +193,7 @@ export function aiState(engines: Record<EngineId, EngineStatus>): AiState {
   return all.some((s) => s.checking) ? 'checking' : 'none'
 }
 
-// Installed but not signed in (Codex runs on a login of Tucano's own): one click away.
+// Installed but not signed in (Codex runs on a login of Arara's own): one click away.
 export const needsSignIn = (engines: Record<EngineId, EngineStatus>): EngineId[] => (['claude', 'codex'] as const).filter((e) => engines[e].installed && !engines[e].loggedIn && !engines[e].soon)
 
 // The models for the two small jobs behind the scenes (who replies in a channel, and memory),

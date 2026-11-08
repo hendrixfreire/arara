@@ -33,7 +33,7 @@ beforeAll(async () => {
   const win: Record<string, unknown> = {
     addEventListener: (_: string, l: (e: unknown) => void) => (listener = l),
     removeEventListener: () => {},
-    tucano: { onNavigate: () => {}, viewing: () => {}, connect: () => queueMicrotask(() => listener!({ source: win, data: 'core:port', ports: [port] })) }
+    arara: { onNavigate: () => {}, viewing: () => {}, connect: () => queueMicrotask(() => listener!({ source: win, data: 'core:port', ports: [port] })) }
   }
   ;(globalThis as Record<string, unknown>).window = win
   store = await import('../src/renderer/src/store')

@@ -79,7 +79,7 @@ export function UsagePage(): ReactNode {
   if (!admin)
     return (
       <Sheet wide title={L('Uso e limites', 'Usage and limits')}>
-        <AdminOnly>{L('Só um admin vê o uso e os limites do Tucano.', 'Only an admin sees the Tucano’s usage and limits.')}</AdminOnly>
+        <AdminOnly>{L('Só um admin vê o uso e os limites da Arara.', 'Only an admin sees the Arara’s usage and limits.')}</AdminOnly>
       </Sheet>
     )
   return (
@@ -394,7 +394,7 @@ function Backstage({ u }: { u: UsageReport }): ReactNode {
   const rows = [
     { key: 'router', name: L('Roteador', 'Router'), what: L('escolhe quem responde nos canais', 'picks who replies in channels'), tokens: of('router') },
     { key: 'memory', name: L('Memória', 'Memory'), what: L('resume conversas e sugere memórias', 'summarizes conversations and suggests memories'), tokens: of('memory') },
-    ...(tuca ? [{ key: 'tuca', name: 'Tuca', what: L('te ajuda com o Tucano e monta agentes', 'helps you with Tucano and builds agents'), tokens: of(tuca.id) }] : [])
+    ...(tuca ? [{ key: 'tuca', name: 'Tuca', what: L('te ajuda com a Arara e monta agentes', 'helps you with Arara and builds agents'), tokens: of(tuca.id) }] : [])
   ]
   const total = rows.reduce((a, r) => a + r.tokens, 0)
   return (

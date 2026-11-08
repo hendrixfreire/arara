@@ -74,7 +74,7 @@ class Tab {
   url = ''
   private world: number | undefined // our isolated world in the tab's main frame
   closedAll?: () => void // every tab is gone (I closed the window)
-  remote = false // I'm driving it from the panel (no window: Tucano as a server)
+  remote = false // I'm driving it from the panel (no window: Arara as a server)
 
   constructor(
     readonly proc: ChildProcess,
@@ -186,7 +186,7 @@ class Tab {
     for (let attempt = 0; attempt < 2; attempt++) {
       if (this.world === undefined) {
         const { frameTree } = (await this.cmd('Page.getFrameTree')) as { frameTree: { frame: { id: string } } }
-        const { executionContextId } = (await this.cmd('Page.createIsolatedWorld', { frameId: frameTree.frame.id, worldName: 'tucano' })) as { executionContextId: number }
+        const { executionContextId } = (await this.cmd('Page.createIsolatedWorld', { frameId: frameTree.frame.id, worldName: 'arara' })) as { executionContextId: number }
         this.world = executionContextId
       }
       try {
@@ -226,7 +226,7 @@ export class ChromeBrowsers {
     private onShown: (agentId: string, shown: boolean) => void,
     private bin: string = CHROME ?? '',
     private onFrame?: OnFrame,
-    // No screen to open a window on (Tucano as a server): taking over keeps it
+    // No screen to open a window on (Arara as a server): taking over keeps it
     // headless and I drive it from the panel, through 'input'.
     private windowless = false,
     // A Chrome nobody asked anything of for this long is closed (cookies kept) and reopens on the
@@ -517,7 +517,7 @@ export class ChromeBrowsers {
   }
 
   // A picture of a page (a service an agent started), where there's no Electron
-  // to take it (Tucano as a server): a throwaway headless Chrome of its own, no
+  // to take it (Arara as a server): a throwaway headless Chrome of its own, no
   // cookies from anything else, sized as asked, the whole page when asked.
   async shot(o: { url: string; width: number; height: number; fullPage: boolean }): Promise<Buffer> {
     if (!/^https?:\/\//.test(o.url)) throw new Error(L('só http e https', 'only http and https'))

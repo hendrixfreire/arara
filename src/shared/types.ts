@@ -92,7 +92,7 @@ export interface Agent {
   folders?: LentFolder[] // Mac folders lent to that computer (spec §13, M5.1); changed only through lendFolder/folderAction
   archived: boolean
   kind?: 'tuca' // the agent that builds the others: it proposes, the person creates
-  owner?: string // the person who gets its approvals: whoever created it (the Tucano's owner for older agents)
+  owner?: string // the person who gets its approvals: whoever created it (the Arara's owner for older agents)
 }
 
 // One of the person's apps given to an agent, by the name the system shows.
@@ -231,7 +231,7 @@ export type Author = { kind: 'person'; id: string } | { kind: 'agent'; id: strin
 
 // ---------- people ----------
 
-// Every Tucano has people: a desktop has one, its owner; a server, whoever was invited.
+// Every Arara has people: a desktop has one, its owner; a server, whoever was invited.
 export type Role = 'owner' | 'admin' | 'member'
 
 // What everyone may know of a person: never their keys.
@@ -242,7 +242,7 @@ export interface Person {
   about: string // what they do, for the agents ("cuida do financeiro")
   delegateTo?: string // someone answering and approving for them…
   delegateUntil?: number // …until then
-  seenAt?: number // when they last opened the Tucano with a key of theirs
+  seenAt?: number // when they last opened the Arara with a key of theirs
   devices?: number // how many keys (browsers, apps) they have
 }
 
@@ -458,7 +458,7 @@ export interface Account {
 export type BrowserOp = 'open' | 'snapshot' | 'click' | 'type' | 'key' | 'scroll' | 'back' | 'text' | 'frame' | 'show' | 'hide' | 'close' | 'clear' | 'input'
 
 // What I do on the agent's browser from the panel, when it has no window of its own
-// (Tucano as a server): x and y are fractions of the screen.
+// (Arara as a server): x and y are fractions of the screen.
 export type BrowserInput = { kind: 'click'; x: number; y: number } | { kind: 'text'; text: string } | { kind: 'key'; key: string } | { kind: 'scroll'; dy: number }
 
 export interface BrowserElement {
@@ -544,7 +544,7 @@ export const SAME_TOOL_STOP = 60 // ...and past it, that tool is refused for the
 export const SLEEPS_FREE = 1 // commands that start by sleeping 20 s or more: the first runs, the next ones are refused
 export const SLEEPS_STOP = 4 // refused sleeps in a reply before it stops
 export const PENDING_WAIT_MINUTES = 5 // a connector result still running (a SQL statement) is awaited by the app this long
-export const CHAIN_DEPTH = 3 // agent replies chained from one human message before Tucano stops them
+export const CHAIN_DEPTH = 3 // agent replies chained from one human message before Arara stops them
 export const MAX_CHAIN_DEPTH = 10
 // Agents mentioning each other can't loop and burn tokens with nobody watching: a whole number from 1 to MAX_CHAIN_DEPTH, whatever reached the core.
 export const chainDepthCap = (n: number | undefined): number => (Number.isFinite(n) ? Math.min(MAX_CHAIN_DEPTH, Math.max(1, Math.round(n as number))) : CHAIN_DEPTH)
@@ -818,9 +818,9 @@ export const IMAGE_MIMES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'
 export const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // what the models take per image
 export const MAX_IMAGES_PER_MESSAGE = 10
 
-// In a browser (Tucano as a server) the server itself serves them, under /artifact.
+// In a browser (Arara as a server) the server itself serves them, under /artifact.
 export const artifactUrl = (a: Pick<Artifact, 'id' | 'name'>): string =>
-  `${(globalThis as { __TUCANO_WEB__?: boolean }).__TUCANO_WEB__ ? './artifact/' : 'tucano://artifact/'}${a.id}/${encodeURIComponent(a.name)}`
+  `${(globalThis as { __ARARA_WEB__?: boolean }).__ARARA_WEB__ ? './artifact/' : 'arara://artifact/'}${a.id}/${encodeURIComponent(a.name)}`
 
 // ---------- routines (spec §14) ----------
 

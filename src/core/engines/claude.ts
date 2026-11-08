@@ -5,7 +5,7 @@ import { lastLines, LiveCli, num, parseJson, runCli, type Parser } from './cli'
 import type { Engine, EngineEvent, Turn, TurnShape } from './types'
 import { L } from '../../shared/lang'
 
-export const GATEWAY_NAME = 'tucano'
+export const GATEWAY_NAME = 'arara'
 const WEB_TOOLS = ['WebSearch', 'WebFetch'] // run on Anthropic's side, on the subscription
 const TOOL_SEARCH = 'ToolSearch' // loads a deferred MCP tool by name; touches nothing on the computer
 
@@ -39,7 +39,7 @@ export function userProvider(dir = process.env['CLAUDE_CONFIG_DIR'] || join(home
 // connector tool in every model call (measured: 198 tools, 239k tokens a call, up to 7.8 s to the
 // first token; with it, 11k). The CLI then lists the connector tools by name and the model loads
 // the ones it needs; the app's own tools stay in the prompt (ALWAYS_LOAD in the gateway).
-export const GATEWAY_ENV = 'TUCANO_MCP_URL'
+export const GATEWAY_ENV = 'ARARA_MCP_URL'
 
 export function claudeArgs(turn: Pick<Turn, 'model' | 'effort' | 'system' | 'mcpUrl' | 'web' | 'blocks' | 'images' | 'session'>, apiKeyHelper?: string): string[] {
   const web = turn.web ? WEB_TOOLS : []

@@ -100,7 +100,7 @@ export class AppServer {
       this.stderr += `\n${err.message}`
       exit(-1)
     })
-    this.ready = this.request('initialize', { clientInfo: { name: 'tucano', title: 'Tucano', version: '1' }, capabilities: { experimentalApi: false, requestAttestation: false } }, INIT_MS).then(() =>
+    this.ready = this.request('initialize', { clientInfo: { name: 'arara', title: 'Arara', version: '1' }, capabilities: { experimentalApi: false, requestAttestation: false } }, INIT_MS).then(() =>
       this.notify('initialized')
     )
     this.ready.catch(() => this.kill())

@@ -20,7 +20,7 @@ Nada sensível acontece sem você. Quando um agente quer publicar código, coloc
 - **Aprovar e sempre permitir**: daqui pra frente aquele agente usa aquela ferramenta sem pedir. Não vale pra ações de alto risco. Na Composio, vale pra cada ação do pedido (GMAIL_REPLY_TO_THREAD, por exemplo), não pro executor inteiro (veja **composio**). Pra desfazer, na página do agente, **Ferramentas** › **Sempre permitido, sem pedir:** › **Voltar a pedir aprovação**.
 - Ação de **alto risco**: é preciso segurar o botão pra aprovar (**Segure pra aprovar**). No Telegram, são dois toques.
 
-Prefere que um conector poste sem pedir pra ninguém? Na página dele, mude a **Classe** da ferramenta pra **escrita**. O que você escolhe à mão fica, mesmo quando as regras do Tucano mudam.
+Prefere que um conector poste sem pedir pra ninguém? Na página dele, mude a **Classe** da ferramenta pra **escrita**. O que você escolhe à mão fica, mesmo quando as regras da Arara mudam.
 
 ## Expiração
 Um pedido sem decisão expira. O prazo fica em **Configurações › Agentes** (Settings › Agents) › **Limites** › **Expiração de aprovações**: 1 hora, 24 horas (padrão) ou 7 dias. Expirado, nada acontece; peça de novo ao agente se ainda quiser.

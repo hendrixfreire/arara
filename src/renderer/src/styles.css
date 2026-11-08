@@ -7348,7 +7348,7 @@ kbd {
   text-decoration: underline;
 }
 
-/* ---------- phone (Tucano as a server, opened in a phone's browser) ---------- */
+/* ---------- phone (Arara as a server, opened in a phone's browser) ---------- */
 /* The sidebar becomes a drawer behind a menu button, the view takes the whole
    width, and side panels cover the screen. A desktop window never gets this narrow. */
 .mobile-nav,
@@ -8546,7 +8546,7 @@ button.agent-card__now:hover {
 .server-bar__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .workspace-picker__head--servers { margin-top: 6px; border-top: 1px solid var(--border); padding-top: 8px; }
 
-/* ---------- Tucano with a team: who I am, people, activity ---------- */
+/* ---------- Arara with a team: who I am, people, activity ---------- */
 .me-row {
   display: flex;
   align-items: center;
@@ -8652,7 +8652,7 @@ button.agent-card__now:hover {
   margin: 0 0 14px;
 }
 
-/* The heritage: what changed when the Tucano got its second person, and the pages held for its owner. */
+/* The heritage: what changed when the Arara got its second person, and the pages held for its owner. */
 .wk-heritage { margin: 0 0 12px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--panel); font-size: 13px; }
 .wk-heritage p { margin: 0 0 6px; line-height: 1.5; }
 .wk-heritage p .text-btn { margin-left: 8px; }

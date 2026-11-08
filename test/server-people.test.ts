@@ -111,9 +111,9 @@ describe('the event streams', () => {
 })
 
 describe('the invite page', () => {
-  it("names whose Tucano it is and carries the code, escaped", () => {
+  it("names whose Arara it is and carries the code, escaped", () => {
     const html = invitePage({ owner: 'Ana <script>', code: 'abc"><x', error: 'Esse convite não vale mais.' })
-    expect(html).toContain('Você foi convidado pro Tucano de Ana &lt;script&gt;')
+    expect(html).toContain('Você foi convidado pra Arara de Ana &lt;script&gt;')
     expect(html).toContain('value="abc&quot;&gt;&lt;x"')
     expect(html).toContain('Esse convite não vale mais.')
     expect(html).not.toContain('<script>')

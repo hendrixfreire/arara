@@ -3,48 +3,48 @@
 # GitHub release, tagged with package.json's version. Signed with the keychain's
 # Developer ID Application certificate and notarized by Apple, so the .dmg
 # opens with no warning. Notarization uses the credentials saved once with
-#   xcrun notarytool store-credentials tucano --apple-id <email> --team-id <team>
-# (TUCANO_NOTARY_PROFILE names another profile). --no-publish builds and
+#   xcrun notarytool store-credentials arara --apple-id <email> --team-id <team>
+# (ARARA_NOTARY_PROFILE names another profile). --no-publish builds and
 # stops, for testing.
 set -e
 cd "$(dirname "$0")/.."
 VERSION=$(node -p "require('./package.json').version")
 TAG="v$VERSION"
-OUT="$HOME/Library/Caches/tucano/release"
+OUT="$HOME/Library/Caches/arara/release"
 
 # The release notes are this version's section of CHANGELOG.md, between a line on
-# what Tucano is and how to install it.
-NOTES="$HOME/Library/Caches/tucano/release-notes-$VERSION.md"
+# what Arara is and how to install it.
+NOTES="$HOME/Library/Caches/arara/release-notes-$VERSION.md"
 mkdir -p "$(dirname "$NOTES")"
 SECTION=$(awk -v v="$VERSION" '$0 ~ "^## \\[" v "\\]" { on = 1; next } /^## \[/ { on = 0 } /^\[[0-9.]+\]: / { on = 0 } on' CHANGELOG.md)
 [ -n "$(echo "$SECTION" | tr -d '[:space:]')" ] || { echo "CHANGELOG.md has no section for $VERSION." >&2; exit 1; }
 cat > "$NOTES" <<NOTES_EOF
-**Tucano is a team of AI agents that lives on your computer.** You talk to them in channels, like a work chat; they research, write, code and use your company's tools, and you decide how far each one goes. It runs on the Claude Code, Codex, Cursor, OpenCode, Pi, Gemini or Grok CLI you already have, on your own subscription.
+**Arara is a team of AI agents that lives on your computer.** You talk to them in channels, like a work chat; they research, write, code and use your company's tools, and you decide how far each one goes. It runs on the Claude Code, Codex, Cursor, OpenCode, Pi, Gemini or Grok CLI you already have, on your own subscription.
 $SECTION
 
 ## Install
 
 You need a Mac (Apple silicon or Intel), a Linux PC (x64 or ARM64) or a Windows 10/11 PC (x64), and at least one of [Claude Code](https://code.claude.com) or [Codex](https://github.com/openai/codex), installed and signed in.
 
-**On a Mac.** Download \`tucano-mac-arm64.dmg\` below (\`tucano-mac-x64.dmg\` on an Intel Mac), open it and drag Tucano into Applications.
+**On a Mac.** Download \`arara-mac-arm64.dmg\` below (\`arara-mac-x64.dmg\` on an Intel Mac), open it and drag Arara into Applications.
 
-**On Linux.** Ubuntu, Debian and their family: \`tucano-linux-amd64.deb\` (or \`-arm64.deb\`), with \`sudo apt install ./tucano-linux-amd64.deb\`. Other distributions: \`tucano-linux-x86_64.AppImage\` (or \`-arm64.AppImage\`), made executable. The Linux files arrive a few minutes after the release.
+**On Linux.** Ubuntu, Debian and their family: \`arara-linux-amd64.deb\` (or \`-arm64.deb\`), with \`sudo apt install ./arara-linux-amd64.deb\`. Other distributions: \`arara-linux-x86_64.AppImage\` (or \`-arm64.AppImage\`), made executable. The Linux files arrive a few minutes after the release.
 
-**From the Terminal, on either.** Installs Tucano and opens it.
+**From the Terminal, on either.** Installs Arara and opens it.
 
 \`\`\`bash
 curl -fsSL https://github.com/eduwxyz/tucano/releases/latest/download/install.sh | sh
 \`\`\`
 
-**On Windows,** in PowerShell. Installs Tucano for your user, with no admin rights, and opens it:
+**On Windows,** in PowerShell. Installs Arara for your user, with no admin rights, and opens it:
 
 \`\`\`powershell
 irm https://github.com/eduwxyz/tucano/releases/latest/download/install.ps1 | iex
 \`\`\`
 
-Or download \`tucano-win-x64.exe\` below. It isn't code-signed: if Windows says it protected your PC, click **More info**, then **Run anyway**. The PowerShell command doesn't get that warning. The Windows file arrives a few minutes after the release, with the Linux ones.
+Or download \`arara-win-x64.exe\` below. It isn't code-signed: if Windows says it protected your PC, click **More info**, then **Run anyway**. The PowerShell command doesn't get that warning. The Windows file arrives a few minutes after the release, with the Linux ones.
 
-From 0.1.2 on, Tucano updates itself. Every version is in [CHANGELOG.md](https://github.com/eduwxyz/tucano/blob/main/CHANGELOG.md).
+From 0.1.2 on, Arara updates itself. Every version is in [CHANGELOG.md](https://github.com/eduwxyz/tucano/blob/main/CHANGELOG.md).
 NOTES_EOF
 
 if [ "$1" != "--no-publish" ]; then
@@ -52,9 +52,9 @@ if [ "$1" != "--no-publish" ]; then
   gh release view "$TAG" >/dev/null 2>&1 && { echo "Release $TAG already exists: bump the version in package.json." >&2; exit 1; }
 fi
 
-IDENTITY="${TUCANO_SIGN_IDENTITY:-$(security find-identity -v -p codesigning | awk '/Developer ID Application/ { print $2; exit }')}"
+IDENTITY="${ARARA_SIGN_IDENTITY:-$(security find-identity -v -p codesigning | awk '/Developer ID Application/ { print $2; exit }')}"
 [ -n "$IDENTITY" ] || { echo "No Developer ID Application certificate in the keychain." >&2; exit 1; }
-export APPLE_KEYCHAIN_PROFILE="${TUCANO_NOTARY_PROFILE:-tucano}"
+export APPLE_KEYCHAIN_PROFILE="${ARARA_NOTARY_PROFILE:-arara}"
 
 npm run build
 # Dictation's whisper-cli, built for each chip and signed with the app (scripts/whisper.mjs).
@@ -64,19 +64,19 @@ npx electron-builder --mac dmg zip --arm64 --x64 --publish never \
   --config.directories.output="$OUT" \
   --config.mac.identity="$IDENTITY" \
   --config.mac.notarize=true \
-  --config.artifactName='tucano-mac-${arch}.${ext}'
+  --config.artifactName='arara-mac-${arch}.${ext}'
 
 # The apps inside are notarized and stapled; each .dmg gets its own ticket too,
 # so a browser download opens without asking. The two go to Apple together.
 PIDS=
 for ARCH in arm64 x64; do
-  DMG="$OUT/tucano-mac-$ARCH.dmg"
+  DMG="$OUT/arara-mac-$ARCH.dmg"
   codesign --sign "$IDENTITY" --timestamp "$DMG"
   xcrun notarytool submit "$DMG" --keychain-profile "$APPLE_KEYCHAIN_PROFILE" --wait &
   PIDS="$PIDS $!"
 done
 for PID in $PIDS; do wait "$PID"; done # set -e stops here if Apple refused either
-for ARCH in arm64 x64; do xcrun stapler staple "$OUT/tucano-mac-$ARCH.dmg"; done
+for ARCH in arm64 x64; do xcrun stapler staple "$OUT/arara-mac-$ARCH.dmg"; done
 
 # latest-mac.yml tells the installed apps about this version (src/main/updates.ts); each
 # app picks its chip's files (electron-updater leaves the arm64 ones out on an Intel Mac).
@@ -94,19 +94,19 @@ for (const dmg of dmgs) {
   text = text.replace(entry, (_, a, b) => a + sha512 + b + data.length)
 }
 fs.writeFileSync(yml, text)
-' "$OUT/latest-mac.yml" "$OUT/tucano-mac-arm64.dmg" "$OUT/tucano-mac-x64.dmg"
+' "$OUT/latest-mac.yml" "$OUT/arara-mac-arm64.dmg" "$OUT/arara-mac-x64.dmg"
 
 for ARCH in arm64 x64; do
-  APP="$OUT/mac-$ARCH/Tucano.app"
-  [ "$ARCH" = x64 ] && APP="$OUT/mac/Tucano.app"
+  APP="$OUT/mac-$ARCH/Arara.app"
+  [ "$ARCH" = x64 ] && APP="$OUT/mac/Arara.app"
   codesign --verify --deep --strict "$APP"
   spctl --assess --type execute "$APP"
-  spctl --assess --type open --context context:primary-signature "$OUT/tucano-mac-$ARCH.dmg"
+  spctl --assess --type open --context context:primary-signature "$OUT/arara-mac-$ARCH.dmg"
 done
 echo "Signed and notarized. Files in $OUT:"
-ls -lh "$OUT"/tucano-mac-*
+ls -lh "$OUT"/arara-mac-*
 
 [ "$1" = "--no-publish" ] && exit 0
 git push origin HEAD
-gh release create "$TAG" "$OUT/tucano-mac-arm64.dmg" "$OUT/tucano-mac-arm64.zip" "$OUT/tucano-mac-arm64.zip.blockmap" "$OUT/tucano-mac-x64.dmg" "$OUT/tucano-mac-x64.zip" "$OUT/tucano-mac-x64.zip.blockmap" "$OUT/latest-mac.yml" install.sh install.ps1 \
-  --target "$(git rev-parse HEAD)" --title "Tucano $VERSION" --notes-file "$NOTES"
+gh release create "$TAG" "$OUT/arara-mac-arm64.dmg" "$OUT/arara-mac-arm64.zip" "$OUT/arara-mac-arm64.zip.blockmap" "$OUT/arara-mac-x64.dmg" "$OUT/arara-mac-x64.zip" "$OUT/arara-mac-x64.zip.blockmap" "$OUT/latest-mac.yml" install.sh install.ps1 \
+  --target "$(git rev-parse HEAD)" --title "Arara $VERSION" --notes-file "$NOTES"

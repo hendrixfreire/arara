@@ -34,7 +34,7 @@ describe('finding paths in text', () => {
     expect(paths('olhe home-390.png', '/tmp/s/')).toEqual(['/tmp/s/home-390.png'])
   })
   it('takes inline code whole, spaces included', () => {
-    expect(codePath('~/Library/Application Support/Tucano')).toBe('~/Library/Application Support/Tucano')
+    expect(codePath('~/Library/Application Support/Arara')).toBe('~/Library/Application Support/Arara')
     expect(codePath('npm run dev')).toBeUndefined()
     expect(codePath('a.png')).toBeUndefined()
     expect(codePath('a.png', '/tmp/s/')).toBe('/tmp/s/a.png')
@@ -49,7 +49,7 @@ describe('finding paths in text', () => {
       ]
     }
     remarkLocalPaths()(tree)
-    const urls = JSON.stringify(tree).match(/tucano-local:[^"]+/g)!.map((u) => decodeURIComponent(u.slice(LOCAL_LINK.length)))
+    const urls = JSON.stringify(tree).match(/arara-local:[^"]+/g)!.map((u) => decodeURIComponent(u.slice(LOCAL_LINK.length)))
     expect(urls).toEqual(['/tmp/s/', '/tmp/s/a.png'])
   })
 })
@@ -88,8 +88,8 @@ describe.runIf(process.platform !== 'win32')('what a path can do', () => {
     const limited = { ...reach, limited: true }
     expect(resolveLocal(file('cliente-y/a.png'), limited)).toBeNull()
     expect(resolveLocal(file('dados/computers/ada/work/a.png'), limited)).not.toBeNull()
-    expect(resolveLocal(file('tmp/claude/-Tucano-agents-ada/s/scratchpad/a.png'), limited)).not.toBeNull()
-    expect(resolveLocal(file('tmp/claude/-Tucano-agents-theo/s/scratchpad/a.png'), limited)).toBeNull()
+    expect(resolveLocal(file('tmp/claude/-Arara-agents-ada/s/scratchpad/a.png'), limited)).not.toBeNull()
+    expect(resolveLocal(file('tmp/claude/-Arara-agents-theo/s/scratchpad/a.png'), limited)).toBeNull()
     expect(resolveLocal(file('tmp/outro/a.png'), limited)).toBeNull()
   })
 
@@ -116,7 +116,7 @@ describe.runIf(process.platform !== 'win32')('what a path can do', () => {
   })
 
   it('never the app’s data, another agent’s folder or a place that holds logins', () => {
-    expect(resolveLocal(file('dados/tucano.db'), reach)).toBeNull()
+    expect(resolveLocal(file('dados/arara.db'), reach)).toBeNull()
     expect(resolveLocal(file('dados/computers/theo/work/a.png'), reach)).toBeNull()
     expect(resolveLocal(file('casa/.ssh/id_rsa'), reach)).toBeNull()
     expect(resolveLocal(file('casa/.aws/credentials'), reach)).toBeNull()
@@ -140,15 +140,15 @@ describe.runIf(process.platform !== 'win32')('what a path can do', () => {
     expect(verifyLocalUrl('chave', url)).toBe('/tmp/a.png')
     expect(verifyLocalUrl('outra', url)).toBeNull()
     const [sig] = url.pathname.slice(1).split('/')
-    expect(verifyLocalUrl('chave', new URL(`tucano://local/${sig}/${Buffer.from('/etc/passwd').toString('base64url')}`))).toBeNull()
+    expect(verifyLocalUrl('chave', new URL(`arara://local/${sig}/${Buffer.from('/etc/passwd').toString('base64url')}`))).toBeNull()
   })
 
   it("on a server, the same signature under the server's own /local/ path", () => {
-    const path = localUrl('chave', '/home/tucano/work/relatório.pdf', '/local')
+    const path = localUrl('chave', '/home/arara/work/relatório.pdf', '/local')
     expect(path.startsWith('/local/')).toBe(true)
     // What src/server does with the address it's asked for.
-    const asked = (p: string): string | null => verifyLocalUrl('chave', new URL(p.replace(/^\/local/, ''), 'tucano://local'))
-    expect(asked(path)).toBe('/home/tucano/work/relatório.pdf')
-    expect(asked(path.replace(/\/[^/]+$/, `/${Buffer.from('/home/tucano/.tucano-server/server.key').toString('base64url')}`))).toBeNull()
+    const asked = (p: string): string | null => verifyLocalUrl('chave', new URL(p.replace(/^\/local/, ''), 'arara://local'))
+    expect(asked(path)).toBe('/home/arara/work/relatório.pdf')
+    expect(asked(path.replace(/\/[^/]+$/, `/${Buffer.from('/home/arara/.arara-server/server.key').toString('base64url')}`))).toBeNull()
   })
 })

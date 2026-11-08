@@ -309,7 +309,7 @@ export function Splash({ onDone }: { onDone: () => void }): ReactNode {
       <div className="sp-black">
         <div className="sp-mark">
           <span className="sp-logo" dangerouslySetInnerHTML={{ __html: ICON }} />
-          <h1 className="sp-name">Tucano</h1>
+          <h1 className="sp-name">Arara</h1>
           <p className="sp-line">{L('Seu time de agentes de IA.', 'Your team of AI agents.')}</p>
         </div>
       </div>

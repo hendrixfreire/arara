@@ -312,7 +312,7 @@ export const MIGRATIONS = [
     SELECT id, COALESCE(json_extract(run, '$.status'), 'message') FROM messages;
   CREATE INDEX IF NOT EXISTS message_notifications_unread ON message_notifications (message_id) WHERE unread = 1;
   `,
-  // People (Tucano Team): what was "me" becomes the owner, a person like any other. The owner's
+  // People (Arara Team): what was "me" becomes the owner, a person like any other. The owner's
   // name comes from the settings (empty on a new install: the core fills it in), and named = 0 so a
   // server asks it once. Unread moves to read_state, per person: `seen` is the last notification
   // row (message_notifications' rowid) they had seen; the owner keeps what was unread until now.
@@ -374,7 +374,7 @@ export const MIGRATIONS = [
         (SELECT MAX(rowid) FROM message_notifications), 0)
     FROM conversations c;
   `,
-  // Team roles (Tucano Team, steps 3–5): a question an agent asked someone, the team's activity
+  // Team roles (Arara Team, steps 3–5): a question an agent asked someone, the team's activity
   // log, routines that are a person's or the team's (existing ones are the owner's own), what a
   // service's or an approval's run was for, and when a removed person's DMs were purged.
   `
@@ -454,7 +454,7 @@ export const MIGRATIONS = [
   DELETE FROM read_state WHERE conversation_id IN (SELECT id FROM conversations c WHERE c.kind = 'dm' AND COALESCE(c.owner, (SELECT id FROM people WHERE role = 'owner')) <> read_state.person_id);
   `,
   // What a person said in a DM stays there: a memory about them learned in one (or from nowhere
-  // known any more) comes only into their own DMs once the Tucano has more than one person.
+  // known any more) comes only into their own DMs once the Arara has more than one person.
   // What they wrote on the Memória page, or said in a channel, goes where they are.
   `
   UPDATE memories SET private_to = substr(scope, 8)
@@ -471,7 +471,7 @@ export const MIGRATIONS = [
   UPDATE routines SET owner = (SELECT c.owner FROM conversations c WHERE c.id = routines.conversation_id), held = 0
     WHERE conversation_id IN (SELECT c.id FROM conversations c JOIN people p ON p.id = c.owner WHERE c.kind = 'dm' AND p.removed_at IS NOT NULL);
   `,
-  // What the core keeps for itself and no screen reads (unlike settings): when the Tucano got its
+  // What the core keeps for itself and no screen reads (unlike settings): when the Arara got its
   // second person, say.
   `
   CREATE TABLE meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -494,7 +494,7 @@ export const MIGRATIONS = [
 // Columns checked by name on every start, after MIGRATIONS ([table, column, type]): one a build of
 // another branch already added (approvals by rule did) is left as it is instead of failing the start.
 // How far each agent goes on its own: a rule per kind of action, its level, the outside-content guard
-// (src/shared/actions.ts). Empty: Settings decide, which out of the box is how Tucano always worked.
+// (src/shared/actions.ts). Empty: Settings decide, which out of the box is how Arara always worked.
 const COLUMNS: [string, string, string][] = [
   ['agents', 'action_rules', "TEXT NOT NULL DEFAULT '{}'"],
   ['agents', 'autonomy', 'TEXT'],
@@ -644,7 +644,7 @@ export class Db {
     if (user_version > 0 && user_version < MIGRATIONS.length && file !== ':memory:') {
       const backups = join(dirname(file), 'backups')
       mkdirSync(backups, { recursive: true })
-      this.backupTo(join(backups, `tucano-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}-schema-${user_version}.db`))
+      this.backupTo(join(backups, `arara-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}-schema-${user_version}.db`))
     }
     for (let v = user_version; v < MIGRATIONS.length; v++) {
       this.tx(() => {
@@ -734,7 +734,7 @@ export class Db {
       folders: JSON.parse(str(r['folders']) || '[]') as LentFolder[],
       archived: r['archived'] === 1,
       ...(str(r['kind']) === 'tuca' ? { kind: 'tuca' as const } : {}),
-      // One with no owner (put there by another tool, after the people came) is the Tucano owner's.
+      // One with no owner (put there by another tool, after the people came) is the Arara owner's.
       owner: r['owner'] ? str(r['owner']) : this.ownerId()
     }
   }
@@ -759,7 +759,7 @@ export class Db {
            computer = excluded.computer, computer_kind = excluded.computer_kind, web = excluded.web, browser = excluded.browser, apps = excluded.apps, auto_approve = excluded.auto_approve, action_rules = excluded.action_rules, autonomy = excluded.autonomy, outside_guard = excluded.outside_guard, archived = excluded.archived, kind = COALESCE(excluded.kind, agents.kind), custom_color = excluded.custom_color, picture = excluded.picture, avatar = excluded.avatar, wiki = excluded.wiki`
       )
       .run(a.id, a.name, a.handle, a.role, a.color, a.instructions, a.modelId, a.fallbackModelId || null, a.fallbackAccountId || null, a.accountId || null, a.effort, a.limit, routineCap(a.maxRoutines), JSON.stringify(a.grants), a.memory ?? 'auto', a.computer ? 1 : 0, a.computerKind === 'mac' ? 'mac' : 'linux', a.web === false ? 0 : 1, a.browser ? 1 : 0, JSON.stringify(a.apps ?? []), JSON.stringify(a.autoApprove ?? []), JSON.stringify(cleanRules(a.actionRules)), isAutonomy(a.autonomy) ? a.autonomy : null, a.outsideGuard === undefined ? null : a.outsideGuard ? 1 : 0, a.archived ? 1 : 0, a.kind ?? null, a.customColor ?? null, a.picture ?? null, a.avatar ? JSON.stringify(a.avatar) : null, a.wiki ?? null, Date.now())
-    // An agent made without one belongs to the Tucano's owner; a save that doesn't say keeps it.
+    // An agent made without one belongs to the Arara's owner; a save that doesn't say keeps it.
     this.db.prepare('UPDATE agents SET owner = COALESCE(?, owner, (SELECT id FROM people WHERE role = ?)) WHERE id = ?').run(a.owner ?? null, 'owner', a.id)
   }
 
@@ -840,7 +840,7 @@ export class Db {
     return r && str(r['conversation_id'])
   }
 
-  // A DM without an owner is the Tucano owner's (made before people, or by code that doesn't say).
+  // A DM without an owner is the Arara owner's (made before people, or by code that doesn't say).
   createConversation(c: Omit<Conversation, 'unread'>): void {
     this.tx(() => {
       const owner = c.kind === 'dm' ? (c.owner ?? this.ownerId()) : null
@@ -1545,7 +1545,7 @@ export class Db {
         r.createdAt,
         r.trigger ? JSON.stringify(r.trigger) : null
       )
-    // A routine nobody says is the team's is a person's own: the Tucano owner's when no one is named.
+    // A routine nobody says is the team's is a person's own: the Arara owner's when no one is named.
     this.db.prepare('UPDATE routines SET scope = ?, owner = COALESCE(?, owner, (SELECT id FROM people WHERE role = ?)) WHERE id = ?').run(r.scope === 'channel' ? 'channel' : 'me', r.owner ?? null, 'owner', r.id)
   }
 
@@ -1826,7 +1826,7 @@ export class Db {
     this.db.prepare('UPDATE people SET delegate_to = ?, delegate_until = ? WHERE id = ?').run(to ?? null, to && until ? until : null, personId)
   }
 
-  // What a removed person owned of the team's goes to the Tucano owner: their agents, and their
+  // What a removed person owned of the team's goes to the Arara owner: their agents, and their
   // routines outside their DMs. The ones in their DMs are theirs, kept with the DMs: off while
   // they're away (no one else reads there), as they were if they come back. Returns what changed.
   handOver(personId: string): { agents: string[]; routines: string[] } {

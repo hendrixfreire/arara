@@ -82,9 +82,9 @@ describe('an agent whose computer is this Mac', () => {
 
   it('runs commands in its own folder, with the shell environment only', async () => {
     const me = db.agent('prod-0001')!
-    process.env['TUCANO_SEGREDO'] = 'nao-pode-vazar'
-    const r = await mac.call(me, 'bash', { command: `${PWD}; echo "$FROM_SHELL"; echo "x\${TUCANO_SEGREDO}x"` }, ctx)
-    delete process.env['TUCANO_SEGREDO']
+    process.env['ARARA_SEGREDO'] = 'nao-pode-vazar'
+    const r = await mac.call(me, 'bash', { command: `${PWD}; echo "$FROM_SHELL"; echo "x\${ARARA_SEGREDO}x"` }, ctx)
+    delete process.env['ARARA_SEGREDO']
     expect(text(r.result)).toContain(`${slashes(work)}\nsim\nxx`)
   })
 
@@ -170,13 +170,13 @@ describe('an agent whose computer is this Mac', () => {
 
 describe("the user's shell environment", () => {
   it('comes from a clean login shell, without the app process variables', async () => {
-    process.env['TUCANO_SEGREDO'] = 'nao-pode-vazar'
+    process.env['ARARA_SEGREDO'] = 'nao-pode-vazar'
     const env = await loginEnv()
-    delete process.env['TUCANO_SEGREDO']
+    delete process.env['ARARA_SEGREDO']
     // Windows spells it Path, with C:\… directories.
     const path = Object.entries(env).find(([k]) => k.toUpperCase() === 'PATH')?.[1]
     expect(path).toContain(win ? 'C:\\Windows' : '/usr/bin')
     expect(env['HOME']).toBe(homedir())
-    expect(env['TUCANO_SEGREDO']).toBeUndefined()
+    expect(env['ARARA_SEGREDO']).toBeUndefined()
   }, 20_000)
 })

@@ -24,7 +24,7 @@ export function opencodeV2Config(turn: Pick<Turn, 'system' | 'mcpUrl' | 'web'>, 
     snapshots: false,
     mcp: turn.mcpUrl ? { servers: { [GATEWAY_NAME]: { type: 'remote', url: turn.mcpUrl, disabled: false } } } : {},
     tools: { '*': false, [`${GATEWAY_NAME}_*`]: true, webfetch: !!turn.web, websearch: !!turn.web },
-    agents: { tucano: { system: turn.system } }
+    agents: { arara: { system: turn.system } }
   }
 }
 
@@ -32,7 +32,7 @@ export function opencodeV2Config(turn: Pick<Turn, 'system' | 'mcpUrl' | 'web'>, 
 // fights over the person's background service. The app picks the session id, so the
 // session can be read and deleted even when the turn is stopped early.
 export function opencodeV2Args(turn: Pick<Turn, 'model' | 'images'>, session: string, server: string): string[] {
-  return ['run', '--server', server, '--format', 'json', '--agent', 'tucano', '-m', turn.model, '--session', session, ...(turn.images ?? []).filter((i) => existsSync(i.path)).flatMap((i) => ['-f', i.path])]
+  return ['run', '--server', server, '--format', 'json', '--agent', 'arara', '-m', turn.model, '--session', session, ...(turn.images ?? []).filter((i) => existsSync(i.path)).flatMap((i) => ['-f', i.path])]
 }
 
 // V2 keeps its logins in its database, in the data dir, so the data dir stays the
@@ -137,7 +137,7 @@ async function mcpReady(server: string, password: string, cwd: string, signal: A
 export async function* runOpencodeV2(path: string, turn: Turn, appDir: string, shellEnv: NodeJS.ProcessEnv): AsyncIterable<EngineEvent> {
   const password = randomBytes(24).toString('hex')
   const env = { ...process.env, ...shellEnv, ...opencodeV2Env(appDir), PWD: turn.cwd, OPENCODE_SERVER_PASSWORD: password, OPENCODE_CONFIG_CONTENT: JSON.stringify(opencodeV2Config(turn, userOpencodeProviders(undefined, true))) }
-  const session = `ses_tucano${randomUUID().replaceAll('-', '')}`
+  const session = `ses_arara${randomUUID().replaceAll('-', '')}`
   const server = await startServer(path, env, turn.cwd)
   try {
     if (!server.url) {

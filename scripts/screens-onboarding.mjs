@@ -1,5 +1,5 @@
 // Screenshots of the first run, screen by screen, on a new install with the fake engines: nothing
-// set up (TUCANO_FAKE_NO_AI: ChatGPT "set up" from the screen), then the Tuca's question, the agent,
+// set up (ARARA_FAKE_NO_AI: ChatGPT "set up" from the screen), then the Tuca's question, the agent,
 // the first message with its balloon, an agent's request with its balloon, the Tuca's and the
 // missions' balloons, and the missions. Then the same app found ready (three clicks), how far the
 // agent goes on its own (each answer, No guardrails' confirmation, the balloon on that level), the
@@ -14,8 +14,8 @@ mkdirSync(out, { recursive: true })
 const errors = []
 
 async function open(env = {}) {
-  const data = mkdtempSync(join(tmpdir(), 'tucano-onb-'))
-  const app = await electron.launch({ args: ['.'], env: { ...process.env, TUCANO_DATA: data, TUCANO_FAKE_ENGINES: '1', TUCANO_SEED: '0', TUCANO_LOCALE: 'pt-BR', ...env } })
+  const data = mkdtempSync(join(tmpdir(), 'arara-onb-'))
+  const app = await electron.launch({ args: ['.'], env: { ...process.env, ARARA_DATA: data, ARARA_FAKE_ENGINES: '1', ARARA_SEED: '0', ARARA_LOCALE: 'pt-BR', ...env } })
   const win = await app.firstWindow()
   await win.setViewportSize({ width: 1280, height: 800 })
   win.on('pageerror', (e) => errors.push(String(e)))
@@ -36,7 +36,7 @@ const skipSplash = async (win) => {
 
 // ---------- nothing set up: the whole path ----------
 {
-  const { app, win } = await open({ TUCANO_FAKE_NO_AI: '1' })
+  const { app, win } = await open({ ARARA_FAKE_NO_AI: '1' })
   const shot = (name) => win.screenshot({ path: `${out}/${name}.png` })
   await skipSplash(win)
   await win.fill('.intro-input', 'Carol')
@@ -115,7 +115,7 @@ const skipSplash = async (win) => {
 
 // ---------- the tour's other balloons, the short sidebar growing ----------
 {
-  const { app, win } = await open({ TUCANO_FAKE_NO_AI: '1' })
+  const { app, win } = await open({ ARARA_FAKE_NO_AI: '1' })
   const shot = (name) => win.screenshot({ path: `${out}/${name}.png` })
   await skipSplash(win)
   await win.fill('.intro-input', 'Carol')
@@ -207,7 +207,7 @@ const skipSplash = async (win) => {
 }
 
 {
-  const { app, win } = await open({ TUCANO_FAKE_NO_AI: '1' })
+  const { app, win } = await open({ ARARA_FAKE_NO_AI: '1' })
   await win.emulateMedia({ colorScheme: 'dark' })
   const shot = (name) => win.screenshot({ path: `${out}/${name}.png` })
   await skipSplash(win)
@@ -256,7 +256,7 @@ const skipSplash = async (win) => {
 
 // ---------- the other ways: advanced, from scratch ----------
 {
-  const { app, win } = await open({ TUCANO_FAKE_NO_AI: '1' })
+  const { app, win } = await open({ ARARA_FAKE_NO_AI: '1' })
   const shot = (name) => win.screenshot({ path: `${out}/${name}.png` })
   await skipSplash(win)
   await win.fill('.intro-input', 'Carol')
@@ -291,9 +291,9 @@ const skipSplash = async (win) => {
   await app.close()
 }
 
-// ---------- someone who already uses Tucano: no short sidebar, no introduction ----------
+// ---------- someone who already uses Arara: no short sidebar, no introduction ----------
 {
-  const { app, win } = await open({ TUCANO_SEED: '1' })
+  const { app, win } = await open({ ARARA_SEED: '1' })
   const shot = (name) => win.screenshot({ path: `${out}/${name}.png` })
   await win.waitForSelector('.sidebar')
   await settle(win, 1200)

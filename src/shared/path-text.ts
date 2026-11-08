@@ -56,7 +56,7 @@ interface Node {
   children?: Node[]
 }
 
-export const LOCAL_LINK = 'tucano-local:'
+export const LOCAL_LINK = 'arara-local:'
 
 // A remark plugin: paths in a message's text and inline code become links only this app understands.
 // Code blocks and links stay as they are.

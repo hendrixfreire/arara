@@ -76,7 +76,7 @@ describe('indexes for what runs often', () => {
   const plan = (raw: DatabaseSync, sql: string): string => (raw.prepare(`EXPLAIN QUERY PLAN ${sql}`).all() as { detail: string }[]).map((r) => r.detail).join(' | ')
 
   it('an existing database gains them, keeps its data, and the hot queries use them', () => {
-    const file = join(mkdtempSync(join(tmpdir(), 'tucano-idx-')), 'tucano.db')
+    const file = join(mkdtempSync(join(tmpdir(), 'arara-idx-')), 'arara.db')
     // A database from before the indexes: those migrations undone (and the one after them), with messages in it.
     const db0 = new Db(file)
     db0.saveAgent(agent('a1'))

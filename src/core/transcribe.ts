@@ -153,7 +153,7 @@ export class Transcriber {
   async transcribe(id: string, base64: string, status: VoiceStatus, language: string | undefined): Promise<string> {
     if (!status.bin || !status.model) throw new Error(L('O ditado ainda não está ativado. Veja em Configurações › Geral.', "Dictation isn't turned on yet. See Settings › General."))
     if (base64.length > MAX_AUDIO_BASE64) throw new Error(L('Esse áudio é longo demais.', 'That recording is too long.'))
-    const dir = mkdtempSync(join(tmpdir(), 'tucano-voz-'))
+    const dir = mkdtempSync(join(tmpdir(), 'arara-voz-'))
     try {
       const file = join(dir, 'audio.wav')
       writeFileSync(file, Buffer.from(base64, 'base64'), { mode: 0o600 })

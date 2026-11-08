@@ -90,7 +90,7 @@ describe("errors in people’s words", () => {
       "O comando `uvx` não foi encontrado. Instale o uv (docs.astral.sh/uv) e tente de novo."
     );
     expect(friendly(sys("database is locked", "SQLITE_BUSY")).text).toBe(
-      "O Tucano está ocupado salvando. Tente de novo em instantes."
+      "A Arara está ocupada salvando. Tente de novo em instantes."
     );
     expect(
       friendly('API Error: 529 {"type":"overloaded_error"}', {
@@ -118,14 +118,14 @@ describe("errors in people’s words", () => {
       { doing: "responder" }
     );
     expect(f).toEqual({
-      text: "Algo deu errado ao responder. Tente de novo; se continuar, reinicie o Tucano.",
+      text: "Algo deu errado ao responder. Tente de novo; se continuar, reinicie a Arara.",
       detail: "Cannot read properties of undefined (reading 'id')",
     });
     setLang("en");
     expect(
       friendly(new RangeError("Invalid array length"), { doing: "saving" }).text
     ).toBe(
-      "Something went wrong while saving. Try again; if it keeps happening, restart Tucano."
+      "Something went wrong while saving. Try again; if it keeps happening, restart Arara."
     );
   });
 
@@ -258,7 +258,7 @@ describe("connectors and Telegram, in what to do", () => {
     expect(
       refused(409, "Conflict: terminated by other getUpdates request").message
     ).toBe(
-      "Outro app está lendo este bot (outro Tucano ou um webhook). Feche o outro ou troque o token."
+      "Outro app está lendo este bot (outra Arara ou um webhook). Feche o outro ou troque o token."
     );
     expect(refused(400, "Bad Request: chat not found").message).toBe(
       "O Telegram recusou: Bad Request: chat not found."

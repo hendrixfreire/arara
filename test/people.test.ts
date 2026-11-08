@@ -12,7 +12,7 @@ import type { Engine, Turn } from '../src/core/engines/types'
 import { Hub, INVITE_DAYS, People, requesterOf, type PortLike } from '../src/core/people'
 import { Runner } from '../src/core/runs'
 
-const dir = (): string => mkdtempSync(join(tmpdir(), 'tucano-people-'))
+const dir = (): string => mkdtempSync(join(tmpdir(), 'arara-people-'))
 const agent = (id: string, handle: string): Agent => ({ id, name: handle[0]!.toUpperCase() + handle.slice(1), handle, role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false })
 const approval = (id: string, conversationId: string, requestedBy: string, agentId = 'a1'): Approval => ({ id, hash: id, agentId, conversationId, messageId: 'x', connectorId: 'c', connectorName: 'Linear', tool: 'create_issue', args: {}, why: '', highRisk: false, state: 'pending', createdAt: 1, expiresAt: Date.now() + 60_000, requestedBy })
 
@@ -33,7 +33,7 @@ afterEach(() => setLang('pt'))
 
 describe('an existing single-user database', () => {
   it('becomes one owner person who keeps everything that was "me"', () => {
-    const file = join(dir(), 'tucano.db')
+    const file = join(dir(), 'arara.db')
     const raw = new DatabaseSync(file)
     const team = MIGRATIONS.findIndex((m) => m.includes('CREATE TABLE people'))
     for (const m of MIGRATIONS.slice(0, team)) raw.exec(m)

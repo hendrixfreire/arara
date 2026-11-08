@@ -285,7 +285,7 @@ function LangToggle(): ReactNode {
 // ---------- 1. hello ----------
 
 function Welcome({ name, setName, onNext }: { name: string; setName: (v: string) => void; onNext: () => void }): ReactNode {
-  const servers = !!window.tucano?.servers
+  const servers = !!window.arara?.servers
   const [joining, setJoining] = useState(false)
   return (
     <div className="intro__split">
@@ -353,7 +353,7 @@ function JoinLink(): ReactNode {
       openExternal(v)
       return setNote(L('Abri o convite no seu navegador. É lá que você entra no time.', 'I opened the invite in your browser. That’s where you join the team.'))
     }
-    const r = await window.tucano.servers!.pair(v)
+    const r = await window.arara.servers!.pair(v)
     if (r === 'invalid') setNote(L('Esse link não é um convite nem um link de conexão. Peça de novo a quem te chamou.', 'That link isn’t an invite or a connection link. Ask whoever invited you again.'))
   }
   return (
@@ -519,7 +519,7 @@ function ConnectAi({ name, onBack, onNext }: { name: string; onBack: () => void;
         )}
         <span className="grow" />
         <p className="intro-side__note">
-          <Icon name="lock" size={20} /> {L('O login é feito no site deles. O Tucano nunca vê a sua senha.', 'You sign in on their website. Tucano never sees your password.')}
+          <Icon name="lock" size={20} /> {L('O login é feito no site deles. A Arara nunca vê a sua senha.', 'You sign in on their website. Arara never sees your password.')}
         </p>
       </aside>
       <section className="intro__main">
@@ -593,7 +593,7 @@ function Plans(p: {
       </div>
       {none && (
         <div className="intro-panel" role="region" aria-label={L('Qual assinar', 'Which to subscribe to')}>
-          <p>{L('Os agentes pensam com a IA de uma assinatura sua. Qualquer uma destas serve, e você paga direto pra empresa, não pro Tucano:', 'The agents think with the AI of a subscription of yours. Any of these works, and you pay the company directly, not Tucano:')}</p>
+          <p>{L('Os agentes pensam com a IA de uma assinatura sua. Qualquer uma destas serve, e você paga direto pra empresa, não pra Arara:', 'The agents think with the AI of a subscription of yours. Any of these works, and you pay the company directly, not Arara:')}</p>
           <ul>
             <li>
               <b>ChatGPT Plus</b> {L('(ou Pro, Business): da OpenAI. Bom pra quase tudo.', '(or Pro, Business): from OpenAI. Good for almost everything.')}{' '}
@@ -765,7 +765,7 @@ function Found(p: {
             <EngineMark engine={e} />
             <span className="intro-card__text">
               <b>{ENGINES[e].label}</b>
-              <span>{e === 'codex' ? L('Instalado. Falta entrar uma vez, pro Tucano.', 'Installed. Needs one sign-in, for Tucano.') : L('Instalado. Falta entrar.', 'Installed. Not signed in.')}</span>
+              <span>{e === 'codex' ? L('Instalado. Falta entrar uma vez, pra Arara.', 'Installed. Needs one sign-in, for Arara.') : L('Instalado. Falta entrar.', 'Installed. Not signed in.')}</span>
             </span>
             <button className="intro-btn intro-btn--sm intro-btn--light" onClick={() => p.onSignIn(e as SetupEngine)}>
               {L('Entrar', 'Sign in')}
@@ -975,7 +975,7 @@ function Advanced({ models, setModels, onBack, onNext }: { models: { router: str
     <div className="intro__split">
       <aside className="intro-side intro-side--teal">
         <TucaHead />
-        <Bubble>{L('Sem problema. O Tucano usa o Claude Code, o Codex, o OpenCode e outros do jeito que você configurou: no plano, no gateway da empresa ou com os seus provedores.', 'No problem. Tucano uses Claude Code, Codex, OpenCode and others the way you set them up: on a plan, your company’s gateway or your providers.')}</Bubble>
+        <Bubble>{L('Sem problema. A Arara usa o Claude Code, o Codex, o OpenCode e outros do jeito que você configurou: no plano, no gateway da empresa ou com os seus provedores.', 'No problem. Arara uses Claude Code, Codex, OpenCode and others the way you set them up: on a plan, your company’s gateway or your providers.')}</Bubble>
         <Bubble>{L('Ele só lê essa configuração. Nunca vê nem guarda as suas senhas e chaves.', 'It only reads that setup. It never sees or stores your passwords and keys.')}</Bubble>
       </aside>
       <section className="intro__main intro__main--scroll">

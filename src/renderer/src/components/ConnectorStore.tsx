@@ -283,7 +283,7 @@ function ConnectorSetup({ entry, onClose, onAdded }: { entry: CatalogEntry; onCl
 }
 
 // The person's own app, step by step: Google and Slack sign in only apps registered with them, and
-// Tucano's own isn't (Google's verification, Slack's directory). Made once, it serves all of that
+// Arara's own isn't (Google's verification, Slack's directory). Made once, it serves all of that
 // provider's connectors. Also opened from a connector's page, to change it.
 export function OwnAppSetup({ provider, connecting = false, onClose, onSaved }: { provider: AppProvider; connecting?: boolean; onClose: () => void; onSaved?: () => void }): ReactNode {
   const [current, setCurrent] = useState<{ clientId?: string; redirectUrl: string } | null>(null)

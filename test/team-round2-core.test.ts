@@ -1,4 +1,4 @@
-// Tucano Team v1, second round: what the real core answers each person over its API (fake engines).
+// Arara Team v1, second round: what the real core answers each person over its API (fake engines).
 // One core for the whole file: the describes run in order and build on each other.
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import type { Conversation, Person, WikiChange, WikiSource, WikiVersion } from '../src/shared/types'
@@ -177,12 +177,12 @@ describe("5. someone else's name", () => {
 })
 
 describe('6. an agent with no owner (written by another tool)', () => {
-  it("stays the Tucano owner's when an admin edits it", async () => {
+  it("stays the Arara owner's when an admin edits it", async () => {
     const { DatabaseSync } = await import('node:sqlite')
     const { join: joinPath } = await import('node:path')
     const snap = await carla.call<{ agents: (Record<string, unknown> & { id: string; handle: string; owner?: string })[] }>('snapshot')
     const theo = snap.agents.find((a) => a.handle === 'theo')!
-    const raw = new DatabaseSync(joinPath(core.dataDir, 'tucano.db'))
+    const raw = new DatabaseSync(joinPath(core.dataDir, 'arara.db'))
     raw.prepare('UPDATE agents SET owner = NULL WHERE id = ?').run(theo.id)
     await carla.call('saveAgent', { agent: { ...theo, role: 'Dados e BI' }, channelIds: [] })
     const owner = (raw.prepare('SELECT owner FROM agents WHERE id = ?').get(theo.id) as { owner: string | null }).owner

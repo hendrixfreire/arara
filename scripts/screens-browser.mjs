@@ -9,12 +9,12 @@ import { join } from 'node:path'
 
 const out = process.argv[2] ?? 'screens-browser'
 mkdirSync(out, { recursive: true })
-const page = `<html><head><title>Loja de teste</title></head><body style="font:18px sans-serif;padding:24px"><h1>Loja de teste</h1><p>Caneca do Tucano, R$ 49,90</p><button onclick="out.textContent='Pedido feito!'">Comprar agora</button><p id=out></p></body></html>`
+const page = `<html><head><title>Loja de teste</title></head><body style="font:18px sans-serif;padding:24px"><h1>Loja de teste</h1><p>Caneca da Arara, R$ 49,90</p><button onclick="out.textContent='Pedido feito!'">Comprar agora</button><p id=out></p></body></html>`
 const srv = createServer((_q, r) => (r.setHeader('content-type', 'text/html; charset=utf-8'), r.end(page))).listen(0)
 const shop = `http://127.0.0.1:${srv.address().port}/`
 
-const data = mkdtempSync(join(tmpdir(), 'tucano-'))
-const app = await electron.launch({ args: ['.'], env: { ...process.env, TUCANO_DATA: data, TUCANO_SEED: '1' } })
+const data = mkdtempSync(join(tmpdir(), 'arara-'))
+const app = await electron.launch({ args: ['.'], env: { ...process.env, ARARA_DATA: data, ARARA_SEED: '1' } })
 const win = await app.firstWindow()
 await win.setViewportSize({ width: 1360, height: 880 })
 await win.waitForSelector('.sidebar')

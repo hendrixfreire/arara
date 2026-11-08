@@ -14,7 +14,7 @@ const script = (dir: string, body: string): string => {
   chmodSync(file, 0o755)
   return file
 }
-const leftovers = (): string[] => readdirSync(tmpdir()).filter((f) => f.startsWith('tucano-voz-'))
+const leftovers = (): string[] => readdirSync(tmpdir()).filter((f) => f.startsWith('arara-voz-'))
 
 const unix = process.platform !== 'win32' // the fake binary is a shell script
 

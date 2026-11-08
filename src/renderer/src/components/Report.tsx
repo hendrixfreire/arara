@@ -59,7 +59,7 @@ export function ReportPage(): ReactNode {
   if (!admin)
     return (
       <Sheet title={L('Boletim', 'Report')}>
-        <AdminOnly>{L('Só um admin vê o boletim do Tucano.', 'Only an admin sees the Tucano’s report.')}</AdminOnly>
+        <AdminOnly>{L('Só um admin vê o boletim da Arara.', 'Only an admin sees the Arara’s report.')}</AdminOnly>
       </Sheet>
     )
   return (

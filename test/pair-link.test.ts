@@ -25,7 +25,7 @@ async function start(): Promise<{ base: string; host: string; codes: PairCodes; 
   const db = new Db(':memory:')
   db.renamePerson(db.ownerId(), 'Ana')
   const people = new People(db)
-  const codes = new PairCodes(join(mkdtempSync(join(tmpdir(), 'tucano-pairlink-')), 'pair-codes.json'))
+  const codes = new PairCodes(join(mkdtempSync(join(tmpdir(), 'arara-pairlink-')), 'pair-codes.json'))
   const doors = new Doors()
   const door: PairDoor = {
     codes,
@@ -73,7 +73,7 @@ describe('a pairing link opened before its person opens it', () => {
     expect(plain.headers.get('set-cookie')).toBeNull()
     expect(plain.headers.get('cache-control')).toBe('no-store')
     const html = await plain.text()
-    expect(html).toContain('Entrar no Tucano de Ana')
+    expect(html).toContain('Entrar na Arara de Ana')
     expect(html).toContain('Entrar neste navegador · Sign in on this browser')
     expect(html).toContain('method="post" action="./pair"')
     for (const headers of <Record<string, string>[]>[{ 'sec-purpose': 'prefetch;prerender' }, { purpose: 'prefetch' }, { 'user-agent': 'Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)' }, { 'user-agent': 'WhatsApp/2.23.20.0' }, { 'user-agent': 'facebookexternalhit/1.1' }]) {
@@ -102,7 +102,7 @@ describe('a pairing link opened before its person opens it', () => {
     const r = await fetch(`${base}/pair`, form(host, code))
     expect(r.status).toBe(302)
     expect(r.headers.get('location')).toBe('/')
-    const key = /tucano=(p_[\w-]{43})/.exec(r.headers.get('set-cookie') ?? '')?.[1]
+    const key = /arara=(p_[\w-]{43})/.exec(r.headers.get('set-cookie') ?? '')?.[1]
     expect(key).toBeDefined()
     expect(people.authenticate(key!)?.id).toBe(db.ownerId())
     expect(devices(db)).toBe(1)
@@ -164,8 +164,8 @@ describe('the other ways a code is spent', () => {
   })
 
   it('the desktop app pairs by the server token, never a code (nothing it opens spends one)', () => {
-    expect(parsePairing(`tucano://connect?url=https%3A%2F%2Fana.example.com&token=${'t'.repeat(32)}`)).toEqual({ origin: 'https://ana.example.com', token: 't'.repeat(32) })
-    expect(parsePairing(`tucano://connect?url=https%3A%2F%2Fana.example.com&code=${'c'.repeat(24)}`)).toBeNull()
+    expect(parsePairing(`arara://connect?url=https%3A%2F%2Fana.example.com&token=${'t'.repeat(32)}`)).toEqual({ origin: 'https://ana.example.com', token: 't'.repeat(32) })
+    expect(parsePairing(`arara://connect?url=https%3A%2F%2Fana.example.com&code=${'c'.repeat(24)}`)).toBeNull()
   })
 })
 

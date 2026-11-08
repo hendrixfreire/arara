@@ -1,5 +1,5 @@
 // The connectors the app offers ready to add: official remote MCP servers that an app it has never
-// met (Tucano) can sign in to by itself, through the browser (OAuth with dynamic registration and
+// met (Arara) can sign in to by itself, through the browser (OAuth with dynamic registration and
 // PKCE), or that need no sign-in at all. Each was probed on 2026-11-05; a server that only takes an
 // app registered ahead of time (HubSpot, Box, Asana's current one; Outlook and Teams) isn't here:
 // it's added by hand. Some ask a few things first (the address of your own instance, a token) or run
@@ -89,7 +89,7 @@ export const SLACK_SCOPES = 'canvases:read canvases:write channels:history chann
 // The Slack app the person makes from a link, filled in: its user scopes, MCP turned on, and the
 // address the sign-in comes back to, which Slack takes only as registered, port and all.
 export const slackManifest = (redirectUrl: string): Record<string, unknown> => ({
-  display_information: { name: 'Tucano', description: L('Os agentes do Tucano no seu Slack, pelo servidor MCP do Slack.', "Tucano's agents in your Slack, through Slack's MCP server.") },
+  display_information: { name: 'Arara', description: L('Os agentes da Arara no seu Slack, pelo servidor MCP do Slack.', "Arara's agents in your Slack, through Slack's MCP server.") },
   oauth_config: { redirect_urls: [redirectUrl], scopes: { user: SLACK_SCOPES } },
   settings: { is_mcp_enabled: true, org_deploy_enabled: false, socket_mode_enabled: false, token_rotation_enabled: false }
 })
@@ -199,8 +199,8 @@ export const CATALOG: CatalogEntry[] = [
   e('composio', 'Composio', 'https://connect.composio.dev/mcp', 'business', 'Seus dados passam pela Composio · centenas de apps sem configurar nada', 'Your data goes through Composio · hundreds of apps with nothing to set up', 'oauth', {
     warning: () =>
       L(
-        'Pela Composio, seus dados passam pelos servidores dela: e-mails, planilhas e o que mais os agentes acessarem. O acesso às suas contas (Google, Notion…) fica guardado com a Composio, não no seu computador. O Tucano não controla o que ela guarda nem por quanto tempo. Se preferir que nada passe por terceiros, use os conectores diretos.',
-        "Through Composio, your data goes through its servers: emails, spreadsheets and whatever else the agents reach. The access to your accounts (Google, Notion…) is kept by Composio, not on your computer. Tucano doesn't control what it keeps or for how long. If you'd rather nothing go through a third party, use the direct connectors."
+        'Pela Composio, seus dados passam pelos servidores dela: e-mails, planilhas e o que mais os agentes acessarem. O acesso às suas contas (Google, Notion…) fica guardado com a Composio, não no seu computador. A Arara não controla o que ela guarda nem por quanto tempo. Se preferir que nada passe por terceiros, use os conectores diretos.',
+        "Through Composio, your data goes through its servers: emails, spreadsheets and whatever else the agents reach. The access to your accounts (Google, Notion…) is kept by Composio, not on your computer. Arara doesn't control what it keeps or for how long. If you'd rather nothing go through a third party, use the direct connectors."
       )
   }),
 
@@ -294,7 +294,7 @@ export interface CatalogView {
   fields?: { id: string; label: string; placeholder: string; hint?: string; secret?: boolean }[]
   app?: AppProvider // signs in with the person's own app (ownAppGuide)
   warning?: string
-  runs?: string // a server of the service's that runs on the Tucano's machine: its command
+  runs?: string // a server of the service's that runs on the Arara's machine: its command
 }
 
 export function catalogView(entries: CatalogEntry[] = CATALOG): CatalogView[] {
@@ -331,8 +331,8 @@ export function ownAppGuide(provider: AppProvider, redirectUrl: string): OwnAppG
     return {
       title: L('Seu app do Slack', 'Your Slack app'),
       lead: L(
-        'O Slack só deixa usar o servidor MCP dele apps do diretório ou apps internos de um workspace. Você cria o seu, interno, em uns 2 minutos: o link já traz tudo preenchido. Os dados vão do Slack direto pro seu Tucano.',
-        "Slack lets only directory apps or a workspace's internal apps use its MCP server. You make yours, internal, in about 2 minutes: the link brings it all filled in. The data goes from Slack straight to your Tucano."
+        'O Slack só deixa usar o servidor MCP dele apps do diretório ou apps internos de um workspace. Você cria o seu, interno, em uns 2 minutos: o link já traz tudo preenchido. Os dados vão do Slack direto pra sua Arara.',
+        "Slack lets only directory apps or a workspace's internal apps use its MCP server. You make yours, internal, in about 2 minutes: the link brings it all filled in. The data goes from Slack straight to your Arara."
       ),
       steps: [
         { link: slackAppLink(redirectUrl), linkText: L('Crie o app no Slack', 'Create the app in Slack'), text: L(': escolha o seu workspace, clique em Próximo e em Criar. O nome, as permissões, o endereço de volta e o MCP já vêm preenchidos.', ': choose your workspace, click Next and Create. The name, the permissions, the return address and MCP come filled in.') },
@@ -347,11 +347,11 @@ export function ownAppGuide(provider: AppProvider, redirectUrl: string): OwnAppG
   return {
     title: L('Seu app do Google', 'Your Google app'),
     lead: L(
-      'O Google só deixa entrar apps cadastrados nele. Você cria o seu uma vez, em uns 10 minutos, e o Gmail, o Drive, o Calendar, o Docs e o Sheets entram com ele. Fica tudo na sua conta: os dados vão do Google direto pro seu Tucano.',
-      'Google only lets in apps registered with it. You make yours once, in about 10 minutes, and Gmail, Drive, Calendar, Docs and Sheets sign in with it. It all stays in your account: the data goes from Google straight to your Tucano.'
+      'O Google só deixa entrar apps cadastrados nele. Você cria o seu uma vez, em uns 10 minutos, e o Gmail, o Drive, o Calendar, o Docs e o Sheets entram com ele. Fica tudo na sua conta: os dados vão do Google direto pra sua Arara.',
+      'Google only lets in apps registered with it. You make yours once, in about 10 minutes, and Gmail, Drive, Calendar, Docs and Sheets sign in with it. It all stays in your account: the data goes from Google straight to your Arara.'
     ),
     steps: [
-      { link: cloud('projectcreate'), linkText: L('Crie um projeto no Google Cloud', 'Create a project in Google Cloud'), text: L(', com o nome que quiser (Tucano, por exemplo).', ', named as you like (Tucano, say).') },
+      { link: cloud('projectcreate'), linkText: L('Crie um projeto no Google Cloud', 'Create a project in Google Cloud'), text: L(', com o nome que quiser (Arara, por exemplo).', ', named as you like (Arara, say).') },
       { link: cloud(`flows/enableapi?apiid=${GOOGLE_APIS.join(',')}`), linkText: L('Ative as APIs', 'Turn on the APIs'), text: L(': com o projeto escolhido no topo, clique em Próxima e em Ativar. São as do Gmail, Drive, Calendar, Docs e Sheets e a MCP de cada um.', ': with the project chosen at the top, click Next and Enable. They are Gmail, Drive, Calendar, Docs and Sheets, and the MCP one of each.') },
       {
         link: 'https://developers.google.com/workspace/preview',

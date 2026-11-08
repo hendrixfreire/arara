@@ -74,27 +74,27 @@ import { workspacePorts } from './ports'
 import { isTheme, workspaceLabel, workspaceParts } from '../shared/workspaces'
 import { isNewQuestion } from '../shared/questions'
 
-const dataDir = process.env['TUCANO_DATA'] ?? join(process.cwd(), '.tucano')
-const fake = process.env['TUCANO_FAKE_ENGINES'] === '1'
+const dataDir = process.env['ARARA_DATA'] ?? join(process.cwd(), '.arara')
+const fake = process.env['ARARA_FAKE_ENGINES'] === '1'
 // Run by the server (src/server): no window, and the screens are in a browser elsewhere.
-const serverMode = process.env['TUCANO_SERVER'] === '1'
-const publicUrl = process.env['TUCANO_URL']?.replace(/\/+$/, '')
+const serverMode = process.env['ARARA_SERVER'] === '1'
+const publicUrl = process.env['ARARA_URL']?.replace(/\/+$/, '')
 const runtimePorts = workspacePorts()
-const defaultWorkspace = process.env['TUCANO_DEFAULT_WORKSPACE'] !== '0'
+const defaultWorkspace = process.env['ARARA_DEFAULT_WORKSPACE'] !== '0'
 mkdirSync(dataDir, { recursive: true })
 
-const db = new Db(join(dataDir, 'tucano.db'))
+const db = new Db(join(dataDir, 'arara.db'))
 const codexHome = join(dataDir, 'codex-home')
 mkdirSync(join(codexHome, '.codex'), { recursive: true })
 // Until the settings are read, the language of a new install: the Mac's.
-setLang(langOf(process.env['TUCANO_LOCALE']))
+setLang(langOf(process.env['ARARA_LOCALE']))
 initializeWorkspace(db)
 // A workspace made from the switcher starts with the name it was given there.
-if (db.created && process.env['TUCANO_WORKSPACE_LABEL']) db.setSettings({ workspaceLabel: process.env['TUCANO_WORKSPACE_LABEL'] })
-const appTheme = process.env['TUCANO_THEME']
+if (db.created && process.env['ARARA_WORKSPACE_LABEL']) db.setSettings({ workspaceLabel: process.env['ARARA_WORKSPACE_LABEL'] })
+const appTheme = process.env['ARARA_THEME']
 if (!serverMode && isTheme(appTheme)) db.setSettings({ theme: appTheme })
 // A new install has nothing new to show: the news start with the next update.
-if (db.created && process.env['TUCANO_VERSION']) db.setSettings({ seenVersion: process.env['TUCANO_VERSION'] })
+if (db.created && process.env['ARARA_VERSION']) db.setSettings({ seenVersion: process.env['ARARA_VERSION'] })
 const interrupted = db.interruptStaleRuns()
 if (interrupted) console.log(`[core] ${interrupted} run(s) marked as interrupted`)
 
@@ -108,7 +108,7 @@ const DEFAULTS: Omit<Settings, 'engines'> = {
   defaultLimit: 2_000_000,
   approvalTtlHours: 24,
   theme: 'system',
-  language: langOf(process.env['TUCANO_LOCALE'])
+  language: langOf(process.env['ARARA_LOCALE'])
 }
 
 // The owner is a person like any other, named after the settings' name (what the agents call them):
@@ -117,14 +117,14 @@ const people = new People(db)
 if (!db.owner().name) db.renamePerson(db.ownerId(), db.getSettings(DEFAULTS).workspaceName, false)
 
 const fakeStatus = (v: string): EngineStatus => ({ installed: true, loggedIn: true, path: 'fake', version: v, account: L('Motor de teste', 'Test engine'), route: 'plan' })
-// TUCANO_FAKE_NO_AI: a computer with nothing set up yet, until the introduction's setup "signs in" (no network).
-const fakeNoAi = fake && process.env['TUCANO_FAKE_NO_AI'] === '1'
+// ARARA_FAKE_NO_AI: a computer with nothing set up yet, until the introduction's setup "signs in" (no network).
+const fakeNoAi = fake && process.env['ARARA_FAKE_NO_AI'] === '1'
 const fakeSignedIn = new Set<EngineId>()
 const fakeOne = (e: EngineId, s: EngineStatus): EngineStatus => (fakeNoAi && !fakeSignedIn.has(e) ? { installed: false, loggedIn: false } : s)
-// TUCANO_FAKE_BROKEN_PI: Pi found signed in to Anthropic, whose login then fails every reply (an expired refresh token).
-// TUCANO_FAKE_BROKEN_OPENCODE: OpenCode, found, fails every reply with an error nobody wrote for people.
-const fakeBrokenPi = fake && process.env['TUCANO_FAKE_BROKEN_PI'] === '1'
-const fakeBrokenOpencode = fake && process.env['TUCANO_FAKE_BROKEN_OPENCODE'] === '1'
+// ARARA_FAKE_BROKEN_PI: Pi found signed in to Anthropic, whose login then fails every reply (an expired refresh token).
+// ARARA_FAKE_BROKEN_OPENCODE: OpenCode, found, fails every reply with an error nobody wrote for people.
+const fakeBrokenPi = fake && process.env['ARARA_FAKE_BROKEN_PI'] === '1'
+const fakeBrokenOpencode = fake && process.env['ARARA_FAKE_BROKEN_OPENCODE'] === '1'
 const OPENCODE_CRASH = "TypeError: Cannot read properties of undefined (reading 'providers')\n    at loadConfig (file:///opt/homebrew/lib/node_modules/opencode-ai/dist/config.js:212:30)\n    at async main (file:///opt/homebrew/lib/node_modules/opencode-ai/dist/index.js:18:3)"
 const PI_EXPIRED = 'OAuth refresh failed for anthropic: 400 {"type":"error","error":{"type":"invalid_grant","message":"Refresh token expired"}}\n    at postJson (file:///opt/homebrew/lib/node_modules/@earendil-works/pi-coding-agent/dist/auth/oauth.js:88:11)\n    at async refreshAnthropic (file:///opt/homebrew/lib/node_modules/@earendil-works/pi-coding-agent/dist/auth/anthropic.js:41:5)\n    at async getAuth (file:///opt/homebrew/lib/node_modules/@earendil-works/pi-coding-agent/dist/auth/index.js:23:12)'
 const fakeFindings = (): Omit<EngineFindings, 'accounts'> => ({
@@ -157,7 +157,7 @@ function openLogin(engine: EngineId, vars: Record<string, string>): { opened: bo
   const sub = ENGINES[engine].login.split(' ').slice(1).join(' ')
   if (isWin) {
     // A new console window running a small script, its paths in the environment.
-    openWindowsConsole(join(dataDir, 'login.cmd'), [`call "%TUCANO_CLI%" ${sub}`], { TUCANO_CLI: bin, ...vars })
+    openWindowsConsole(join(dataDir, 'login.cmd'), [`call "%ARARA_CLI%" ${sub}`], { ARARA_CLI: bin, ...vars })
     return { opened: true, command: `"${bin}" ${sub}` }
   }
   const q = (s: string): string => `'${s.replace(/'/g, `'\\''`)}'`
@@ -418,7 +418,7 @@ const forOwner = (messageId: string): boolean => {
   return !q || (q.confirm === 'pending' ? q.requestedBy : q.askedTo) === db.ownerId()
 }
 
-// The phones that gave this Tucano a push handle get the same notification while the app is closed.
+// The phones that gave this Arara a push handle get the same notification while the app is closed.
 // The test engines never reach the relay.
 const push = new Push({
   url: fake ? undefined : pushUrl(),
@@ -489,7 +489,7 @@ process.parentPort.on('message', (e) => {
     try {
       if (closing || !r.targetDir || !r.name) throw new Error('Workspace cannot be duplicated right now')
       mkdirSync(r.targetDir, { recursive: true, mode: 0o700 })
-      db.duplicateTo(join(r.targetDir, 'tucano.db'), r.name, r.parts === undefined ? undefined : workspaceParts(r.parts), wiki.dir)
+      db.duplicateTo(join(r.targetDir, 'arara.db'), r.name, r.parts === undefined ? undefined : workspaceParts(r.parts), wiki.dir)
       process.parentPort.postMessage({ type: 'workspace-duplicated' })
     } catch (error) {
       process.parentPort.postMessage({ type: 'workspace-duplicated', error: error instanceof Error ? error.message : String(error) })
@@ -692,15 +692,15 @@ const host: BrowserHost = chrome ? (agentId, op, args) => chrome.run(agentId, op
 
 const transcriber = new Transcriber()
 // Dictation's places: the whisper-cli inside the app, and the folder for the models it downloads.
-const voicePlaces = { ...(process.env['TUCANO_WHISPER'] ? { bundled: process.env['TUCANO_WHISPER'] } : {}), models: join(dataDir, 'voice') }
+const voicePlaces = { ...(process.env['ARARA_WHISPER'] ? { bundled: process.env['ARARA_WHISPER'] } : {}), models: join(dataDir, 'voice') }
 const modelDownload = new ModelDownload(voicePlaces.models, () => emit({ type: 'voice' }), fetch, undefined, () => void dictation().then((s) => warmUp(transcriber, s)))
 const dictation = async () => {
   const s = voiceStatus(settings().voice, await loginEnv(), undefined, voicePlaces)
   return { ...s, ...(modelDownload.progress ? { downloading: modelDownload.progress } : {}), ...(modelDownload.error ? { error: modelDownload.error } : {}) }
 }
 // Out of the environment before anything starts: commands the agents run inherit it.
-const localKey = process.env['TUCANO_LOCAL_KEY']
-delete process.env['TUCANO_LOCAL_KEY']
+const localKey = process.env['ARARA_LOCAL_KEY']
+delete process.env['ARARA_LOCAL_KEY']
 
 // What the author of a message reaches, for the paths it cites. An agent on this Mac reaches what
 // its commands do; any other, only its own files. Not on a server, where the page isn't on this
@@ -736,7 +736,7 @@ const connectors = new ConnectorManager({
   emit,
   // On a server there's nothing to open it in: authorizeConnector hands it to the page.
   openUrl: (url) => serverMode || toMain({ type: 'open', url }),
-  // On a server behind https (TUCANO_URL), the provider sends the person back to the server's own
+  // On a server behind https (ARARA_URL), the provider sends the person back to the server's own
   // address, which src/server hands over here; on a desktop, to the gateway on this computer.
   oauthCallbackUrl: () => (serverMode && publicUrl?.startsWith('https://') ? `${publicUrl}/oauth/callback` : gateway.url('/oauth/callback')),
   // Slack's app registers its address once: the workspace's webhook port, which doesn't change.
@@ -747,7 +747,7 @@ const oauthCallback = async (url: URL): Promise<string> => {
   const state = url.searchParams.get('state') ?? ''
   if (!code) return notAuthorized(url)
   return (await connectors.finishOAuth(state, code))
-    ? L('Conector autorizado. Pode fechar esta aba e voltar pro Tucano.', 'Connector authorized. You can close this tab and go back to Tucano.')
+    ? L('Conector autorizado. Pode fechar esta aba e voltar pra Arara.', 'Connector authorized. You can close this tab and go back to Arara.')
     : L('Esse pedido de autorização expirou. Tente de novo pelo app.', 'This authorization request expired. Try again from the app.')
 }
 gateway.route('/oauth/callback', oauthCallback)
@@ -771,11 +771,11 @@ const routines = new Routines({
 
 // A proposal waits for a decision: the knock at the door, and a click opens Skills.
 const skills = new Skills({ db, emit, notify: (title, body) => notifyAll(title, body, undefined, undefined, { kind: 'approval', page: 'skills' }) })
-// The wiki's folder is the truth (Markdown, as Obsidian opens it); TUCANO_WIKI points it elsewhere.
+// The wiki's folder is the truth (Markdown, as Obsidian opens it); ARARA_WIKI points it elsewhere.
 // The default folder keeps wiki.db; another folder gets an index of its own, so going back finds the old one.
 const wikiHome = join(dataDir, 'wiki')
 const wikiIndex = (dir: string): string => (dir === wikiHome ? join(dataDir, 'wiki.db') : join(dataDir, `wiki-${createHash('sha256').update(dir).digest('hex').slice(0, 12)}.db`))
-const wikiDir = (): string => process.env['TUCANO_WIKI'] || settings().wikiDir || wikiHome
+const wikiDir = (): string => process.env['ARARA_WIKI'] || settings().wikiDir || wikiHome
 // Whose DM a conversation is (null: not a DM; undefined: gone), for where each page's versions came from.
 const dmOf = (conversationId: string): string | null | undefined => {
   const c = db.conversationOwner(conversationId)
@@ -907,7 +907,7 @@ void ready.then(async () => {
   // A question to someone that waited past its deadline: its requester hears of it.
   setInterval(() => runner.sweepQuestions(), 60_000).unref()
   if (!fake) {
-    // A port taken (another Tucano open, say) is logged and the rest goes on: a call there reaches
+    // A port taken (another Arara open, say) is logged and the rest goes on: a call there reaches
     // a server that doesn't know its token, never this workspace's data.
     hooks.listen(runtimePorts.webhook, '127.0.0.1')
     void telegram?.start()
@@ -935,7 +935,7 @@ void ready.then(async () => {
   for (const a of db.agents()) if (a.computer && !a.archived) void computers.refresh(a)
   await enginesReady
   routines.start()
-  // A Tucano that had more people (or an invite out) before the heritage existed gets it now.
+  // A Arara that had more people (or an invite out) before the heritage existed gets it now.
   if (db.people({ removed: true }).length > 1 || db.invites().length) inherit()
 }).catch((e: unknown) => {
   console.error('[core] startup failed', e)
@@ -1118,7 +1118,7 @@ function purged(all: Purged[]): void {
     emit({ type: 'wiki' })
   }
 }
-// The Tucano gets its second person (its first invite, or someone joining): what was one person's
+// The Arara gets its second person (its first invite, or someone joining): what was one person's
 // becomes a team's. Once. The channels' summaries (and their threads') are made again from what was
 // said there alone: while alone, the owner's DM memories fed them. The pages that came from the
 // owner's DMs stay theirs until they release each one, and the wiki's history from before is theirs.
@@ -1154,7 +1154,7 @@ const api: Handlers = {
     db.markRead(conversationId, ctx.person.id)
     emitConversations([conversationId])
   },
-  // The page loads from file://, which can't fetch tucano:// (CORS); text comes through the core instead.
+  // The page loads from file://, which can't fetch arara:// (CORS); text comes through the core instead.
   artifactText: ({ id }, ctx) => {
     const a = db.artifact(id)
     if (!a || !people.canSeeConversation(ctx.person, db.conversation(a.conversationId)) || !people.artifactVisible(ctx.person, a)) return null
@@ -1181,7 +1181,7 @@ const api: Handlers = {
     routines: db.routines(),
     skills: db.skills(),
     platform: osOf(),
-    packaged: process.env['TUCANO_PACKAGED'] === '1',
+    packaged: process.env['ARARA_PACKAGED'] === '1',
     // On a desktop it's always offered (the page says when Docker is missing); a server without Docker,
     // inside a container, can't have one, so it isn't.
     isolatedComputers: !serverMode || onPath('docker'),
@@ -1225,7 +1225,7 @@ const api: Handlers = {
     const before = db.agent(agent.id)
     // Archived changes only through archiveAgent, which also stops what the agent was doing.
     // Its owner changes only with the removal hand-over, never by an edit (one with none is the
-    // Tucano owner's, as db.agent reads it): a new one is whoever made it.
+    // Arara owner's, as db.agent reads it): a new one is whoever made it.
     const clean: Agent = { ...cleanLook(agent), name: agent.name.trim(), handle: agent.handle.trim().toLowerCase(), archived: before?.archived ?? false, owner: before ? (before.owner ?? db.ownerId()) : ctx.person.id }
     // One handle per agent (archived ones keep theirs), and none that reads as a person's (People.agentNameError).
     const taken = people.agentNameError({ id: clean.id, name: clean.name, handle: clean.handle })
@@ -1565,7 +1565,7 @@ const api: Handlers = {
     }
     if (all.theme !== undefined && !isTheme(all.theme)) throw new Error('Invalid theme')
     if (all.language !== undefined && all.language !== 'pt' && all.language !== 'en') throw new Error('Invalid language')
-    // Someone else's display preferences are theirs: kept on them, the rest is the Tucano's.
+    // Someone else's display preferences are theirs: kept on them, the rest is the Arara's.
     const patch = people.takePrefs(ctx.person, all)
     if (Object.keys(patch).length === 0) return void emit({ type: 'settings', settings: settings() })
     const why = voiceRefusal(patch.voice)
@@ -1678,9 +1678,9 @@ const api: Handlers = {
     if (!db.agent(agentId)) throw new Error(L('Esse agente não existe mais.', 'That agent no longer exists.'))
     bg(computers.stopService(agentId, name), 'stopService')
   },
-  // Driving a taken-over browser from the panel (Tucano as a server: no window to open).
+  // Driving a taken-over browser from the panel (Arara as a server: no window to open).
   browserInput: async ({ agentId, input }, ctx) => {
-    if (!serverMode || !chrome) throw new Error(L('Só no Tucano em servidor.', 'Only on Tucano as a server.'))
+    if (!serverMode || !chrome) throw new Error(L('Só na Arara em servidor.', 'Only on Arara as a server.'))
     mayBrowser(ctx, agentId)
     await chrome.run(agentId, 'input', input)
   },
@@ -1799,7 +1799,7 @@ const api: Handlers = {
   // Undoing puts back what the pages were: from before the heritage, that's the owner's history to restore.
   wikiUndoChange: ({ id }, ctx) => {
     // Said in so many words (before the reach check hides the change as the owner's history).
-    if ((wiki.change(id)?.decidedAt ?? Infinity) < historySince(ctx)) throw new Error(L('Só o dono desfaz uma mudança de antes de o Tucano ter mais gente.', 'Only the owner undoes a change from before the Tucano had more people.'))
+    if ((wiki.change(id)?.decidedAt ?? Infinity) < historySince(ctx)) throw new Error(L('Só o dono desfaz uma mudança de antes de a Arara ter mais gente.', 'Only the owner undoes a change from before the Arara had more people.'))
     changeInReach(ctx, id)
     wiki.undoChange(id, nameOf(ctx), ctx.person.id)
   },
@@ -2105,7 +2105,7 @@ function installer(command: string): { opened: boolean; command: string; needsNo
     // A PowerShell window running a small script: the install commands are PowerShell.
     const script = join(dataDir, 'install.ps1')
     writeFileSync(script, `${command}\r\n`)
-    spawn(process.env['ComSpec'] || 'cmd.exe', ['/d', '/c', 'start', '"Tucano"', 'powershell.exe', '-NoProfile', '-NoExit', '-ExecutionPolicy', 'Bypass', '-File', `"${script}"`], { detached: true, stdio: 'ignore', windowsVerbatimArguments: true }).unref()
+    spawn(process.env['ComSpec'] || 'cmd.exe', ['/d', '/c', 'start', '"Arara"', 'powershell.exe', '-NoProfile', '-NoExit', '-ExecutionPolicy', 'Bypass', '-File', `"${script}"`], { detached: true, stdio: 'ignore', windowsVerbatimArguments: true }).unref()
     return { opened: true, command }
   }
   const term = terminalCommand(command, osOf(), onPath)
@@ -2114,7 +2114,7 @@ function installer(command: string): { opened: boolean; command: string; needsNo
 }
 
 // What a call leaves running in the background: a failure there is logged, never a crash (an
-// unhandled rejection ends the process: on a server, everyone's Tucano).
+// unhandled rejection ends the process: on a server, everyone's Arara).
 function bg(p: Promise<unknown>, what: string): void {
   p.catch((e: unknown) => console.error(`[core] ${what}`, e))
 }
@@ -2128,7 +2128,7 @@ function handle(port: MessagePortMain, req: Request): void {
   if (closing) return reply({ error: L('Este workspace está sendo excluído.', 'This workspace is being deleted.') })
   // Who asks is read now: a person removed since doesn't act anymore.
   const person = hub.personOf(port)
-  if (!person) return reply({ error: L('Seu acesso a este Tucano terminou.', 'Your access to this Tucano has ended.') })
+  if (!person) return reply({ error: L('Seu acesso a esta Arara terminou.', 'Your access to this Arara has ended.') })
   // The params must have the shape the contract says, before any handler reads them.
   const wrong = paramsError(req.method as Method, req.params) ?? limitError(req.method as Method, req.params)
   if (wrong) return reply({ error: wrong })

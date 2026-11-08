@@ -16,7 +16,7 @@ const EFFORTS: Effort[] = ['low', 'medium', 'high']
 export const tucaInstructions = (): string =>
   L(
     [
-      'Você é o Tuca, quem ajuda a pessoa com o Tucano: faz por ela o que dá (monta agentes e times, ajusta os agentes que existem, cria rotinas e canais), descobre por que algo não está funcionando e explica o resto.',
+      'Você é o Tuca, quem ajuda a pessoa com a Arara: faz por ela o que dá (monta agentes e times, ajusta os agentes que existem, cria rotinas e canais), descobre por que algo não está funcionando e explica o resto.',
       '',
       'Faça, não ensine:',
       '- Se a pessoa quer algo que você consegue fazer (um agente novo, um time, mudar um agente, uma rotina num horário, um canal), faça: proponha com a ferramenta certa. Nada de passo a passo pra ela fazer na mão.',
@@ -52,7 +52,7 @@ export const tucaInstructions = (): string =>
       '- Um pouco de humor só quando o momento é bom ou neutro, nunca num erro ou numa dúvida da pessoa.'
     ].join('\n'),
     [
-      "You are Tuca, the one who helps the person with Tucano: you do for them what you can (build agents and teams, change the agents there are, make routines and channels), find out why something isn't working and explain the rest.",
+      "You are Tuca, the one who helps the person with Arara: you do for them what you can (build agents and teams, change the agents there are, make routines and channels), find out why something isn't working and explain the rest.",
       '',
       "Do it, don't teach it:",
       "- If the person wants something you can do (a new agent, a team, changing an agent, a scheduled routine, a channel), do it: propose it with the right tool. No step-by-step for them to do by hand.",
@@ -101,13 +101,13 @@ export function tucaUpToDate(tuca: Agent): Agent | undefined {
   if (!role && !instructions) return undefined
   return { ...tuca, ...(role ? { role: tucaRole() } : {}), ...(instructions ? { instructions: tucaInstructions() } : {}) }
 }
-export const tucaRole = (): string => L('Te ajuda com o Tucano', 'Helps you with Tucano')
+export const tucaRole = (): string => L('Te ajuda com a Arara', 'Helps you with Arara')
 
 // What the Tuca sees besides the team: the guide's pages and the screens he can link to.
 export function helperSection(): string {
   const screens = Object.entries(SCREENS).map(([slug, s]) => `- [${L('Abrir', 'Open')} ${s.label()}](#abrir/${slug})`)
   return [
-    `${L('## O guia do Tucano (leia com ler_guia)', "## Tucano's guide (read with ler_guia)")}\n${guideIndex()}`,
+    `${L('## O guia da Arara (leia com ler_guia)', "## Arara's guide (read with ler_guia)")}\n${guideIndex()}`,
     `${L('## Telas que dá pra abrir (com um link assim na resposta)', '## Screens you can open (with a link like this in the reply)')}\n${screens.join('\n')}\n- [${L('Abrir o perfil de alguém', "Open someone's profile")}](#abrir/agente/<handle>)`
   ].join('\n\n')
 }
@@ -212,8 +212,8 @@ export function builderGuide(ctx: { tuca?: boolean; me?: string }): string {
   return ctx.tuca
     ? L('## Pra montar agentes', '## For building agents')
     : L(
-          `## Pra propor agentes, times, rotinas e canais\nVocê pode propor, num card que ${me} aplica: um agente novo (propor_agente), um time de agentes com um canal (propor_time), mudar um agente (propor_ajuste), uma rotina de outro agente (propor_rotina; as suas, agende com agendar_rotina) e um canal (propor_canal). Proponha quando ${me} pedir, ou quando for claramente o que resolve o pedido; não no meio de outra tarefa. Nada existe ou muda até ${me} aplicar. Num agente novo: instruções de 4 a 8 linhas falando com ele, conectores só em leitura se a tarefa não pede escrita, o modelo mais simples que dá conta. Dúvida de como usar o Tucano (telas, configurações, por que algo não funciona) é com o Tuca: diga pra perguntar a ele. Ele não muda o seu acesso nem as suas permissões: se faltar uma, diga a ${me} qual, sem mandar pedir ao Tuca.`,
-          `## For proposing agents, teams, routines and channels\nYou can propose, as a card ${me} applies: a new agent (propor_agente), a team of agents with a channel (propor_time), changing an agent (propor_ajuste), a routine for another agent (propor_rotina; your own you schedule with agendar_rotina) and a channel (propor_canal). Propose when ${me} asks, or when it's clearly what solves the request; not in the middle of another task. Nothing exists or changes until ${me} applies it. For a new agent: 4 to 8 lines of instructions talking to it, connectors read-only unless the task needs writing, the simplest model that does the job. Questions about how to use Tucano (screens, settings, why something isn't working) are for the Tuca: say to ask him. He doesn't change your access or permissions: if one is missing, tell ${me} which, without sending them to the Tuca.`
+          `## Pra propor agentes, times, rotinas e canais\nVocê pode propor, num card que ${me} aplica: um agente novo (propor_agente), um time de agentes com um canal (propor_time), mudar um agente (propor_ajuste), uma rotina de outro agente (propor_rotina; as suas, agende com agendar_rotina) e um canal (propor_canal). Proponha quando ${me} pedir, ou quando for claramente o que resolve o pedido; não no meio de outra tarefa. Nada existe ou muda até ${me} aplicar. Num agente novo: instruções de 4 a 8 linhas falando com ele, conectores só em leitura se a tarefa não pede escrita, o modelo mais simples que dá conta. Dúvida de como usar a Arara (telas, configurações, por que algo não funciona) é com o Tuca: diga pra perguntar a ele. Ele não muda o seu acesso nem as suas permissões: se faltar uma, diga a ${me} qual, sem mandar pedir ao Tuca.`,
+          `## For proposing agents, teams, routines and channels\nYou can propose, as a card ${me} applies: a new agent (propor_agente), a team of agents with a channel (propor_time), changing an agent (propor_ajuste), a routine for another agent (propor_rotina; your own you schedule with agendar_rotina) and a channel (propor_canal). Propose when ${me} asks, or when it's clearly what solves the request; not in the middle of another task. Nothing exists or changes until ${me} applies it. For a new agent: 4 to 8 lines of instructions talking to it, connectors read-only unless the task needs writing, the simplest model that does the job. Questions about how to use Arara (screens, settings, why something isn't working) are for the Tuca: say to ask him. He doesn't change your access or permissions: if one is missing, tell ${me} which, without sending them to the Tuca.`
         )
 }
 
@@ -330,6 +330,6 @@ export function tucaAgent(modelId: string, taken: string[], limit: number): Agen
 
 export const tucaHello = (): string =>
   L(
-    'Oi, eu sou o Tuca. Te ajudo com o Tucano: explico como as coisas funcionam, vejo por que algo não está dando certo e monto os agentes do seu time. Pra começar, me conta uma tarefa que você queria tirar do prato, com um exemplo de verdade, e eu desenho o agente certo pra ela.',
-    "Hi, I'm Tuca. I help you with Tucano: I explain how things work, look into why something isn't working and build your team's agents. To start, tell me about a task you'd like off your plate, with a real example, and I'll design the right agent for it."
+    'Oi, eu sou o Tuca. Te ajudo com a Arara: explico como as coisas funcionam, vejo por que algo não está dando certo e monto os agentes do seu time. Pra começar, me conta uma tarefa que você queria tirar do prato, com um exemplo de verdade, e eu desenho o agente certo pra ela.',
+    "Hi, I'm Tuca. I help you with Arara: I explain how things work, look into why something isn't working and build your team's agents. To start, tell me about a task you'd like off your plate, with a real example, and I'll design the right agent for it."
   )

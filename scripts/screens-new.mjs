@@ -7,9 +7,9 @@ import { join } from 'node:path'
 
 const out = process.argv[2] ?? 'screens-new'
 mkdirSync(out, { recursive: true })
-const data = mkdtempSync(join(tmpdir(), 'tucano-'))
-for (const dir of [tmpdir(), '/tmp']) rmSync(join(dir, 'tucano-demo-tasks.json'), { force: true })
-const app = await electron.launch({ args: ['.'], env: { ...process.env, TUCANO_DATA: data, TUCANO_SEED: '1', TUCANO_FAKE_ENGINES: '1' } })
+const data = mkdtempSync(join(tmpdir(), 'arara-'))
+for (const dir of [tmpdir(), '/tmp']) rmSync(join(dir, 'arara-demo-tasks.json'), { force: true })
+const app = await electron.launch({ args: ['.'], env: { ...process.env, ARARA_DATA: data, ARARA_SEED: '1', ARARA_FAKE_ENGINES: '1' } })
 const win = await app.firstWindow()
 await win.setViewportSize({ width: 1280, height: 860 })
 await win.waitForSelector('.sidebar')

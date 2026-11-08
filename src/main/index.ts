@@ -17,14 +17,14 @@ import { homePhone } from './home-phone'
 import { suggestWorkspaceCopyName, workspaceParts, type Workspace, type WorkspaceList, type WorkspaceSummary } from '../shared/workspaces'
 import { autostartEntry, autostartFile, onPath } from '../core/platform'
 
-const NAME = 'Tucano'
+const NAME = 'Arara'
 app.setName(NAME)
 // Windows shows notifications only for an app with an id, the same as the installer's.
-if (process.platform === 'win32') app.setAppUserModelId('dev.tucano.app')
+if (process.platform === 'win32') app.setAppUserModelId('dev.arara.app')
 
 // Until the core says which language the person picked, the Mac's.
 const systemLocale = ((): string | undefined => {
-  if (process.env['TUCANO_LOCALE']) return process.env['TUCANO_LOCALE'] // a test picks it
+  if (process.env['ARARA_LOCALE']) return process.env['ARARA_LOCALE'] // a test picks it
   try {
     return app.getPreferredSystemLanguages()[0]
   } catch {
@@ -33,19 +33,19 @@ const systemLocale = ((): string | undefined => {
 })()
 setLang(langOf(systemLocale))
 
-// Run from the code (npm run dev), the app keeps its own data, apart from an installed Tucano.
-if (!app.isPackaged && !process.env['TUCANO_DATA']) app.setPath('userData', join(app.getPath('appData'), `${NAME} Dev`))
+// Run from the code (npm run dev), the app keeps its own data, apart from an installed Arara.
+if (!app.isPackaged && !process.env['ARARA_DATA']) app.setPath('userData', join(app.getPath('appData'), `${NAME} Dev`))
 
 // The data from when the app was called agent-desk comes over first (see migrate.ts). If it
 // can't yet, the app opens on a scratch folder only to say why, and the data stays put.
 // Only on the Mac: agent-desk never shipped for Windows, and the key lives in the macOS Keychain.
 const moved: Moved =
-  app.isPackaged && process.platform === 'darwin' && !process.env['TUCANO_DATA'] ? moveFromAgentDesk({ appData: app.getPath('appData'), dataDir: app.getPath('userData'), name: NAME, appPath: bundleOf(process.execPath) }) : 'nothing'
-if (moved === 'old-app-open' || moved === 'keychain-denied') app.setPath('userData', join(app.getPath('temp'), 'tucano-esperando'))
+  app.isPackaged && process.platform === 'darwin' && !process.env['ARARA_DATA'] ? moveFromAgentDesk({ appData: app.getPath('appData'), dataDir: app.getPath('userData'), name: NAME, appPath: bundleOf(process.execPath) }) : 'nothing'
+if (moved === 'old-app-open' || moved === 'keychain-denied') app.setPath('userData', join(app.getPath('temp'), 'arara-esperando'))
 
-const dataDir = (): string => process.env['TUCANO_DATA'] ?? app.getPath('userData')
-// tucano://artifact/<id>/<name> serves what agents showed in the chat.
-protocol.registerSchemesAsPrivileged([{ scheme: 'tucano', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }])
+const dataDir = (): string => process.env['ARARA_DATA'] ?? app.getPath('userData')
+// arara://artifact/<id>/<name> serves what agents showed in the chat.
+protocol.registerSchemesAsPrivileged([{ scheme: 'arara', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }])
 
 let registry: Workspaces
 // `wikiFolder`: the wiki's folder, as that core says (an Obsidian vault, say): the one folder outside the app's own it may open.
@@ -69,8 +69,8 @@ function startCore(workspace: Workspace): Runtime {
     cores.delete(workspace.id)
   }
   const child = utilityProcess.fork(join(import.meta.dirname, 'core.js'), [], {
-    serviceName: `tucano-core-${workspace.id}`,
-    env: { ...process.env, TUCANO_DATA: workspace.dataDir, TUCANO_WORKSPACE_ID: workspace.id, ...(workspace.isDefault ? {} : { TUCANO_WORKSPACE_LABEL: workspace.name }), TUCANO_DEFAULT_WORKSPACE: workspace.isDefault ? '1' : '0', TUCANO_THEME: registry.theme() ?? (workspace.isDefault ? '' : 'system'), TUCANO_WEBHOOK_PORT: String(workspace.webhookPort), TUCANO_GIT_PORT: String(workspace.gitPort), TUCANO_PACKAGED: app.isPackaged ? '1' : '0', TUCANO_VERSION: app.getVersion(), TUCANO_WHISPER: whisperDir(), TUCANO_LOCAL_KEY: localKey, TUCANO_LOCALE: systemLocale ?? '' }
+    serviceName: `arara-core-${workspace.id}`,
+    env: { ...process.env, ARARA_DATA: workspace.dataDir, ARARA_WORKSPACE_ID: workspace.id, ...(workspace.isDefault ? {} : { ARARA_WORKSPACE_LABEL: workspace.name }), ARARA_DEFAULT_WORKSPACE: workspace.isDefault ? '1' : '0', ARARA_THEME: registry.theme() ?? (workspace.isDefault ? '' : 'system'), ARARA_WEBHOOK_PORT: String(workspace.webhookPort), ARARA_GIT_PORT: String(workspace.gitPort), ARARA_PACKAGED: app.isPackaged ? '1' : '0', ARARA_VERSION: app.getVersion(), ARARA_WHISPER: whisperDir(), ARARA_LOCAL_KEY: localKey, ARARA_LOCALE: systemLocale ?? '' }
   })
   let resolve!: () => void
   let reject!: (e: Error) => void
@@ -192,7 +192,7 @@ const player = ((): ((file: string) => [string, string[]]) | null => {
 function chirp(sound: 'chama' | 'pronto'): void {
   if (!player || Date.now() - chirpedAt < 1500) return
   chirpedAt = Date.now()
-  const [bin, args] = player(join(resource('sounds'), `tucano-${sound}.wav`))
+  const [bin, args] = player(join(resource('sounds'), `arara-${sound}.wav`))
   execFile(bin, args, { windowsHide: true }, () => {})
 }
 
@@ -237,10 +237,10 @@ function setTray(): void {
   tray.on('click', () => showWindow())
   tray.setContextMenu(
     Menu.buildFromTemplate([
-      { label: L(`Abrir o ${NAME}`, `Open ${NAME}`), click: () => showWindow() },
+      { label: L(`Abrir a ${NAME}`, `Open ${NAME}`), click: () => showWindow() },
       ...(servers.list().length ? [{ type: 'separator' as const }, ...servers.windowsMenu()] : []),
       { type: 'separator' },
-      { label: L(`Encerrar o ${NAME}`, `Quit ${NAME}`), click: () => app.quit() }
+      { label: L(`Encerrar a ${NAME}`, `Quit ${NAME}`), click: () => app.quit() }
     ])
   )
 }
@@ -251,11 +251,11 @@ function stillOpen(): void {
   toldStillOpen = true
   new Notification({
     ...noteIcon(),
-    title: L(`O ${NAME} continua aberto`, `${NAME} is still open`),
+    title: L(`A ${NAME} continua aberta`, `${NAME} is still open`),
     body:
       process.platform === 'win32'
-        ? L('As rotinas seguem rodando. Pra voltar, use o ícone do tucano na bandeja, perto do relógio (talvez dentro da setinha ^), ou abra o Tucano de novo.', 'Routines keep running. To get back, use the toucan icon in the tray by the clock (maybe inside the little ^ arrow), or open Tucano again.')
-        : L('As rotinas seguem rodando. Pra voltar, use o ícone do tucano perto do relógio ou abra o Tucano de novo.', 'Routines keep running. To get back, use the toucan icon by the clock or open Tucano again.'),
+        ? L('As rotinas seguem rodando. Pra voltar, use o ícone da arara na bandeja, perto do relógio (talvez dentro da setinha ^), ou abra a Arara de novo.', 'Routines keep running. To get back, use the Arara icon in the tray by the clock (maybe inside the little ^ arrow), or open Arara again.')
+        : L('As rotinas seguem rodando. Pra voltar, use o ícone da arara perto do relógio ou abra a Arara de novo.', 'Routines keep running. To get back, use the Arara icon by the clock or open Arara again.'),
     silent: true
   }).show()
 }
@@ -271,22 +271,22 @@ function handleCore(child: UtilityProcess, msg: CoreRequest, workspace: Workspac
     for (const core of cores.values()) if (core.summary.status !== 'failed') core.child.postMessage({ type: 'workspace-theme', theme: msg.theme })
   } else if (msg.type === 'secret') {
     try {
-      // Linux without an open keyring falls back to a fixed key, or to nothing: Tucano keeps no
+      // Linux without an open keyring falls back to a fixed key, or to nothing: Arara keeps no
       // secret that way, and says what to do.
       if (process.platform === 'linux' && (!safeStorage.isEncryptionAvailable() || ['basic_text', 'unknown'].includes(safeStorage.getSelectedStorageBackend())))
         throw new Error(
           L(
-            'Este Linux não tem um chaveiro aberto (GNOME Keyring ou KWallet), e o Tucano não guarda senhas sem cifrar. Abra ou ative o KWallet, ou instale o gnome-keyring, entre de novo na sua sessão e tente outra vez.',
-            "This Linux has no keyring open (GNOME Keyring or KWallet), and Tucano doesn't keep passwords unencrypted. Open or enable KWallet, or install gnome-keyring, log in again and try once more."
+            'Este Linux não tem um chaveiro aberto (GNOME Keyring ou KWallet), e a Arara não guarda senhas sem cifrar. Abra ou ative o KWallet, ou instale o gnome-keyring, entre de novo na sua sessão e tente outra vez.',
+            "This Linux has no keyring open (GNOME Keyring or KWallet), and Arara doesn't keep passwords unencrypted. Open or enable KWallet, or install gnome-keyring, log in again and try once more."
           )
         )
       if (!safeStorage.isEncryptionAvailable())
         throw new Error(
           process.platform === 'darwin'
-            ? L('O Tucano não conseguiu usar as Chaves do macOS. Reinicie o Tucano e, se o Mac pedir, clique em Permitir.', "Tucano couldn't use the macOS Keychain. Restart Tucano and, if the Mac asks, click Allow.")
+            ? L('A Arara não conseguiu usar as Chaves do macOS. Reinicie a Arara e, se o Mac pedir, clique em Permitir.', "Arara couldn't use the macOS Keychain. Restart Arara and, if the Mac asks, click Allow.")
             : process.platform === 'win32'
-              ? L('O Tucano não conseguiu usar a proteção de dados do Windows. Reinicie o Tucano e entre de novo na sua conta do Windows se continuar.', "Tucano couldn't use Windows data protection. Restart Tucano, and sign in to Windows again if it keeps happening.")
-              : L('O Tucano não conseguiu usar o chaveiro do sistema. Reinicie o Tucano e tente de novo.', "Tucano couldn't use the system's keyring. Restart Tucano and try again.")
+              ? L('A Arara não conseguiu usar a proteção de dados do Windows. Reinicie a Arara e entre de novo na sua conta do Windows se continuar.', "Arara couldn't use Windows data protection. Restart Arara, and sign in to Windows again if it keeps happening.")
+              : L('A Arara não conseguiu usar o chaveiro do sistema. Reinicie a Arara e tente de novo.', "Arara couldn't use the system's keyring. Restart Arara and try again.")
         )
       let data: string
       if (msg.op === 'encrypt') data = safeStorage.encryptString(msg.data).toString('base64')
@@ -589,7 +589,7 @@ function showWindow(conversationId?: string, page?: 'skills', threadId?: string)
   win.show()
   win.focus()
   if (!conversationId && !page) return
-  servers.showLocal() // a conversation of this computer's: its Tucano on screen
+  servers.showLocal() // a conversation of this computer's: its Arara on screen
   const go = (): void => (page ? win.webContents.send('navigate-page', page) : win.webContents.send('navigate', conversationId, threadId))
   if (win.webContents.isLoading()) win.webContents.once('did-finish-load', go)
   else go()
@@ -611,7 +611,7 @@ ipcMain.on('update:install', (e) => {
       defaultId: 1,
       cancelId: 1,
       message: L('Um agente ainda está trabalhando', 'An agent is still working'),
-      detail: L('Reiniciar agora interrompe o que ele está fazendo. Se esperar, a atualização entra quando você fechar o Tucano.', 'Restarting now stops what it is doing. If you wait, the update goes in when you quit Tucano.')
+      detail: L('Reiniciar agora interrompe o que ela está fazendo. Se esperar, a atualização entra quando você fechar a Arara.', 'Restarting now stops what it is doing. If you wait, the update goes in when you quit Arara.')
     })
     if (answer !== 0) return
   }
@@ -693,14 +693,14 @@ function createWindow(): BrowserWindow {
 
 // One app per data folder: two would both run the same routines. Opening it
 // again (Dock, Spotlight, at login) just brings the window back. A test run
-// with its own data folder is a separate app. `Tucano --quit` (install.ps1, before
+// with its own data folder is a separate app. `Arara --quit` (install.ps1, before
 // it replaces the app) asks the open one to quit as its tray menu does, and never
 // opens one itself.
-if (process.env['TUCANO_DATA']) app.setPath('userData', process.env['TUCANO_DATA'])
+if (process.env['ARARA_DATA']) app.setPath('userData', process.env['ARARA_DATA'])
 const quitOnly = process.argv.includes('--quit')
 const primary = app.requestSingleInstanceLock() && !quitOnly
 if (!primary) app.quit()
-// Tucanos on servers, shown in the app's window (servers.ts). The keychain keeps their access, as it
+// Araras on servers, shown in the app's window (servers.ts). The keychain keeps their access, as it
 // keeps the core's secrets; where it can't, nothing is saved.
 const servers = new Servers({
   dataDir,
@@ -726,9 +726,9 @@ ipcMain.handle('servers:pair', (e, link: unknown) => (fromApp(e) && typeof link 
 ipcMain.on('servers:open', (e, id: unknown) => fromApp(e) && typeof id === 'string' && void servers.show(id))
 ipcMain.on('servers:local', (e) => fromApp(e) && servers.showLocal())
 ipcMain.handle('servers:forget', (e, id: unknown) => (fromApp(e) && typeof id === 'string' ? servers.forget(id, false) : false))
-// A tucano://connect link: on a Mac the system hands it over by open-url; on Windows and Linux it
+// A arara://connect link: on a Mac the system hands it over by open-url; on Windows and Linux it
 // comes as an argument, to this instance or (the app already open) to second-instance.
-const linkIn = (argv: string[]): string | undefined => argv.find((a) => a.startsWith('tucano://'))
+const linkIn = (argv: string[]): string | undefined => argv.find((a) => a.startsWith('arara://'))
 let pendingLink = linkIn(process.argv)
 const openLink = (link: string): void => {
   if (app.isReady()) void servers.pairFromOutside(link)
@@ -754,7 +754,7 @@ function setMenu(): void {
       ? [
           { role: 'services', label: L('Serviços', 'Services') },
           { type: 'separator' },
-          { role: 'hide', label: L(`Ocultar o ${NAME}`, `Hide ${NAME}`) },
+          { role: 'hide', label: L(`Ocultar a ${NAME}`, `Hide ${NAME}`) },
           { role: 'hideOthers', label: L('Ocultar os outros', 'Hide Others') },
           { role: 'unhide', label: L('Mostrar tudo', 'Show All') },
           { type: 'separator' }
@@ -764,7 +764,7 @@ function setMenu(): void {
     Menu.buildFromTemplate([
       {
         label: NAME,
-        submenu: [{ role: 'about', label: L(`Sobre o ${NAME}`, `About ${NAME}`) }, { type: 'separator' }, ...macOnly, { role: 'quit', label: L(`Encerrar o ${NAME}`, `Quit ${NAME}`) }]
+        submenu: [{ role: 'about', label: L(`Sobre a ${NAME}`, `About ${NAME}`) }, { type: 'separator' }, ...macOnly, { role: 'quit', label: L(`Encerrar a ${NAME}`, `Quit ${NAME}`) }]
       },
       { role: 'editMenu', label: L('Editar', 'Edit') },
       { role: 'viewMenu', label: L('Visualizar', 'View') },
@@ -780,11 +780,11 @@ if (moved === 'old-app-open' || moved === 'keychain-denied') {
   void app.whenReady().then(async () => {
     await dialog.showMessageBox({
       type: 'warning',
-      message: moved === 'old-app-open' ? L('Feche o app antigo primeiro', 'Close the old app first') : L('O Tucano precisa da sua chave antiga', 'Tucano needs your old key'),
+      message: moved === 'old-app-open' ? L('Feche o app antigo primeiro', 'Close the old app first') : L('A Arara precisa da sua chave antiga', 'Arara needs your old key'),
       detail:
         moved === 'old-app-open'
-          ? L('A versão anterior do Tucano ainda está aberta. Encerre ela (⌘Q) e abra o Tucano de novo: seus agentes, conversas e memórias vêm junto.', 'The previous version of Tucano is still open. Quit it (⌘Q) and open Tucano again: your agents, conversations and memories come along.')
-          : L('Pra trazer seus logins salvos, o macOS pede acesso à chave "agent-desk Safe Storage". Abra o Tucano de novo e clique em Permitir. Nada foi mexido.', 'To bring your saved logins along, macOS asks for access to the "agent-desk Safe Storage" key. Open Tucano again and click Allow. Nothing was changed.')
+          ? L('A versão anterior da Arara ainda está aberta. Encerre ela (⌘Q) e abra a Arara de novo: seus agentes, conversas e memórias vêm junto.', 'The previous version of Arara is still open. Quit it (⌘Q) and open Arara again: your agents, conversations and memories come along.')
+          : L('Pra trazer seus logins salvos, o macOS pede acesso à chave "agent-desk Safe Storage". Abra a Arara de novo e clique em Permitir. Nada foi mexido.', 'To bring your saved logins along, macOS asks for access to the "agent-desk Safe Storage" key. Open Arara again and click Allow. Nothing was changed.')
     })
     app.exit(0)
   })
@@ -797,7 +797,7 @@ if (moved === 'old-app-open' || moved === 'keychain-denied') {
     done(own && !!media.mediaTypes?.length && media.mediaTypes.every((t) => t === 'audio'))
   })
   setMenu()
-  protocol.handle('tucano', serveArtifact)
+  protocol.handle('arara', serveArtifact)
   registry = new Workspaces(dataDir())
   nativeTheme.themeSource = registry.theme() ?? 'system'
   startWorkspaces()
@@ -822,8 +822,8 @@ if (moved === 'old-app-open' || moved === 'keychain-denied') {
   createWindow()
   setTray()
   updates.start()
-  // Only the installed app takes tucano:// links: a development run would take them from it.
-  if (app.isPackaged) app.setAsDefaultProtocolClient('tucano')
+  // Only the installed app takes arara:// links: a development run would take them from it.
+  if (app.isPackaged) app.setAsDefaultProtocolClient('arara')
   servers.restore()
   if (pendingLink) void servers.pairFromOutside(pendingLink)
   pendingLink = undefined

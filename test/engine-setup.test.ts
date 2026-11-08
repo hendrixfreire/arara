@@ -96,7 +96,7 @@ function signIn(print: string, code: number | null): { spawn: SetupDeps['spawn']
 }
 
 function setup(over: Partial<SetupDeps> & { start?: EngineStatus; after?: EngineStatus }): { s: EngineSetup; dir: string; seen: SetupState[] } {
-  const dir = mkdtempSync(join(tmpdir(), 'tucano-setup-'))
+  const dir = mkdtempSync(join(tmpdir(), 'arara-setup-'))
   let status: EngineStatus = over.start ?? { installed: false, loggedIn: false }
   const seen: SetupState[] = []
   const s: EngineSetup = new EngineSetup({

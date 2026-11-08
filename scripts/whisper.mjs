@@ -37,7 +37,7 @@ mkdirSync(out, { recursive: true })
 
 if (os === 'mac') {
   if (arch !== 'arm64' && arch !== 'x64') throw new Error(`no Mac build for ${arch}`)
-  const cache = join(homedir(), 'Library', 'Caches', 'tucano')
+  const cache = join(homedir(), 'Library', 'Caches', 'arara')
   // cmake: the one on the PATH, or one kept in a venv of our own (nothing installed system-wide)
   let cmake = 'cmake'
   try {

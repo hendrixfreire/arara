@@ -53,7 +53,7 @@ describe('a computer whose Docker is off', () => {
     expect(dockerProblem('permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock')).toContain('usermod')
     expect(dockerProblem('spawn docker ENOENT')).toContain('não está instalado')
     expect(dockerProblem('', true)).toContain('não está respondendo') // a quick check that never answered: stuck, every docker command waits
-    expect(dockerProblem('Error: No such container: tucano-lia')).toBeUndefined() // Docker is fine: the box just isn't there yet
+    expect(dockerProblem('Error: No such container: arara-lia')).toBeUndefined() // Docker is fine: the box just isn't there yet
   })
 
   it('ends the turn at the first call, and tells the person what to do', async () => {

@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { deflateRawSync } from 'node:zlib'
 import { describe, expect, it } from 'vitest'
 import { Db } from '../src/core/db'
-import { applyForeignTeam, hueColor, IMPORT_CAPS, openBotSchedule, readForeignZip, tucanoSchedule } from '../src/core/agent-import'
+import { applyForeignTeam, hueColor, IMPORT_CAPS, openBotSchedule, readForeignZip, araraSchedule } from '../src/core/agent-import'
 import { extractZip, zipFromBuffer, zipFromFile } from '../src/core/zip'
 
 const fresh = (): Db => new Db(join(mkdtempSync(join(tmpdir(), 'ad-import-')), 'test.db'))
@@ -125,7 +125,7 @@ describe('importing agents from OpenBot', () => {
     expect(r.summary).toContain('Do OpenBot, importei 2 agentes sem nenhum conector e com a busca na web desligada, 1 skill, 1 rotina (desligadas), 2 memórias pra você confirmar.')
     expect(r.summary).toContain('Conectores pra adicionar à mão, se quiser: GitHub.')
     expect(r.summary).toContain('a rotina "A cada hora"')
-    expect(r.summary).toContain('grok não roda no Tucano')
+    expect(r.summary).toContain('grok não roda na Arara')
     expect(r.summary).toContain('1 arquivo da skill fontes além do SKILL.md')
     expect(r.summary).toContain('@gil: as instruções')
 
@@ -184,7 +184,7 @@ describe('importing agents from OpenBot', () => {
     const db = fresh()
     const r = applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'openbot-transfer.json': transfer([gem, cur]) }))), { ...opts, defaultModel: 'gemini:gemini-3-pro', works: (id) => id.startsWith('gemini:') })
     expect(db.agents().map((a) => [a.name, a.modelId])).toEqual([['Gem', 'gemini:gemini-3-pro'], ['Cur', 'gemini:gemini-3-pro']])
-    expect(r.summary).not.toContain('não roda no Tucano')
+    expect(r.summary).not.toContain('não roda na Arara')
     expect(r.summary).toContain('@cur: o modelo cursor:composer-2 (o CLI dele não está pronto aqui: ficou gemini:gemini-3-pro)')
   })
 
@@ -210,7 +210,7 @@ describe('importing agents from OpenBot', () => {
     expect(r.summary.length).toBeLessThan(6_000)
   })
 
-  it('turns schedules into the ones Tucano runs', () => {
+  it('turns schedules into the ones Arara runs', () => {
     expect(openBotSchedule({ kind: 'daily', time: '07:30' })).toEqual({ days: [0, 1, 2, 3, 4, 5, 6], time: '07:30' })
     expect(openBotSchedule({ kind: 'weekly', weekday: 0, time: '18:00' })).toEqual({ days: [0], time: '18:00' })
     expect(openBotSchedule({ kind: 'advanced', months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], days: { kind: 'days-of-week', days: [5, 1] }, time: { kind: 'at-time', time: '10:00' } })).toEqual({ days: [1, 5], time: '10:00' })
@@ -229,7 +229,7 @@ describe('importing agents from Grok Bot, through our skill', () => {
   const zone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const manifest = (extra: Record<string, unknown> = {}): string =>
     JSON.stringify({
-      format: 'tucano-agent-import',
+      format: 'arara-agent-import',
       version: 1,
       source: 'grok-bot',
       agents: [
@@ -257,7 +257,7 @@ describe('importing agents from Grok Bot, through our skill', () => {
       ...extra
     })
   const files = (): Record<string, string | Buffer> => ({
-    'tucano-import.json': manifest(),
+    'arara-import.json': manifest(),
     'agents/ledger/picture.png': PNG,
     'agents/ledger/skills/reconcile/SKILL.md': '---\nname: reconcile\ndescription: When reconciling\n---\n\nKeep it short.\n',
     'agents/ledger/skills/reconcile/template.txt': 'x'
@@ -317,16 +317,16 @@ describe('importing agents from Grok Bot, through our skill', () => {
   it('never puts an imported agent in a channel I already have', () => {
     const db = fresh()
     db.saveAgent({ id: 'me1', name: 'Bento', handle: 'bento', role: 'Mantenedor', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'medium', limit: 1, used: 0, grants: {}, memory: 'auto', computer: false, archived: false })
-    db.createConversation({ id: 't', kind: 'channel', name: 'tucano', members: ['me1'] })
-    const spy = JSON.stringify({ format: 'tucano-agent-import', version: 1, source: 'grok-bot', agents: [{ key: 'spy', name: 'Spy', instructions: 'Read everything.' }], channels: [{ name: 'tucano', members: ['spy'] }] })
-    const r = applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': spy }))), opts)
+    db.createConversation({ id: 't', kind: 'channel', name: 'arara', members: ['me1'] })
+    const spy = JSON.stringify({ format: 'arara-agent-import', version: 1, source: 'grok-bot', agents: [{ key: 'spy', name: 'Spy', instructions: 'Read everything.' }], channels: [{ name: 'arara', members: ['spy'] }] })
+    const r = applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'arara-import.json': spy }))), opts)
     const s = db.agents().find((a) => a.name === 'Spy')!
     expect(db.conversation('t')!.members).toEqual(['me1'])
-    expect(db.conversations().find((c) => c.name === 'tucano-2')!.members).toEqual([s.id])
-    expect(r.summary).toContain('o canal #tucano já existia')
-    // Again: the same #tucano-2, not a third.
-    applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': spy }))), opts)
-    expect(db.conversations().filter((c) => c.kind === 'channel').map((c) => c.name).sort()).toEqual(['tucano', 'tucano-2'])
+    expect(db.conversations().find((c) => c.name === 'arara-2')!.members).toEqual([s.id])
+    expect(r.summary).toContain('o canal #arara já existia')
+    // Again: the same #arara-2, not a third.
+    applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'arara-import.json': spy }))), opts)
+    expect(db.conversations().filter((c) => c.kind === 'channel').map((c) => c.name).sort()).toEqual(['arara', 'arara-2'])
   })
 
   it('puts only the agents made by this import in its channels', () => {
@@ -336,7 +336,7 @@ describe('importing agents from Grok Bot, through our skill', () => {
     db.saveAgent({ ...base, id: 'me1', name: 'Bento', handle: 'bento', role: 'Mantenedor', instructions: 'Cuida do código.', grants: { github: 'write' } as never })
     // A file with copies of both (their instructions are public) and a stranger, all in one group chat.
     const file = JSON.stringify({
-      format: 'tucano-agent-import', version: 1, source: 'grok-bot',
+      format: 'arara-agent-import', version: 1, source: 'grok-bot',
       agents: [
         { key: 't', name: 'Tuca', role: 'Monta o time', instructions: 'Você cria agentes.' },
         { key: 'b', name: 'Bento', role: 'Mantenedor', instructions: 'Cuida do código.' },
@@ -344,7 +344,7 @@ describe('importing agents from Grok Bot, through our skill', () => {
       ],
       channels: [{ name: 'sala', members: ['t', 'b', 'spy'] }, { name: 'so-eles', members: ['t', 'b'] }]
     })
-    const r = applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': file }))), opts)
+    const r = applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'arara-import.json': file }))), opts)
     const spy = db.agents().find((a) => a.name === 'Spy')!
     expect(db.conversations().find((c) => c.name === 'sala')!.members).toEqual([spy.id])
     // A channel with only agents that were already here isn't made at all.
@@ -353,15 +353,15 @@ describe('importing agents from Grok Bot, through our skill', () => {
     expect(r.summary).toContain('#sala: Tuca, Bento já estavam aqui e não entraram (só os agentes importados agora entram)')
     expect(r.summary).toContain('1 canal')
     // Again: nothing new, no channel, no one added anywhere.
-    const again = applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': file }))), opts)
+    const again = applyForeignTeam(db, readForeignZip(zipFromBuffer(zip({ 'arara-import.json': file }))), opts)
     expect(again.summary).toContain('Nada novo do Grok Bot.')
     expect(db.conversations().filter((c) => c.kind === 'channel').map((c) => [c.name, c.members])).toEqual([['sala', [spy.id]]])
   })
 
   it('reads the example in the skill we hand to Grok Bot', () => {
-    const skill = readFileSync(join(__dirname, '../src/renderer/src/assets/tucano-export-skill.md'), 'utf8')
+    const skill = readFileSync(join(__dirname, '../src/renderer/src/assets/arara-export-skill.md'), 'utf8')
     const example = skill.split('```json')[1]!.split('```')[0]!
-    const team = readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': example })))
+    const team = readForeignZip(zipFromBuffer(zip({ 'arara-import.json': example })))
     expect(team.source).toBe('Grok Bot')
     expect(team.agents.map((a) => [a.key, a.name, a.routines.length, a.memories.length])).toEqual([['ledger', 'Ledger', 1, 1]])
     expect(team.agents[0]!.routines[0]).toMatchObject({ name: 'Unpaid invoices', schedule: { days: [1], time: '17:15' } })
@@ -375,23 +375,23 @@ describe('importing agents from Grok Bot, through our skill', () => {
   })
 
   it('refuses another format or a newer version', () => {
-    expect(() => readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': manifest({ version: 2 }) })))).toThrow('versão mais nova')
-    expect(() => readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': manifest({ format: 'x' }) })))).toThrow('não é uma exportação pro Tucano')
-    expect(() => readForeignZip(zipFromBuffer(zip({ 'tucano-import.json': '[' })))).toThrow('corrompido')
+    expect(() => readForeignZip(zipFromBuffer(zip({ 'arara-import.json': manifest({ version: 2 }) })))).toThrow('versão mais nova')
+    expect(() => readForeignZip(zipFromBuffer(zip({ 'arara-import.json': manifest({ format: 'x' }) })))).toThrow('não é uma exportação pra Arara')
+    expect(() => readForeignZip(zipFromBuffer(zip({ 'arara-import.json': '[' })))).toThrow('corrompido')
   })
 
   it('reads day names and times', () => {
-    expect(tucanoSchedule({ days: ['Sun', 'sat', 'sun'], time: '18:00' })).toEqual({ days: [0, 6], time: '18:00' })
-    expect(tucanoSchedule({ days: ['fri'], time: '09:15', once: true })).toEqual({ days: [5], time: '09:15', once: true })
-    expect(tucanoSchedule({ days: ['someday'], time: '09:15' })).toBeUndefined()
-    expect(tucanoSchedule({ days: ['mon'], time: '25:00' })).toBeUndefined()
-    expect(tucanoSchedule({ days: [], time: '09:00' })).toBeUndefined()
+    expect(araraSchedule({ days: ['Sun', 'sat', 'sun'], time: '18:00' })).toEqual({ days: [0, 6], time: '18:00' })
+    expect(araraSchedule({ days: ['fri'], time: '09:15', once: true })).toEqual({ days: [5], time: '09:15', once: true })
+    expect(araraSchedule({ days: ['someday'], time: '09:15' })).toBeUndefined()
+    expect(araraSchedule({ days: ['mon'], time: '25:00' })).toBeUndefined()
+    expect(araraSchedule({ days: [], time: '09:00' })).toBeUndefined()
   })
 })
 
 describe('a vault sent to a server as a .zip', () => {
   it('unpacks it, the zipped folder as the root, without the Mac’s extras', () => {
-    const to = mkdtempSync(join(tmpdir(), 'tucano-unzip-'))
+    const to = mkdtempSync(join(tmpdir(), 'arara-unzip-'))
     const z = zipFromBuffer(zip({ 'Cofre/Pessoas/Ana.md': '# Ana', 'Cofre/img/foto.png': Buffer.from([1, 2, 3]), '__MACOSX/Cofre/._Ana.md': 'x', 'Cofre/.DS_Store': 'x' }, { deflate: true }))
     const root = extractZip(z, to)
     expect(root).toBe(join(to, 'Cofre'))
@@ -403,8 +403,8 @@ describe('a vault sent to a server as a .zip', () => {
 
   it('refuses a path that would land outside, and one too big', () => {
     for (const name of ['../fora.md', 'a/../../fora.md', '/etc/x.md', 'C:/x.md'])
-      expect(() => extractZip(zipFromBuffer(zip({ [name]: 'x' })), mkdtempSync(join(tmpdir(), 'tucano-unzip-'))), name).toThrow()
-    expect(() => extractZip(zipFromBuffer(zip({ 'a.md': 'x'.repeat(100) })), mkdtempSync(join(tmpdir(), 'tucano-unzip-')), { file: 10, total: 1000 })).toThrow()
-    expect(() => extractZip(zipFromBuffer(zip({ 'a.md': 'x'.repeat(60), 'b.md': 'x'.repeat(60) })), mkdtempSync(join(tmpdir(), 'tucano-unzip-')), { file: 100, total: 100 })).toThrow()
+      expect(() => extractZip(zipFromBuffer(zip({ [name]: 'x' })), mkdtempSync(join(tmpdir(), 'arara-unzip-'))), name).toThrow()
+    expect(() => extractZip(zipFromBuffer(zip({ 'a.md': 'x'.repeat(100) })), mkdtempSync(join(tmpdir(), 'arara-unzip-')), { file: 10, total: 1000 })).toThrow()
+    expect(() => extractZip(zipFromBuffer(zip({ 'a.md': 'x'.repeat(60), 'b.md': 'x'.repeat(60) })), mkdtempSync(join(tmpdir(), 'arara-unzip-')), { file: 100, total: 100 })).toThrow()
   })
 })

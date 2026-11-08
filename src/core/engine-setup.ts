@@ -1,7 +1,7 @@
 // Setting up Codex or Claude Code with no terminal: the official CLI, downloaded from where its own
 // installer downloads it and checked against the published checksum, into a folder of the app's
 // (engines/ in the data folder); then the CLI's own sign-in, which opens the browser and finishes on
-// its own callback on this computer. The person signs in on OpenAI's or Anthropic's page: Tucano
+// its own callback on this computer. The person signs in on OpenAI's or Anthropic's page: Arara
 // never sees a password or a token, and doesn't relay the codes (the CLI stores the login where it
 // always does). The binary isn't changed, and on a machine where this can't work the screen offers
 // the terminal as before.
@@ -151,14 +151,14 @@ export class EngineSetup {
   }
 
   private async json(url: string): Promise<unknown> {
-    const r = await this.deps.fetch(url, { signal: this.abort?.signal, headers: { accept: 'application/json', 'user-agent': 'Tucano' } })
+    const r = await this.deps.fetch(url, { signal: this.abort?.signal, headers: { accept: 'application/json', 'user-agent': 'Arara' } })
     if (!r.ok) throw new Error(L(`Não consegui falar com ${new URL(url).host} (${r.status}).`, `Couldn't reach ${new URL(url).host} (${r.status}).`))
     return r.json()
   }
 
   // Downloads to a temporary file, checking the sha256 as it comes; only a match is kept.
   private async download(d: Download, to: string): Promise<void> {
-    const r = await this.deps.fetch(d.url, { signal: this.abort?.signal, headers: { 'user-agent': 'Tucano' } })
+    const r = await this.deps.fetch(d.url, { signal: this.abort?.signal, headers: { 'user-agent': 'Arara' } })
     if (!r.ok || !r.body) throw new Error(L(`O download falhou (${r.status}).`, `The download failed (${r.status}).`))
     const total = Number(r.headers.get('content-length')) || 0
     const hash = createHash('sha256')

@@ -136,8 +136,8 @@ function searchQuery(ev: Record<string, unknown>): string {
 // bare name fails and costs the agent a try.
 const gatewayNote = (): string =>
   L(
-    `As ferramentas do Tucano estão no servidor MCP \`${GATEWAY_NAME}\`. Chame com use_tool pelo nome completo, \`${GATEWAY_NAME}__<nome>\` (por exemplo \`${GATEWAY_NAME}__lembrar\`); search_tool lista as que existem.`,
-    `Tucano's tools are on the \`${GATEWAY_NAME}\` MCP server. Call them with use_tool by their full name, \`${GATEWAY_NAME}__<name>\` (for example \`${GATEWAY_NAME}__lembrar\`); search_tool lists the ones there are.`
+    `As ferramentas da Arara estão no servidor MCP \`${GATEWAY_NAME}\`. Chame com use_tool pelo nome completo, \`${GATEWAY_NAME}__<nome>\` (por exemplo \`${GATEWAY_NAME}__lembrar\`); search_tool lista as que existem.`,
+    `Arara's tools are on the \`${GATEWAY_NAME}\` MCP server. Call them with use_tool by their full name, \`${GATEWAY_NAME}__<name>\` (for example \`${GATEWAY_NAME}__lembrar\`); search_tool lists the ones there are.`
   )
 
 // Headless, one shot. The prompt is a file: Grok does not read the prompt from
@@ -257,7 +257,7 @@ export interface GrokTurnDirs {
 // A folder for one turn, outside any checkout. The socket path has to stay
 // short enough for a Unix socket; a long temp path gets a socket beside it.
 export function grokTurnDirs(): GrokTurnDirs {
-  const root = join(tmpdir(), `tucano-grok-${randomBytes(8).toString('hex')}`)
+  const root = join(tmpdir(), `arara-grok-${randomBytes(8).toString('hex')}`)
   const work = join(root, 'work')
   mkdirSync(work, { recursive: true })
   const inside = join(root, 'leader.sock')

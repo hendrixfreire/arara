@@ -1,4 +1,4 @@
-// Tucano Team, steps 3–5: who may do what, removal, per-person memory, approvals and questions
+// Arara Team, steps 3–5: who may do what, removal, per-person memory, approvals and questions
 // between people, mentions, routines that are someone's or the team's, and the activity log.
 import { mkdtempSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -20,7 +20,7 @@ import { localUrl, verifyLocal, verifyLocalUrl } from '../src/core/local-paths'
 import { Grants } from '../src/server/people'
 import type { Method } from '../src/shared/rpc'
 
-const dir = (): string => mkdtempSync(join(tmpdir(), 'tucano-roles-'))
+const dir = (): string => mkdtempSync(join(tmpdir(), 'arara-roles-'))
 const agent = (id: string, handle: string, extra: Partial<Agent> = {}): Agent => ({ id, name: handle[0]!.toUpperCase() + handle.slice(1), handle, role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false, ...extra })
 const approval = (id: string, conversationId: string, requestedBy: string, agentId = 'a1'): Approval => ({ id, hash: id, agentId, conversationId, messageId: 'x', connectorId: 'c', connectorName: 'Linear', tool: 'create_issue', args: {}, why: '', highRisk: false, state: 'pending', createdAt: 1, expiresAt: Date.now() + 60_000, requestedBy })
 const ready = { installed: true, loggedIn: true }
@@ -38,7 +38,7 @@ class FakePort implements PortLike {
   }
 }
 
-// A Tucano with Ana (owner), Bia and Carl (members) and Dani (an admin).
+// A Arara with Ana (owner), Bia and Carl (members) and Dani (an admin).
 function team(): { db: Db; people: People; ana: Person; bia: Person; carl: Person; dani: Person } {
   const db = new Db(':memory:')
   db.renamePerson(db.ownerId(), 'Ana')
@@ -240,7 +240,7 @@ describe('what a DM leaks: browsers, computers, files', () => {
   })
 
   it('a cited file on a server is signed for one person', () => {
-    const url = new URL(localUrl('chave', '/tmp/a.png', 'tucano://local', 'bia'))
+    const url = new URL(localUrl('chave', '/tmp/a.png', 'arara://local', 'bia'))
     expect(verifyLocal('chave', url)).toEqual({ path: '/tmp/a.png', person: 'bia' })
     expect(verifyLocalUrl('chave', url)).toBeNull() // not an unsigned (desktop) address
     const forged = new URL(url.href.replace(/\/[^/]+$/, `/${Buffer.from('ana').toString('base64url')}`))

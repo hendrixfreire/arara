@@ -315,7 +315,7 @@ export class Memories {
   // memories about them it gets (the DM's person, or who is talking; the owner when left out).
   // `searchable` counts the rest, which buscar_memorias reaches.
   // `conv`: where the reply goes. An agent's note made in a DM is that DM's person's: it comes in
-  // only where they alone read the reply (their DM, or anywhere when they're the Tucano's one person).
+  // only where they alone read the reply (their DM, or anywhere when they're the Arara's one person).
   // A memory about someone learned in their DM comes in the same way: only where they alone read it.
   forPrompt(agent: Agent, people: string[] = [this.deps.db.ownerId()], conv?: Pick<Conversation, 'kind' | 'owner'>): { aboutMe: Memory[]; own: Memory[]; searchable: number } {
     const me = splitForPrompt(this.about(people, conv))
@@ -341,7 +341,7 @@ export class Memories {
   }
 
   // A private memory (a DM's) is read only where its person alone reads: their DM, or anywhere
-  // when they're the Tucano's one person (and no team yet: an invite out makes it one). Everything else, wherever.
+  // when they're the Arara's one person (and no team yet: an invite out makes it one). Everything else, wherever.
   private readableIn(conv?: Pick<Conversation, 'kind' | 'owner'>): (m: Memory) => boolean {
     const { db } = this.deps
     if (conv?.kind !== 'dm' && db.teamMode()) return (m) => !m.privateTo
@@ -385,7 +385,7 @@ export class Memories {
   }
 
   // The summaries of a channel and of its threads, made again from what was said there alone
-  // (when the Tucano gets a second person: what one person's DMs taught the old ones isn't the
+  // (when the Arara gets a second person: what one person's DMs taught the old ones isn't the
   // team's). The old ones go first; nothing is learned again on the way.
   // The old ones are gone when this returns; the new ones are made after it, in the background.
   // `from`: the moment the new summaries start at (the heritage: what the channel held before stays
@@ -422,8 +422,8 @@ export class Memories {
     if (!force && after.length <= MAX_AFTER) return false
     const chunk = after.slice(0, Math.min(Math.max(0, after.length - WINDOW), opts.batch ?? MAX_CHUNK))
     if (chunk.length === 0) return false
-    // Made while the Tucano had one person, a summary may hold what only they could read: one that
-    // ends after the Tucano got its second person isn't kept (it's made again without it).
+    // Made while the Arara had one person, a summary may hold what only they could read: one that
+    // ends after the Arara got its second person isn't kept (it's made again without it).
     const epoch = db.meta('heritageAt')
 
     const settings = await this.deps.settings()
@@ -556,8 +556,8 @@ export class Memories {
     this.deps.emit({ type: 'message', message: this.deps.db.message(rootId)! })
   }
 
-  // Whether a memory about `person` names someone else in the Tucano (by their first or whole name,
-  // as a word of its own). A Tucano of one has no one else: what its person says is kept as always.
+  // Whether a memory about `person` names someone else in the Arara (by their first or whole name,
+  // as a word of its own). A Arara of one has no one else: what its person says is kept as always.
   private namesSomeoneElse(text: string, person: string): boolean {
     const others = this.deps.db.people({ removed: true }).filter((p) => p.id !== person)
     if (!others.length) return false
@@ -652,7 +652,7 @@ export class Memories {
     const theirs = personScope(personId)
     const scope: MemoryScope = args['sobre'] === 'agente' ? agent.id : theirs
     if (scope === theirs && this.namesSomeoneElse(text, personId))
-      return { reply: L('Não guardei: uma memória "usuario" é sobre a pessoa com quem você fala, e esta fala de outra pessoa do Tucano. O que alguém diz de outra pessoa não vira fato sobre ninguém.', "Not saved: a \"usuario\" memory is about the person you talk to, and this one is about someone else in this Tucano. What someone says about another person isn't a fact about anyone."), error: true }
+      return { reply: L('Não guardei: uma memória "usuario" é sobre a pessoa com quem você fala, e esta fala de outra pessoa da Arara. O que alguém diz de outra pessoa não vira fato sobre ninguém.', "Not saved: a \"usuario\" memory is about the person you talk to, and this one is about someone else in this Arara. What someone says about another person isn't a fact about anyone."), error: true }
     // Made in a DM, an agent's note, or what it learned about the person, is that DM's person's alone ("só você vê").
     const privateTo = this.privateIn(conv)
     let replaces: string | undefined

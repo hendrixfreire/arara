@@ -1,5 +1,5 @@
 # Conectores
-> Ligar o Tucano às suas ferramentas (Linear, GitHub, Notion…) por MCP: a loja, os personalizados, login, classes de ferramenta e erros.
+> Ligar a Arara às suas ferramentas (Linear, GitHub, Notion…) por MCP: a loja, os personalizados, login, classes de ferramenta e erros.
 
 Um conector é um servidor MCP: ele dá aos agentes ferramentas de um serviço (ler issues, mandar mensagem, consultar um banco). Os agentes só usam um conector que você liberou na página de cada um, e só no nível que você escolheu.
 
@@ -22,7 +22,7 @@ A Composio liga centenas de apps sem configurar nada, mas seus dados passam por 
 
 Os servidores MCP já configurados no Claude Code, no Codex e nos outros aparecem numa lista própria: **Adicionar** traz cada um, com as permissões daqui.
 
-Credenciais ficam cifradas no cofre do sistema e nunca aparecem de novo. No lugar de um token ou de uma variável, dá pra pôr uma referência do 1Password (`op://Cofre/Item/campo`): o Tucano guarda só a referência e lê o valor com o 1Password CLI a cada conexão. Pra trocar um token, **Token (substitui o atual)**.
+Credenciais ficam cifradas no cofre do sistema e nunca aparecem de novo. No lugar de um token ou de uma variável, dá pra pôr uma referência do 1Password (`op://Cofre/Item/campo`): a Arara guarda só a referência e lê o valor com o 1Password CLI a cada conexão. Pra trocar um token, **Token (substitui o atual)**.
 
 ## As ferramentas de um conector
 Na página do conector, cada ferramenta tem uma **Classe**: **leitura**, **escrita** ou **sensível** (mandar algo pra outras pessoas e apagar são sensíveis por padrão; a classe que você escolhe fica), e pode ser marcada como **Alto risco** ou desligada. Ferramentas novas que o servidor publicar depois entram desligadas até você revisar. Sensíveis sempre pedem aprovação (veja **aprovacoes**). **Quem usa:** mostra os agentes com acesso.

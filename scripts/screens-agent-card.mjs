@@ -8,8 +8,8 @@ import { join } from 'node:path'
 
 const out = process.argv[2] ?? 'screens/agent-card'
 mkdirSync(out, { recursive: true })
-const data = mkdtempSync(join(tmpdir(), 'tucano-'))
-const app = await electron.launch({ args: ['.'], env: { ...process.env, TUCANO_DATA: data, TUCANO_SEED: '1', TUCANO_FAKE_ENGINES: '1', TUCANO_LOCALE: process.env.TUCANO_LOCALE ?? 'pt-BR' } })
+const data = mkdtempSync(join(tmpdir(), 'arara-'))
+const app = await electron.launch({ args: ['.'], env: { ...process.env, ARARA_DATA: data, ARARA_SEED: '1', ARARA_FAKE_ENGINES: '1', ARARA_LOCALE: process.env.ARARA_LOCALE ?? 'pt-BR' } })
 const win = await app.firstWindow()
 const errors = []
 win.on('pageerror', (e) => errors.push(String(e)))

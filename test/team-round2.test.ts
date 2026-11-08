@@ -1,4 +1,4 @@
-// Tucano Team v1, what the second round of stress batteries found: memories learned in a DM, the
+// Arara Team v1, what the second round of stress batteries found: memories learned in a DM, the
 // wiki's history, who manages a channel, a restored person's routines, names, crash-proof RPCs,
 // the server's guess limiter, a moved engine, routing in a busy channel, questions answered by
 // someone else, unread after the upgrade, and the words a person reads.
@@ -17,7 +17,7 @@ import { People } from '../src/core/people'
 import { handoffSystem, routerSystem } from '../src/core/router'
 import { Runner } from '../src/core/runs'
 
-const dir = (): string => mkdtempSync(join(tmpdir(), 'tucano-round2-'))
+const dir = (): string => mkdtempSync(join(tmpdir(), 'arara-round2-'))
 const agent = (id: string, handle: string, extra: Partial<Agent> = {}): Agent => ({ id, name: handle[0]!.toUpperCase() + handle.slice(1), handle, role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false, ...extra })
 const ready = { installed: true, loggedIn: true }
 const settings = (name = 'Ana'): Settings => ({ workspaceName: name, context: '', engines: { claude: ready, codex: ready, opencode: ready, pi: ready, gemini: ready, cursor: ready, grok: ready }, routerModel: 'haiku', memoryModel: 'haiku', memoryLearning: 'auto', defaultLimit: 1000, approvalTtlHours: 24, theme: 'system', language: 'pt' })
@@ -140,7 +140,7 @@ describe('1. a memory learned in a DM', () => {
   it('from before: a memory from a DM, or from nowhere known, becomes its person\'s DMs only; the Memória page and channels stay', async () => {
     const { DatabaseSync } = await import('node:sqlite')
     const { MIGRATIONS } = await import('../src/core/db')
-    const file = join(dir(), 'tucano.db')
+    const file = join(dir(), 'arara.db')
     const raw = new DatabaseSync(file)
     const at = MIGRATIONS.findIndex((m) => m.includes("SET private_to = substr(scope, 8)"))
     for (const m of MIGRATIONS.slice(0, at)) raw.exec(m)
@@ -189,7 +189,7 @@ describe('8. signing in on a server', () => {
     expect((await at({ offered: 'the-owner-token-of-32-characters' })).status).toBe('link')
     // Every wrong one, of any kind, gets the same "wait": nothing says which were close.
     for (const o of [{ cookie: `p_${'z'.repeat(43)}` }, { cookie: 'garbage' }, { offered: 'nope' }, {}]) expect((await at(o)).status).toBe('blocked')
-    // A token the operator chose (TUCANO_TOKEN) may be guessable: it waits like any guess.
+    // A token the operator chose (ARARA_TOKEN) may be guessable: it waits like any guess.
     expect((await at({ cookie: 'the-owner-token-of-32-characters', strongOwnerToken: false })).status).toBe('blocked')
   })
 
@@ -475,10 +475,10 @@ describe('12. unread right after upgrading from main', () => {
     const rnd = (n: number): number => ((seed = (seed * 1103515245 + 12345) % 2 ** 31), seed % n)
     const mismatches: string[] = []
     // Each round builds a database on disk: Windows' disk is slow enough that fewer rounds keep it in time.
-    // A pull request's CI runs a few (TUCANO_QUICK_TESTS); main runs them all.
-    const rounds = process.env['TUCANO_QUICK_TESTS'] ? 5 : process.platform === 'win32' ? 20 : 150
+    // A pull request's CI runs a few (ARARA_QUICK_TESTS); main runs them all.
+    const rounds = process.env['ARARA_QUICK_TESTS'] ? 5 : process.platform === 'win32' ? 20 : 150
     for (let round = 0; round < rounds; round++) {
-      const file = join(dir(), 'tucano.db')
+      const file = join(dir(), 'arara.db')
       const raw = new DatabaseSync(file)
       for (const m of MIGRATIONS.slice(0, mainCount)) raw.exec(m)
       raw.exec(`PRAGMA user_version = ${mainCount}`)

@@ -66,8 +66,8 @@ export function resolveLocal(raw: string, reach: LocalReach, home = homedir()): 
 // one person too: an address someone passes on opens nothing for anyone else.
 const sign = (key: string, path: string, person?: string): string => createHmac('sha256', key).update(person ? `${person}\n${path}` : path).digest('base64url')
 
-// On a desktop the app's tucano: protocol serves it; on a server, its own /local/ path (src/server).
-export const localUrl = (key: string, path: string, base = 'tucano://local', person?: string): string =>
+// On a desktop the app's arara: protocol serves it; on a server, its own /local/ path (src/server).
+export const localUrl = (key: string, path: string, base = 'arara://local', person?: string): string =>
   `${base}/${sign(key, path, person)}/${Buffer.from(path).toString('base64url')}${person ? `/${Buffer.from(person).toString('base64url')}` : ''}`
 
 // The path an address opens and, when it was signed for someone, whom.

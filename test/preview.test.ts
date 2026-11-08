@@ -69,7 +69,7 @@ const signIn = async (port: number): Promise<string> => {
 describe("an agent's page at an address of its own", () => {
   it('knows its own preview addresses, and nothing else', () => {
     expect(preview.portOf('5173-ana.example.com')).toBe(5173)
-    expect(preview.portOf('ana.example.com')).toBeUndefined() // Tucano's own address
+    expect(preview.portOf('ana.example.com')).toBeUndefined() // Arara's own address
     expect(preview.portOf('5173-bruno.example.com')).toBeUndefined()
     expect(preview.portOf('99999-ana.example.com')).toBeUndefined()
     expect(preview.portOf(undefined)).toBeUndefined()
@@ -79,10 +79,10 @@ describe("an agent's page at an address of its own", () => {
     const host = `${sitePort}-ana.example.com`
     expect((await ask(host, '/app')).status).toBe(401)
     const cookie = await signIn(sitePort)
-    const r = await ask(host, '/app?x=1', `${cookie}; tucano=the-servers-token; theirs=1`)
+    const r = await ask(host, '/app?x=1', `${cookie}; arara=the-servers-token; theirs=1`)
     expect(r.status).toBe(200)
     expect(r.body).toBe('site:/app?x=1')
-    expect(seen.cookie).toBe('theirs=1') // the page never sees Tucano's cookies
+    expect(seen.cookie).toBe('theirs=1') // the page never sees Arara's cookies
     expect(seen.host).toBe(`127.0.0.1:${sitePort}`) // as a dev server expects (Vite refuses other hosts)
     // With only our cookies, as a browser sends them: none left, and the page still answers.
     const only = await ask(host, '/', cookie)
@@ -133,8 +133,8 @@ describe("an agent's page at an address of its own", () => {
   })
 
   it('keeps only the page’s own cookies', () => {
-    expect(withoutOurCookies('a=1; tucano=x; tucano_preview=y; b=2')).toBe('a=1; b=2')
-    expect(withoutOurCookies('tucano=x')).toBeUndefined()
+    expect(withoutOurCookies('a=1; arara=x; arara_preview=y; b=2')).toBe('a=1; b=2')
+    expect(withoutOurCookies('arara=x')).toBeUndefined()
     expect(withoutOurCookies(undefined)).toBeUndefined()
   })
 })
