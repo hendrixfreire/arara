@@ -46,7 +46,7 @@ ok(`among the open apps, by its menu name: ${open.map((a) => a.name).join(', ')}
 
 const seen = await call('app_ver', {})
 const field = /#(\d+) (campo|field|campo de texto|text area|documento|document)\b/.exec(seen) ?? fail('no text field in the window')
-const marker = `Tucano e2e ${Date.now()}`
+const marker = `Arara e2e ${Date.now()}`
 await call('app_escrever', { alvo: `#${field[1]}`, texto: marker })
 const after = await call('app_ver', {})
 if (!after.includes(marker)) fail('the text written is not in the window')

@@ -6,7 +6,7 @@ import { Workspaces, workspaceId } from '../src/main/workspaces'
 import { suggestWorkspaceCopyName, workspaceCreatedAt, workspaceLabel, workspaceParts } from '../src/shared/workspaces'
 
 const dirs: string[] = []
-const root = (): string => { const dir = mkdtempSync(join(tmpdir(), 'tucano-workspaces-')); dirs.push(dir); return dir }
+const root = (): string => { const dir = mkdtempSync(join(tmpdir(), 'arara-workspaces-')); dirs.push(dir); return dir }
 afterEach(() => { for (const dir of dirs.splice(0)) rmSync(dir, { recursive: true, force: true }) })
 
 it('suggests the current name with the next available duplicate count', () => {
@@ -56,7 +56,7 @@ it('persists one app theme across workspace selection, creation and removal', ()
 
 it('adopts the existing folder without moving its data and persists selection', () => {
   const dir = root()
-  writeFileSync(join(dir, 'tucano.db'), 'existing data')
+  writeFileSync(join(dir, 'arara.db'), 'existing data')
   const registry = new Workspaces(dir)
   const original = registry.selected()
   const a = registry.create()
@@ -66,7 +66,7 @@ it('adopts the existing folder without moving its data and persists selection', 
   const loaded = new Workspaces(dir)
   expect(loaded.selected()).toEqual({ ...a, name: 'Company' })
   expect(loaded.get(original.id).dataDir).toBe(realpathSync(dir))
-  expect(readFileSync(join(dir, 'tucano.db'), 'utf8')).toBe('existing data')
+  expect(readFileSync(join(dir, 'arara.db'), 'utf8')).toBe('existing data')
   expect(a.dataDir).toBe(join(realpathSync(dir), 'workspaces', a.id))
   expect(new Set(loaded.list().flatMap((w) => [w.gitPort, w.webhookPort])).size).toBe(6)
   expect(b.isDefault).toBe(false)
@@ -77,7 +77,7 @@ it.skipIf(process.platform === 'win32')('adopts a symlinked root using canonical
   const dir = root()
   const alias = join(root(), 'alias')
   symlinkSync(dir, alias)
-  writeFileSync(join(alias, 'tucano.db'), 'existing data')
+  writeFileSync(join(alias, 'arara.db'), 'existing data')
   const registry = new Workspaces(alias)
   const original = registry.selected()
   const workspace = registry.create()
@@ -87,7 +87,7 @@ it.skipIf(process.platform === 'win32')('adopts a symlinked root using canonical
   expect(loaded.selected()).toEqual(workspace)
   expect(workspace.dataDir).toBe(join(realpathSync(dir), 'workspaces', workspace.id))
   expect(new Workspaces(dir).list()).toEqual(loaded.list())
-  expect(readFileSync(join(alias, 'tucano.db'), 'utf8')).toBe('existing data')
+  expect(readFileSync(join(alias, 'arara.db'), 'utf8')).toBe('existing data')
 })
 
 it('refuses invalid registries without overwriting them', () => {
@@ -128,7 +128,7 @@ it('deletes only non-default data and protects the default and sibling workspace
   const b = registry.create()
   for (const w of [original, a, b]) {
     mkdirSync(w.dataDir, { recursive: true })
-    writeFileSync(join(w.dataDir, 'tucano.db'), w.id)
+    writeFileSync(join(w.dataDir, 'arara.db'), w.id)
   }
   const external = root()
   writeFileSync(join(external, 'project.txt'), 'keep me')
@@ -140,8 +140,8 @@ it('deletes only non-default data and protects the default and sibling workspace
   const before = readFileSync(join(dir, 'workspaces.json'), 'utf8')
   expect(() => registry.deleteData(original.id)).toThrow('default workspace cannot be deleted')
   expect(readFileSync(join(dir, 'workspaces.json'), 'utf8')).toBe(before)
-  expect(readFileSync(join(b.dataDir, 'tucano.db'), 'utf8')).toBe(b.id)
-  expect(readFileSync(join(dir, 'tucano.db'), 'utf8')).toBe(original.id)
+  expect(readFileSync(join(b.dataDir, 'arara.db'), 'utf8')).toBe(b.id)
+  expect(readFileSync(join(dir, 'arara.db'), 'utf8')).toBe(original.id)
   expect(readFileSync(join(dir, 'application-metadata'), 'utf8')).toBe('keep this too')
   expect(readFileSync(join(external, 'project.txt'), 'utf8')).toBe('keep me')
   const loaded = new Workspaces(dir)

@@ -7,14 +7,14 @@ import type { Engine, EngineEvent, Turn } from './types'
 
 // Pi has no MCP on purpose. The app's tools reach it through a small
 // extension the app writes next to its data: at startup it asks the app's
-// gateway (TUCANO_MCP_URL) for this turn's tools and registers each one; a
-// call goes back to the gateway, which decides. With TUCANO_WEB=1 it adds a
+// gateway (ARARA_MCP_URL) for this turn's tools and registers each one; a
+// call goes back to the gateway, which decides. With ARARA_WEB=1 it adds a
 // page reader (Pi has no web tools of its own). Plain JS, no imports beyond
 // node, so Pi loads it as is.
-export const piSource = (): string => `// Written by Tucano: the app's tools for this turn, from its gateway.
+export const piSource = (): string => `// Written by Arara: the app's tools for this turn, from its gateway.
 import { request } from 'node:http'
 
-const url = process.env.TUCANO_MCP_URL
+const url = process.env.ARARA_MCP_URL
 let id = 0
 function rpc(method, params) {
   return new Promise((resolve, reject) => {
@@ -28,7 +28,7 @@ function rpc(method, params) {
           const r = JSON.parse(text)
           r.error ? reject(new Error(r.error.message)) : resolve(r.result)
         } catch (e) {
-          reject(new Error(${JSON.stringify(L('Resposta inválida do Tucano: ', 'Invalid answer from Tucano: '))} + text.slice(0, 200)))
+          reject(new Error(${JSON.stringify(L('Resposta inválida da Arara: ', 'Invalid answer from Arara: '))} + text.slice(0, 200)))
         }
       })
     })
@@ -55,14 +55,14 @@ export default async function (pi) {
         }
       })
   }
-  if (process.env.TUCANO_WEB === '1')
+  if (process.env.ARARA_WEB === '1')
     pi.registerTool({
       name: 'web_fetch',
       label: 'web_fetch',
       description: ${JSON.stringify(L('Lê uma página da web e devolve o texto dela (sem HTML). Use pra conferir fontes e responder com dados atuais.', 'Reads a web page and returns its text (no HTML). Use it to check sources and answer with current data.'))},
       parameters: { type: 'object', properties: { url: { type: 'string', description: ${JSON.stringify(L('O endereço completo, com https://', 'The full address, with https://'))} } }, required: ['url'] },
       async execute(_callId, params, signal) {
-        const res = await fetch(params.url, { signal, headers: { 'user-agent': 'Mozilla/5.0 (Tucano)' } })
+        const res = await fetch(params.url, { signal, headers: { 'user-agent': 'Mozilla/5.0 (Arara)' } })
         const html = await res.text()
         const text = html.replace(/<script[\\s\\S]*?<\\/script>|<style[\\s\\S]*?<\\/style>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\\s+/g, ' ').trim()
         return { content: [{ type: 'text', text: \`\${res.status} \${params.url}\\n\\n\${text.slice(0, 40000)}\` }], details: {} }
@@ -73,7 +73,7 @@ export default async function (pi) {
 
 export function piExtension(appDir: string): string {
   mkdirSync(appDir, { recursive: true })
-  const path = join(appDir, 'tucano-tools.mjs')
+  const path = join(appDir, 'arara-tools.mjs')
   writeFileSync(path, piSource()) // every turn: an update to the app updates it
   return path
 }
@@ -163,7 +163,7 @@ export function piEngine(bin: () => string | undefined, appDir: string, shellEnv
         return
       }
       // Provider keys may live in the user's shell, which an app opened from Finder doesn't get.
-      const env = { ...process.env, ...(await shellEnv()), TUCANO_MCP_URL: turn.mcpUrl ?? '', TUCANO_WEB: turn.web ? '1' : '0' }
+      const env = { ...process.env, ...(await shellEnv()), ARARA_MCP_URL: turn.mcpUrl ?? '', ARARA_WEB: turn.web ? '1' : '0' }
       yield* runCli({ bin: path, args: piArgs(turn, piExtension(appDir)), stdin: turn.prompt, cwd: turn.cwd, signal: turn.signal, parser: piParser(), env })
     }
   }

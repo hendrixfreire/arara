@@ -42,7 +42,7 @@ export type Cli = (args: string[], timeoutMs?: number) => Promise<Envelope>
 
 export const desktopBin = (): string | undefined => findOnPath('agent-desktop')
 
-export const SELF = /^(dev\.tucano|com\.github\.electron)/i // Tucano itself isn't one of the apps to give
+export const SELF = /^(dev\.arara|com\.github\.electron)/i // Arara itself isn't one of the apps to give
 
 // Opens a Mac app with Chromium's accessibility on; false when the system doesn't know it
 // (agent-desktop's launch tries next). `open -a` knows only the bundle's own name ("Notes"),
@@ -319,9 +319,9 @@ export function pick(target: string, items: Item[]): Item | { error: string } {
   }
 }
 
-// Tucano itself (or Electron, while developing) is never an app an agent drives: it could
+// Arara itself (or Electron, while developing) is never an app an agent drives: it could
 // click its own approval.
-export const isTucano = (a: { name: string; bundleId?: string }): boolean => /^(tucano|tucano dev|electron)(\.exe)?$/i.test(a.name.trim()) || /^dev\.tucano\./i.test(a.bundleId ?? '') || /^com\.github\.electron/i.test(a.bundleId ?? '')
+export const isArara = (a: { name: string; bundleId?: string }): boolean => /^(arara|arara dev|electron)(\.exe)?$/i.test(a.name.trim()) || /^dev\.arara\./i.test(a.bundleId ?? '') || /^com\.github\.electron/i.test(a.bundleId ?? '')
 
 // The app the agent named, among those it was given (by name, ignoring case and accents).
 export function grantOf(agent: Pick<Agent, 'apps'>, app: string): AgentApp | undefined {
@@ -583,11 +583,11 @@ export class DesktopApps {
   // On a Mac the system answers at once (lsappinfo); agent-desktop's inventory can take seconds.
   async foreground(): Promise<{ name: string; bundleId?: string }[]> {
     if (this.platform === 'darwin') {
-      const mac = (await macOpenApps().catch(() => [])).filter((a) => !isTucano(a))
+      const mac = (await macOpenApps().catch(() => [])).filter((a) => !isArara(a))
       if (mac.length) return mac
     }
     const all = await this.installed().catch(() => [])
-    const mine = (n: string): boolean => isTucano({ name: n })
+    const mine = (n: string): boolean => isArara({ name: n })
     const once = (list: { name: string; bundleId?: string }[]): { name: string; bundleId?: string }[] => list.filter((a, i) => a.name && !mine(a.name) && list.findIndex((b) => b.name === a.name) === i)
     // Windows: the system's own list of windows answers at once; each by the name in the Start menu.
     if (this.platform === 'win32') {
@@ -667,9 +667,9 @@ export class DesktopApps {
       }
     }
     const app = grant.name
-    if (isTucano({ name: app }))
+    if (isArara({ name: app }))
       return {
-        result: textResult(L('O Tucano não pode ser usado como app por um agente.', "Tucano can't be used as an app by an agent."), true)
+        result: textResult(L('A Arara não pode ser usada como app por um agente.', "Arara can't be used as an app by an agent."), true)
       }
     if (WRITE.has(name) && grant.level !== 'read_write')
       return {

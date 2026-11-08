@@ -1,4 +1,4 @@
-// Tucano Team v1, fourth round: the pieces under the core (memory, curator, people, limits).
+// Arara Team v1, fourth round: the pieces under the core (memory, curator, people, limits).
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -17,15 +17,15 @@ const roots: string[] = []
 // Best effort: on Windows a database still open keeps its folder busy.
 afterAll(() => roots.forEach((r) => { try { rmSync(r, { recursive: true, force: true }) } catch {} }))
 const tmp = (): string => {
-  const d = mkdtempSync(join(tmpdir(), 'tucano-r4-'))
+  const d = mkdtempSync(join(tmpdir(), 'arara-r4-'))
   roots.push(d)
   return d
 }
 const settings = { workspaceName: 'Ana', wikiEdits: 'auto' } as Settings
 
-// A Tucano of one (Ana, the owner): her DM with Lia, a channel, and a memory from her DM.
+// A Arara of one (Ana, the owner): her DM with Lia, a channel, and a memory from her DM.
 function solo(): { db: Db; memory: Memories } {
-  const db = new Db(join(tmp(), 'tucano.db'))
+  const db = new Db(join(tmp(), 'arara.db'))
   db.saveAgent({ id: 'a1', name: 'Lia', handle: 'lia', role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false })
   db.renamePerson(db.ownerId(), 'Ana')
   db.createConversation({ id: 'dm-ana', kind: 'dm', name: 'a1', members: ['a1'], owner: db.ownerId() })
@@ -76,7 +76,7 @@ describe('A. a team from its first invite (before anyone joins)', () => {
 
 describe('B. names that read the same are one name', () => {
   const people = (): { db: Db; people: People } => {
-    const db = new Db(join(tmp(), 'tucano.db'))
+    const db = new Db(join(tmp(), 'arara.db'))
     db.renamePerson(db.ownerId(), 'Ana')
     db.addPerson({ id: 'bia2', name: 'Bia Teste Silva', role: 'member', about: '' })
     db.addPerson({ id: 'bia1', name: 'Bia Teste', role: 'member', about: '' })
@@ -100,10 +100,10 @@ describe('B. names that read the same are one name', () => {
 
 describe('C. machine paths stay with the owner', () => {
   it("a computer's folder and the wiki's folder aren't sent to anyone else", () => {
-    const db = new Db(join(tmp(), 'tucano.db'))
+    const db = new Db(join(tmp(), 'arara.db'))
     db.addPerson({ id: 'bia', name: 'Bia', role: 'admin', about: '' })
     const p = new People(db)
-    const c: ComputerInfo = { agentId: 'a1', state: 'stopped', folder: '/Users/ana/Library/Application Support/Tucano/computers/a1/work', services: [] }
+    const c: ComputerInfo = { agentId: 'a1', state: 'stopped', folder: '/Users/ana/Library/Application Support/Arara/computers/a1/work', services: [] }
     expect(p.computerFor(db.owner(), c).folder).toBe(c.folder)
     expect(p.computerFor(db.person('bia')!, c).folder).toBe('')
     const s = { workspaceName: 'Ana', wikiDir: '/Users/ana/Obsidian' } as Settings
@@ -127,7 +127,7 @@ describe('E. the router out of quota (e2e5 F: the plan hit its limit mid-run)', 
     const { Runner } = await import('../src/core/runs')
     const { fakeEngine } = await import('../src/core/engines/fake')
     const { routerSystem } = await import('../src/core/router')
-    const db = new Db(join(tmp(), 'tucano.db'))
+    const db = new Db(join(tmp(), 'arara.db'))
     db.saveAgent({ id: 'a1', name: 'Lia', handle: 'lia', role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false })
     db.saveAgent({ id: 'a2', name: 'Theo', handle: 'theo', role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false })
     db.createConversation({ id: 'c1', kind: 'channel', name: 'geral', members: ['a1', 'a2'] })

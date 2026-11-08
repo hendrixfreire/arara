@@ -60,9 +60,9 @@ describe('helpers', () => {
 describe('lent folders', () => {
   it('lends only project folders inside home: not home itself, Library, hidden folders or the app data', () => {
     const home = mkdtempSync(join(tmpdir(), 'ad-home-'))
-    for (const d of ['projetos/app/.dados', 'Library/Keychains', '.ssh', 'Library/Application Support/Tucano']) mkdirSync(join(home, d), { recursive: true })
+    for (const d of ['projetos/app/.dados', 'Library/Keychains', '.ssh', 'Library/Application Support/Arara']) mkdirSync(join(home, d), { recursive: true })
     writeFileSync(join(home, 'arquivo.txt'), '')
-    const dataDir = join(home, 'Library/Application Support/Tucano')
+    const dataDir = join(home, 'Library/Application Support/Arara')
     const check = (p: string): string | null => checkFolder(join(home, p), { home, dataDir })
     expect(check('projetos/app')).toBeNull()
     expect(check('')).toMatch(/dentro da sua pasta/)
@@ -71,7 +71,7 @@ describe('lent folders', () => {
     expect(check('arquivo.txt')).toMatch(/não é uma pasta/)
     expect(check('nada')).toMatch(/não existe/)
     expect(checkFolder(tmpdir(), { home, dataDir })).toMatch(/dentro da sua pasta/)
-    expect(checkFolder(join(home, 'projetos'), { home, dataDir: join(home, 'projetos/app/.dados') })).toMatch(/dados do próprio/)
+    expect(checkFolder(join(home, 'projetos'), { home, dataDir: join(home, 'projetos/app/.dados') })).toMatch(/dados da própria/)
   })
 
   it('names each folder after itself, safely and without repeats', () => {

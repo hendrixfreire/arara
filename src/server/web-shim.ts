@@ -45,13 +45,13 @@ export const ACCESS_SHIM = `const access = (() => {
     main.style.cssText = 'font:15px system-ui;max-width:460px;margin:20vh auto 0;padding:24px;line-height:1.5'
     const title = document.createElement('h1')
     title.style.cssText = 'font-size:20px;margin:0 0 8px'
-    title.textContent = pt ? 'Você não tem mais acesso a este Tucano.' : 'You no longer have access to this Tucano.'
+    title.textContent = pt ? 'Você não tem mais acesso a esta Arara.' : 'You no longer have access to this Arara.'
     const why = document.createElement('p')
     why.style.cssText = 'opacity:.8;margin:0'
-    why.textContent = pt ? 'Se foi engano, peça um novo convite a quem cuida dele.' : 'If that’s a mistake, ask whoever runs it for a new invite.'
+    why.textContent = pt ? 'Se foi engano, peça um novo convite a quem cuida dela.' : 'If that’s a mistake, ask whoever runs it for a new invite.'
     main.append(title, why)
     document.body.replaceChildren(main)
-    document.title = 'Tucano'
+    document.title = 'Arara'
   }
   const answer = (status) => {
     if (status === 401) show()
@@ -62,7 +62,7 @@ export const ACCESS_SHIM = `const access = (() => {
       return gone
     },
     answer,
-    check: () => fetch('./tucano-web.js', { method: 'HEAD', cache: 'no-store' }).then((r) => answer(r.status), () => gone)
+    check: () => fetch('./arara-web.js', { method: 'HEAD', cache: 'no-store' }).then((r) => answer(r.status), () => gone)
   }
 })()
 `

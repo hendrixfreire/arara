@@ -7,11 +7,11 @@ export function initializeWorkspace(db: Db, env: NodeJS.ProcessEnv = process.env
   if (!db.created) return
   // Demo seeding belongs to the original test install, never a workspace made
   // from the switcher. Even in fake mode those follow the normal introduction.
-  const demo = env['TUCANO_DEFAULT_WORKSPACE'] !== '0' &&
-    (env['TUCANO_SEED'] === '1' || (env['TUCANO_FAKE_ENGINES'] === '1' && env['TUCANO_SEED'] !== '0'))
+  const demo = env['ARARA_DEFAULT_WORKSPACE'] !== '0' &&
+    (env['ARARA_SEED'] === '1' || (env['ARARA_FAKE_ENGINES'] === '1' && env['ARARA_SEED'] !== '0'))
   if (demo) seed(db)
   // A new install starts with the short sidebar; a workspace made from the switcher is someone's who knows the app.
-  else db.setSettings({ onboarding: { done: false, ...(env['TUCANO_DEFAULT_WORKSPACE'] !== '0' ? { fresh: true } : {}) } })
+  else db.setSettings({ onboarding: { done: false, ...(env['ARARA_DEFAULT_WORKSPACE'] !== '0' ? { fresh: true } : {}) } })
 }
 
 // First run: a small team and three channels, so there is someone to talk to.

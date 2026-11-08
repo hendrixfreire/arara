@@ -16,7 +16,7 @@ const vault = (): string => {
   return v
 }
 const fresh = (): Wiki => {
-  const root = mkdtempSync(join(tmpdir(), 'tucano-wiki-'))
+  const root = mkdtempSync(join(tmpdir(), 'arara-wiki-'))
   const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db') })
   w.init(false)
   return w

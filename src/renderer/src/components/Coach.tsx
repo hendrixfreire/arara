@@ -181,7 +181,7 @@ function Balloon({ mark, box, missions }: { mark: TourMark; box: Box; missions: 
     },
     missions: {
       title: L('Suas missões.', 'Your missions.'),
-      body: fresh ? L('Cada uma te mostra uma parte do Tucano, fazendo. A barra lateral cresce conforme você avança.', 'Each one shows you a part of Tucano by doing it. The sidebar grows as you go.') : L('Cada uma te mostra uma parte do Tucano e se marca sozinha quando você usa.', 'Each one shows you a part of Tucano and checks itself off when you use it.')
+      body: fresh ? L('Cada uma te mostra uma parte da Arara, fazendo. A barra lateral cresce conforme você avança.', 'Each one shows you a part of Arara by doing it. The sidebar grows as you go.') : L('Cada uma te mostra uma parte da Arara e se marca sozinha quando você usa.', 'Each one shows you a part of Arara and checks itself off when you use it.')
     }
   }
   const t = text[mark]

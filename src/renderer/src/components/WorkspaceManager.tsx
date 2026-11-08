@@ -29,7 +29,7 @@ export function WorkspaceManager({ onClose, create = false }: { onClose: () => v
   const [draft, setDraft] = useState<Draft | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
-  const api = window.tucano.workspaces
+  const api = window.arara.workspaces
   const available = list?.workspaces.filter((w) => w.status === 'ready') ?? []
   const allPaused = available.length > 0 && available.every((w) => w.paused)
   useEffect(() => {

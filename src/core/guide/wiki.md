@@ -21,7 +21,7 @@ Um modelo que cuida da wiki. Em **Ajustes da wiki** (Wiki settings):
 A wiki é Markdown puro numa pasta: abre no Obsidian, vai pro iCloud ou pro git. Em **Ajustes da wiki** › **A pasta**:
 - **Abrir pasta** mostra onde está.
 - **Trocar pasta…** passa a usar outra pasta, que pode ser o seu cofre do Obsidian. As páginas da pasta atual continuam lá.
-- **Voltar pra pasta do Tucano** volta pra pasta de dentro do app.
+- **Voltar pra pasta da Arara** volta pra pasta de dentro do app.
 
 **Importar do Obsidian** (ou **Importar um cofre do Obsidian**) copia um cofre com pastas, links e anexos. O cofre original não muda.
 

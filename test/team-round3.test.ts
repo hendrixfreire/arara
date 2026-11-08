@@ -1,4 +1,4 @@
-// Tucano Team v1, third round: the pieces under the core (wiki, people, memory, db), one by one.
+// Arara Team v1, third round: the pieces under the core (wiki, people, memory, db), one by one.
 import { existsSync, mkdtempSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -15,7 +15,7 @@ import type { Engine } from '../src/core/engines/types'
 import { cleanName, nameKey, People } from '../src/core/people'
 
 const freshWiki = (deps: Partial<ConstructorParameters<typeof Wiki>[0]> = {}): Wiki => {
-  const root = mkdtempSync(join(tmpdir(), 'tucano-r3-'))
+  const root = mkdtempSync(join(tmpdir(), 'arara-r3-'))
   const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db'), ...deps })
   w.init(false)
   return w
@@ -97,9 +97,9 @@ describe('E. a source removed while the curator reads it', () => {
   })
 })
 
-// A Tucano with its owner (Ana) and a member (Bruno): Ana's DM, a channel, Ana's private memory.
+// A Arara with its owner (Ana) and a member (Bruno): Ana's DM, a channel, Ana's private memory.
 function twoPeople(): { db: Db; people: People; ana: Person; bruno: Person } {
-  const db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-r3-')), 'tucano.db'))
+  const db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-r3-')), 'arara.db'))
   db.saveAgent({ id: 'a1', name: 'Lia', handle: 'lia', role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false })
   db.renamePerson(db.ownerId(), 'Ana')
   db.addPerson({ id: 'bruno', name: 'Bruno', role: 'member', about: '' })
@@ -219,7 +219,7 @@ function recordingMemory(db: Db): { memory: Memories; prompts: string[]; hold: (
   }
   const ready = { installed: true, loggedIn: true }
   const settings = { workspaceName: 'Ana', memoryModel: 'haiku', memoryLearning: 'approve', engines: { claude: ready, codex: ready, opencode: ready, pi: ready, gemini: ready, cursor: ready, grok: ready } } as unknown as Settings
-  const memory = new Memories({ db, engines: { claude } as Record<EngineId, Engine>, settings: async () => settings, emit: () => {}, workDir: mkdtempSync(join(tmpdir(), 'tucano-r3-')) })
+  const memory = new Memories({ db, engines: { claude } as Record<EngineId, Engine>, settings: async () => settings, emit: () => {}, workDir: mkdtempSync(join(tmpdir(), 'arara-r3-')) })
   return {
     memory,
     prompts,
@@ -231,7 +231,7 @@ function recordingMemory(db: Db): { memory: Memories; prompts: string[]; hold: (
   }
 }
 
-describe('A1. the summaries, when the Tucano gets a second person', () => {
+describe('A1. the summaries, when the Arara gets a second person', () => {
   const fill = (db: Db, n: number, threadId?: string): void => {
     for (let i = 0; i < n; i++) db.saveMessage({ id: `${threadId ?? 'c'}-${i}`, conversationId: 'ch', author: { kind: 'person', id: db.ownerId() }, text: `mensagem ${i} prefiro café`, at: 1000 + i, ...(threadId ? { threadId } : {}) })
   }
@@ -266,8 +266,8 @@ describe('A1. the summaries, when the Tucano gets a second person', () => {
     expect(db.message('root')!.threadSummary!.text).toContain('Resumo de teste')
   })
 
-  it("one being made while the Tucano had one person isn't kept once it has two", async () => {
-    const db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-r3-')), 'tucano.db'))
+  it("one being made while the Arara had one person isn't kept once it has two", async () => {
+    const db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-r3-')), 'arara.db'))
     db.createConversation({ id: 'ch', kind: 'channel', name: 'geral', members: [] })
     fill(db, 60)
     const { memory, hold } = recordingMemory(db)
@@ -340,13 +340,13 @@ describe('A3. where each version of a page came from', () => {
 })
 
 describe('I. what an error tells whoever asked', () => {
-  const enoent = Object.assign(new Error("ENOENT: no such file or directory, open '/Users/eduardo/.tucano/wiki/fontes/x.md'"), { code: 'ENOENT', path: '/Users/eduardo/.tucano/wiki/fontes/x.md' })
+  const enoent = Object.assign(new Error("ENOENT: no such file or directory, open '/Users/eduardo/.arara/wiki/fontes/x.md'"), { code: 'ENOENT', path: '/Users/eduardo/.arara/wiki/fontes/x.md' })
   it("the owner (it's their machine) gets it as always; anyone else never a path or a system's raw text", () => {
     expect(errorFor(enoent, true)).toContain('/Users/eduardo')
-    expect(errorFor(enoent, false)).not.toMatch(/\/Users|ENOENT|tucano/)
+    expect(errorFor(enoent, false)).not.toMatch(/\/Users|ENOENT|arara/)
     expect(errorFor(new TypeError("Cannot read properties of undefined (reading 'id')"), false)).not.toMatch(/Cannot read|undefined/)
-    expect(errorFor(new Error('Essa pasta não existe: /srv/tucano/dados/segredo'), false)).not.toContain('/srv')
-    expect(errorFor(new Error('Essa pasta não existe: /srv/tucano/dados/segredo'), false)).toContain('Essa pasta não existe')
+    expect(errorFor(new Error('Essa pasta não existe: /srv/arara/dados/segredo'), false)).not.toContain('/srv')
+    expect(errorFor(new Error('Essa pasta não existe: /srv/arara/dados/segredo'), false)).toContain('Essa pasta não existe')
     expect(errorFor(new Error('Só um admin pode fazer isso.'), false)).toBe('Só um admin pode fazer isso.')
     expect(errorFor(new Error('C:\\Users\\ana\\x.txt sumiu'), false)).not.toContain('C:\\')
   })
@@ -356,7 +356,7 @@ describe('K. a purge leaves nothing of the DMs on disk', () => {
   const onDisk = (file: string, text: string): boolean => [file, `${file}-wal`, `${file}-journal`].some((f) => existsSync(f) && readFileSync(f).includes(Buffer.from(text)))
 
   it("the database files hold none of a purged person's DM text, even what a reply once said and rewrote", () => {
-    const file = join(mkdtempSync(join(tmpdir(), 'tucano-r3-')), 'tucano.db')
+    const file = join(mkdtempSync(join(tmpdir(), 'arara-r3-')), 'arara.db')
     const db = new Db(file)
     db.addPerson({ id: 'bia', name: 'Bia', role: 'member', about: '' })
     db.createConversation({ id: 'dm-bia', kind: 'dm', name: 'a1', members: [], owner: 'bia' })
@@ -371,7 +371,7 @@ describe('K. a purge leaves nothing of the DMs on disk', () => {
   })
 
   it("the wiki's file holds none of what a removed source proposed", () => {
-    const root = mkdtempSync(join(tmpdir(), 'tucano-r3-'))
+    const root = mkdtempSync(join(tmpdir(), 'arara-r3-'))
     const w = new Wiki({ dir: join(root, 'wiki'), indexPath: join(root, 'wiki.db') })
     w.init(false)
     const src = w.addSource({ title: 'dm', text: 'x', kind: 'conversation', origin: { conversationId: 'dm-bia' }, by: 'auto' })
@@ -399,7 +399,7 @@ describe("L. what someone says about another person isn't kept as a fact about a
     const { db } = twoPeople()
     for (let i = 0; i < 40; i++) db.saveMessage({ id: `b${i}`, conversationId: 'ch', author: { kind: 'person', id: 'bruno' }, text: i === 0 ? 'A Ana é alérgica a amendoim. Eu prefiro reuniões curtas.' : `oi ${i}`, at: 10 + i })
     const engine = answering({ summary: 's', memories: [{ op: 'add', text: 'Ana é alérgica a amendoim', evidence: [1] }, { op: 'add', text: 'Prefere reuniões curtas', evidence: [1] }] })
-    const memory = new Memories({ db, engines: { claude: engine } as Record<EngineId, Engine>, settings: async () => settings, emit: () => {}, workDir: mkdtempSync(join(tmpdir(), 'tucano-r3-')) })
+    const memory = new Memories({ db, engines: { claude: engine } as Record<EngineId, Engine>, settings: async () => settings, emit: () => {}, workDir: mkdtempSync(join(tmpdir(), 'arara-r3-')) })
     await memory.consolidate('ch', true)
     expect(db.memories({ scope: personScope('bruno') }).map((m) => m.text)).toEqual(['Prefere reuniões curtas'])
     expect(db.memories({ scope: personScope(db.ownerId()) })).toEqual([])
@@ -414,8 +414,8 @@ describe("L. what someone says about another person isn't kept as a fact about a
     expect(r.memory).toBeUndefined()
     expect(r.error).toBe(true)
     expect(memory.remember(lia, db.conversation('dm-bruno')!, { texto: 'Prefere café', sobre: 'usuario' }, 'bruno').memory).toBeTruthy()
-    // A Tucano of one: what the owner says about anyone is kept, as always.
-    const solo = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-r3-')), 'tucano.db'))
+    // A Arara of one: what the owner says about anyone is kept, as always.
+    const solo = new Db(join(mkdtempSync(join(tmpdir(), 'arara-r3-')), 'arara.db'))
     solo.saveAgent(lia)
     solo.createConversation({ id: 'dm', kind: 'dm', name: 'a1', members: ['a1'] })
     const alone = new Memories({ db: solo, engines: {} as Record<EngineId, Engine>, settings: async () => settings, emit: () => {}, workDir: '' })
@@ -423,9 +423,9 @@ describe("L. what someone says about another person isn't kept as a fact about a
   })
 })
 
-describe('D. a Tucano of one', () => {
+describe('D. a Arara of one', () => {
   it("lets its owner be called like an agent (no person is ever called there): the introduction doesn't fail for a Nina", () => {
-    const db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-r3-')), 'tucano.db'))
+    const db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-r3-')), 'arara.db'))
     db.saveAgent({ id: 'a1', name: 'Nina', handle: 'nina', role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1, used: 0, grants: {}, memory: 'auto', computer: false, archived: false })
     expect(new People(db).nameTaken('Nina', db.ownerId())).toBe(false)
   })

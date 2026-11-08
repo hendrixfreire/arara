@@ -36,7 +36,7 @@ import { awaitDone, idleSleepSeconds, isStatusTool, pendingOf, pollTool } from '
 import { callError, contentText, errorReason } from './connectors'
 import { commandStep, execSummary, keyArg, maskSecrets, resultSummary } from './step-text'
 
-// An old approval of the push-from-the-computer PRs (they left Tucano): still decided, never run.
+// An old approval of the push-from-the-computer PRs (they left Arara): still decided, never run.
 const GITHUB = 'github'
 const ABRIR_PR = 'abrir_pr'
 
@@ -119,8 +119,8 @@ export const askUserFor = (names: string[]): ToolDef =>
     : {
         name: ASK_USER.name,
         description: L(
-          `${ASK_USER.description} Pra perguntar a outra pessoa do Tucano (${names.join(', ')}), diga quem em "para"; sem "para", a pergunta vai pra quem te pediu. Só essa pessoa responde, e só esta tarefa espera.`,
-          `${ASK_USER.description} To ask someone else in this Tucano (${names.join(', ')}), say who in "para"; without "para", the question goes to whoever asked you. Only that person answers, and only this task waits.`
+          `${ASK_USER.description} Pra perguntar a outra pessoa da Arara (${names.join(', ')}), diga quem em "para"; sem "para", a pergunta vai pra quem te pediu. Só essa pessoa responde, e só esta tarefa espera.`,
+          `${ASK_USER.description} To ask someone else in this Arara (${names.join(', ')}), say who in "para"; without "para", the question goes to whoever asked you. Only that person answers, and only this task waits.`
         ),
         inputSchema: {
           type: 'object' as const,
@@ -389,7 +389,7 @@ export class Runner {
   // only agent in the channel, and otherwise the router. The answers, and
   // everything else it sets off, go in its thread (`threadId`, or its own when
   // the conversation answers in threads) or else in the conversation.
-  // `by`: the person writing (the Tucano's owner when left out: the phone, older callers).
+  // `by`: the person writing (the Arara's owner when left out: the phone, older callers).
   // `answers`: the question this answers, from the inbox or the decisions card (its asker answers,
   // wherever the person writes from). The caller checked that they may answer it.
   async send(conversationId: string, text: string, images: ImageUpload[] = [], threadId?: string, by?: string, opts: { answers?: string } = {}): Promise<void> {
@@ -921,7 +921,7 @@ export class Runner {
     // means. The owner reads by the workspace's name, so one person's prompts stay as they were.
     const requester = requesterOf(db, conv, windowAll)
     // What the person this reply is for can see: never someone else's DM (nor what lives in one), nor
-    // what a channel held before the Tucano had more people (the owner's: see People.visibleAt).
+    // what a channel held before the Arara had more people (the owner's: see People.visibleAt).
     const sees = new People(db)
     const windowed = windowAll.filter((m) => sees.visibleAt(requester, m))
     // A routed reply answers its message, and its transcript ends there: what people wrote after it
@@ -965,7 +965,7 @@ export class Runner {
     const visible = (conversationId: string | undefined): boolean => sees.canSeeFrom(requester, conversationId)
     const myConversations = (): Conversation[] => db.conversations().filter((c) => c.members.includes(agent.id) && sees.canSeeConversation(requester, c))
     // Any agent may propose agents, teams, routines and channels (a card the person applies); only the
-    // Tuca helps with Tucano itself, with the guide and a look at the workspace.
+    // Tuca helps with Arara itself, with the guide and a look at the workspace.
     const proposes = !!this.deps.gateway
     const helps = proposes && agent.kind === 'tuca'
     let computers = this.deps.gateway && agent.computer ? this.deps.computers : undefined
@@ -1206,7 +1206,7 @@ ${note}`,
           if (question || approval) return textResult(L('Você já está esperando uma resposta nesta mensagem. Encerre agora.', "You're already waiting for an answer in this message. End now."), true)
           const para = typeof args['para'] === 'string' ? args['para'].trim() : ''
           const target = para ? personNamed(para, others) : requester
-          if (!target) return textResult(L(`Não há ninguém chamado "${para}" no Tucano. As pessoas: ${others.map((p) => p.name).join(', ')}.`, `There's no one called "${para}" in this Tucano. The people: ${others.map((p) => p.name).join(', ')}.`), true)
+          if (!target) return textResult(L(`Não há ninguém chamado "${para}" na Arara. As pessoas: ${others.map((p) => p.name).join(', ')}.`, `There's no one called "${para}" in this Arara. The people: ${others.map((p) => p.name).join(', ')}.`), true)
           questions = parsed.questions
           question = questionsAsText(questions)
           const q = questionHeadline(questions)
@@ -2166,12 +2166,12 @@ ${note}`,
     let ok = false // whether the approved thing went through
     let task: string
     if (ap.connectorId === GITHUB && ap.tool === ABRIR_PR) {
-      // A PR asked for before pushing from the agent's computer left Tucano: nothing is opened.
+      // A PR asked for before pushing from the agent's computer left Arara: nothing is opened.
       // The GitHub connector does it now, with the person's approval like any of its tools.
-      outcome = decision === 'expired' ? expired : L('Nada foi aberto: abrir PR assim saiu do Tucano.', 'Nothing was opened: opening a PR this way left Tucano.')
+      outcome = decision === 'expired' ? expired : L('Nada foi aberto: abrir PR assim saiu da Arara.', 'Nothing was opened: opening a PR this way left Arara.')
       task = L(
-        `${me} ${decision === 'approved' ? 'aprovou' : decision === 'refused' ? 'recusou' : 'não respondeu a'} um pedido de PR antigo, mas abrir PR pelo computador saiu do Tucano e nada foi aberto. Se você tem o conector do GitHub, abra a PR por ele; senão, diga a ${me} que ele precisa dar a você o conector do GitHub.`,
-        `${me} ${decision === 'approved' ? 'approved' : decision === 'refused' ? 'turned down' : "didn't answer"} an old PR request, but opening a PR from the computer left Tucano and nothing was opened. If you have the GitHub connector, open the PR with it; otherwise, tell ${me} you need the GitHub connector.`
+        `${me} ${decision === 'approved' ? 'aprovou' : decision === 'refused' ? 'recusou' : 'não respondeu a'} um pedido de PR antigo, mas abrir PR pelo computador saiu da Arara e nada foi aberto. Se você tem o conector do GitHub, abra a PR por ele; senão, diga a ${me} que ele precisa dar a você o conector do GitHub.`,
+        `${me} ${decision === 'approved' ? 'approved' : decision === 'refused' ? 'turned down' : "didn't answer"} an old PR request, but opening a PR from the computer left Arara and nothing was opened. If you have the GitHub connector, open the PR with it; otherwise, tell ${me} you need the GitHub connector.`
       )
     } else if (ap.connectorId === COMPUTADOR) {
       // A command on the agent's computer: the app runs exactly the one approved, and the agent gets its output.

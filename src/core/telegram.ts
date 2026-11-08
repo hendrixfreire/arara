@@ -22,7 +22,7 @@ export const refused = (status: number, description?: string): UserError =>
     status === 401
       ? L('O token do bot não vale mais. Cole um novo do @BotFather.', "The bot's token isn't valid anymore. Paste a new one from @BotFather.")
       : status === 409
-        ? L('Outro app está lendo este bot (outro Tucano ou um webhook). Feche o outro ou troque o token.', 'Another app is reading this bot (another Tucano, or a webhook). Close the other one or change the token.')
+        ? L('Outro app está lendo este bot (outra Arara ou um webhook). Feche o outro ou troque o token.', 'Another app is reading this bot (another Arara, or a webhook). Close the other one or change the token.')
         : L(`O Telegram recusou: ${description ?? status}.`, `Telegram refused: ${description ?? status}.`)
   )
 

@@ -7,7 +7,7 @@ ipcRenderer.on('core:port', (event) => {
   window.postMessage('core:port', '*', event.ports)
 })
 
-contextBridge.exposeInMainWorld('tucano', {
+contextBridge.exposeInMainWorld('arara', {
   workspaces: {
     list: () => ipcRenderer.invoke('workspaces:list'),
     create: (name?: string) => ipcRenderer.invoke('workspaces:create', name),
@@ -57,7 +57,7 @@ contextBridge.exposeInMainWorld('tucano', {
       return () => ipcRenderer.removeListener('home-phone', listener)
     }
   },
-  // Tucanos on servers, shown in this window over the app (Settings › Servers, the workspace list).
+  // Araras on servers, shown in this window over the app (Settings › Servers, the workspace list).
   servers: {
     list: (): Promise<unknown> => ipcRenderer.invoke('servers:list'),
     pair: (link: string): Promise<unknown> => ipcRenderer.invoke('servers:pair', link),

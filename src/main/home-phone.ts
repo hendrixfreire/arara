@@ -40,7 +40,7 @@ export function homePhone(deps: {
       const pair = { key: readFileSync(keyFile, 'utf8'), cert: readFileSync(certFile, 'utf8') }
       if (matches(pair)) return { ...pair, fingerprint: fingerprintOf(pair.cert) }
     }
-    const made = makeCertificate('Tucano', [homeHost()])
+    const made = makeCertificate('Arara', [homeHost()])
     writeFileSync(keyFile, made.key, { mode: 0o600 })
     writeFileSync(certFile, made.cert, { mode: 0o600 })
     chmodSync(keyFile, 0o600)

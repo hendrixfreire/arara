@@ -67,9 +67,9 @@ describe('Claude Code stream', () => {
   it('gets the gateway as its only MCP server, with its tools pre-allowed', () => {
     const args = claudeArgs({ model: 'sonnet', effort: 'low', system: 'x', mcpUrl: 'http://127.0.0.1:1/mcp/abc' })
     // The address (and its token) comes from the environment: never in the arguments, which other programs can list.
-    expect(JSON.parse(args[args.indexOf('--mcp-config') + 1]!)).toEqual({ mcpServers: { tucano: { type: 'http', url: '${TUCANO_MCP_URL}' } } })
+    expect(JSON.parse(args[args.indexOf('--mcp-config') + 1]!)).toEqual({ mcpServers: { arara: { type: 'http', url: '${ARARA_MCP_URL}' } } })
     expect(args.join(' ')).not.toContain('/mcp/abc')
-    expect(args.slice(args.indexOf('--allowedTools') + 1)).toEqual(['mcp__tucano', 'ToolSearch'])
+    expect(args.slice(args.indexOf('--allowedTools') + 1)).toEqual(['mcp__arara', 'ToolSearch'])
     expect(args).toContain('--strict-mcp-config')
     expect(claudeArgs({ model: 'sonnet', effort: 'low', system: 'x' })).not.toContain('--mcp-config')
   })
@@ -161,14 +161,14 @@ describe('Claude Code stream', () => {
   it('with web, gets only the web tools, pre-allowed, and reports each search and page read', () => {
     const args = claudeArgs({ model: 'sonnet', effort: 'low', system: 'x', mcpUrl: 'http://127.0.0.1:1/mcp/abc', web: true })
     expect(args[args.indexOf('--tools') + 1]).toBe('ToolSearch,WebSearch,WebFetch')
-    expect(args.slice(args.indexOf('--allowedTools') + 1)).toEqual(['mcp__tucano', 'ToolSearch', 'WebSearch', 'WebFetch'])
+    expect(args.slice(args.indexOf('--allowedTools') + 1)).toEqual(['mcp__arara', 'ToolSearch', 'WebSearch', 'WebFetch'])
     const assistant = JSON.stringify({
       type: 'assistant',
       message: {
         content: [
           { type: 'tool_use', name: 'WebSearch', input: { query: 'electron release' } },
           { type: 'tool_use', name: 'WebFetch', input: { url: 'https://electronjs.org', prompt: 'versão?' } },
-          { type: 'tool_use', name: 'mcp__tucano__bash', input: {} }
+          { type: 'tool_use', name: 'mcp__arara__bash', input: {} }
         ]
       }
     })
@@ -248,8 +248,8 @@ describe('Codex exec stream', () => {
 
   it('gets the gateway as its only MCP server, with approval delegated to the gateway', () => {
     const args = codexArgs({ model: 'gpt-5.6-luna', effort: 'low', system: 'x', cwd: '/tmp/x', mcpUrl: 'http://127.0.0.1:1/mcp/abc' })
-    expect(args).toContain('mcp_servers.tucano.url="http://127.0.0.1:1/mcp/abc"')
-    expect(args).toContain('mcp_servers.tucano.default_tools_approval_mode="approve"')
+    expect(args).toContain('mcp_servers.arara.url="http://127.0.0.1:1/mcp/abc"')
+    expect(args).toContain('mcp_servers.arara.default_tools_approval_mode="approve"')
     expect(args.at(-1)).toBe('-')
   })
 })
@@ -304,13 +304,13 @@ describe('Gemini config', () => {
     // the CLI reads $GEMINI_CLI_HOME/.gemini/, so nothing goes at the root
     const s = JSON.parse(readFileSync(join(home, '.gemini', 'settings.json'), 'utf8')) as Record<string, unknown>
     expect(existsSync(join(home, 'settings.json'))).toBe(false)
-    expect(s['mcpServers']).toEqual({ tucano: { url: 'http://127.0.0.1:1/mcp/x', type: 'http', trust: true } })
+    expect(s['mcpServers']).toEqual({ arara: { url: 'http://127.0.0.1:1/mcp/x', type: 'http', trust: true } })
     expect(existsSync(join(home, '.gemini', 'oauth_creds.json'))).toBe(true)
     expect(existsSync(join(home, 'oauth_creds.json'))).toBe(false)
     // keys as the CLI reads them: tools.core, not the old flat coreTools
     expect(s['tools']).toEqual({ core: [], discoveryCommand: '', callCommand: '' }) // no built-in tools, no web, no discovered tools
     expect(s['coreTools']).toBeUndefined()
-    expect(s['mcp']).toEqual({ allowed: ['tucano'] })
+    expect(s['mcp']).toEqual({ allowed: ['arara'] })
     expect(s['skills']).toEqual({ enabled: false })
     expect(s['agents']).toEqual({ overrides: { codebase_investigator: { enabled: false }, cli_help: { enabled: false } } })
     expect((s['privacy'] as Record<string, unknown>)['usageStatisticsEnabled']).toBe(false)
@@ -360,7 +360,7 @@ describe('Gemini config', () => {
 })
 
 describe('Cursor stream', () => {
-  const answer = 'Vou consultar a hora no servidor tucano e a versão LTS atual do Node.js.\n\nSão 21:58 no Tucano e a LTS atual do Node.js é a 26.13.0 (Lithium).\n\n— Lia'
+  const answer = 'Vou consultar a hora no servidor arara e a versão LTS atual do Node.js.\n\nSão 21:58 na Arara e a LTS atual do Node.js é a 26.13.0 (Lithium).\n\n— Lia'
 
   it('streams the deltas once (not the whole message that repeats them), with paragraphs around tool calls', () => {
     const events = feed(cursorParser(), fixture('cursor-stream.jsonl'))
@@ -420,7 +420,7 @@ describe('Cursor config', () => {
   })
 
   it('attaches the images that exist with --image, once per file', () => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano-cursor-img-'))
+    const dir = mkdtempSync(join(tmpdir(), 'arara-cursor-img-'))
     const a = join(dir, 'a.png')
     const b = join(dir, 'b.jpg')
     writeFileSync(a, 'x')
@@ -443,7 +443,7 @@ describe('Cursor config', () => {
 
   it("denies Cursor's own files and shell, and allows only the gateway", () => {
     const c = cursorConfig({ mcpUrl: 'http://127.0.0.1:1/mcp/x', web: false }) as { permissions: { allow: string[]; deny: string[] }; autoAcceptWebSearch: boolean }
-    expect(c.permissions.allow).toEqual(['Mcp(tucano:*)'])
+    expect(c.permissions.allow).toEqual(['Mcp(arara:*)'])
     expect(c.permissions.deny).toEqual(['Read(**)', 'Write(**)', 'Shell(*)', 'WebFetch(*)'])
     expect(c.autoAcceptWebSearch).toBe(false)
   })
@@ -463,7 +463,7 @@ describe('Cursor config', () => {
     expect(a.root.startsWith(appDir)).toBe(true)
     expect(a.data.startsWith(a.root)).toBe(true)
     expect(readFileSync(join(a.workspace, 'AGENTS.md'), 'utf8')).toBe('You are Iris.')
-    expect(JSON.parse(readFileSync(join(a.workspace, '.cursor', 'mcp.json'), 'utf8'))).toEqual({ mcpServers: { tucano: { url: 'http://127.0.0.1:1/mcp/x' } } })
+    expect(JSON.parse(readFileSync(join(a.workspace, '.cursor', 'mcp.json'), 'utf8'))).toEqual({ mcpServers: { arara: { url: 'http://127.0.0.1:1/mcp/x' } } })
     expect(JSON.parse(readFileSync(join(a.config, 'cli-config.json'), 'utf8')).permissions.deny).toContain('Shell(*)')
     expect(() => readFileSync(join(b.workspace, '.cursor', 'mcp.json'))).toThrow()
   })
@@ -509,7 +509,7 @@ describe('Cursor config', () => {
   })
 
   it('names a workspace the way the CLI does', () => {
-    expect(cursorSlug('/Users/x/Library/Application Support/Tucano/cursor/ab12/workspace')).toBe('Users-x-Library-Application-Support-Tucano-cursor-ab12-workspace')
+    expect(cursorSlug('/Users/x/Library/Application Support/Arara/cursor/ab12/workspace')).toBe('Users-x-Library-Application-Support-Arara-cursor-ab12-workspace')
   })
 
   // The worker's socket is a Unix socket: on Windows the turn doesn't look for it.
@@ -517,9 +517,9 @@ describe('Cursor config', () => {
     // short: under <data>/projects
     expect(cursorWorkerSocket('/t/w', '/t/d')).toBe(join('/t/d', 'projects', 't-w', 'worker.sock'))
     // long: cut to 83 characters plus a hash (the CLI's rule, checked against a real run)
-    const ws = '/Users/eduardo/Library/Application Support/Tucano/cursor/0011223344556677/workspace'
-    const sock = cursorWorkerSocket(ws, '/Users/eduardo/Library/Application Support/Tucano/cursor/0011223344556677/d')
-    expect(sock.startsWith('/Users/eduardo/Library/Application Support/Tucano/cursor/0011223344556677/d/Users-')).toBe(true)
+    const ws = '/Users/eduardo/Library/Application Support/Arara/cursor/0011223344556677/workspace'
+    const sock = cursorWorkerSocket(ws, '/Users/eduardo/Library/Application Support/Arara/cursor/0011223344556677/dd')
+    expect(sock.startsWith('/Users/eduardo/Library/Application Support/Arara/cursor/0011223344556677/dd/Users-')).toBe(true)
     expect(sock).toMatch(/-[0-9a-f]{7}\/worker\.sock$/)
     expect(sock.length).toBeLessThanOrEqual(83 + 8 + '/worker.sock'.length)
   })
@@ -535,7 +535,7 @@ describe('Cursor config', () => {
 describe.skipIf(process.platform === 'win32')('Cursor engine with images', () => {
   // A stand-in CLI: it takes `mcp enable`, and answers with what it was given.
   const fakeCli = (takesImages: boolean): string => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano-cursor-cli-'))
+    const dir = mkdtempSync(join(tmpdir(), 'arara-cursor-cli-'))
     const bin = join(dir, 'cursor-agent')
     writeFileSync(
       bin,
@@ -545,7 +545,7 @@ images=0
 for a in "$@"; do [ "$a" = --image ] && images=$((images+1)); done
 ${takesImages ? '' : `[ $images -gt 0 ] && { echo "error: unknown option '--image'" >&2; exit 1; }`}
 note=no
-cat | grep -q 'Tucano:' && note=yes
+cat | grep -q 'Arara:' && note=yes
 echo '{"type":"result","subtype":"success","is_error":false,"result":"images='"$images"' note='"$note"'","usage":{"inputTokens":1,"outputTokens":1}}'
 `,
       { mode: 0o755 }
@@ -553,23 +553,23 @@ echo '{"type":"result","subtype":"success","is_error":false,"result":"images='"$
     return bin
   }
   const reply = async (bin: string, images: { block: number; path: string; mime: string }[]): Promise<EngineEvent[]> => {
-    const app = mkdtempSync(join(tmpdir(), 'tucano-cursor-app-'))
+    const app = mkdtempSync(join(tmpdir(), 'arara-cursor-app-'))
     const turn = { model: 'auto', effort: 'medium' as const, system: 'You are Iris.', prompt: 'What is in the picture?', images, cwd: app, signal: new AbortController().signal }
     const out: EngineEvent[] = []
     for await (const ev of cursorEngine(() => bin, app).run(turn)) out.push(ev)
     return out
   }
   const picture = (): { block: number; path: string; mime: string }[] => {
-    const p = join(mkdtempSync(join(tmpdir(), 'tucano-cursor-pic-')), 'p.png')
+    const p = join(mkdtempSync(join(tmpdir(), 'arara-cursor-pic-')), 'p.png')
     writeFileSync(p, 'x')
     return [{ block: 0, path: p, mime: 'image/png' }]
   }
 
   it("runs the CLI with the turn's home, and the turn's folder goes afterwards", async () => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano-cursor-cli-'))
+    const dir = mkdtempSync(join(tmpdir(), 'arara-cursor-cli-'))
     const bin = join(dir, 'cursor-agent')
     writeFileSync(bin, `#!/bin/sh\n[ "$1" = mcp ] && exit 0\ncat >/dev/null\necho '{"type":"result","subtype":"success","is_error":false,"result":"'"$HOME|$CURSOR_CONFIG_DIR"'","usage":{"inputTokens":1,"outputTokens":1}}'\n`, { mode: 0o755 })
-    const app = mkdtempSync(join(tmpdir(), 'tucano-cursor-app-'))
+    const app = mkdtempSync(join(tmpdir(), 'arara-cursor-app-'))
     const turn = { model: 'auto', effort: 'medium' as const, system: 'You are Iris.', prompt: 'Hi', cwd: app, signal: new AbortController().signal }
     const out: EngineEvent[] = []
     for await (const ev of cursorEngine(() => bin, app).run(turn)) out.push(ev)
@@ -668,7 +668,7 @@ describe('Grok config', () => {
     expect(args[args.indexOf('--leader-socket') + 1]).toBe('/tmp/leader.sock')
     expect(args).not.toContain('-p')
     const withGateway = grokArgs({ ...base, mcpUrl: 'http://127.0.0.1:1/mcp/x' }, 'p.txt', 's.sock')
-    expect(withGateway[withGateway.indexOf('--system-prompt-override') + 1]).toMatch(/^You are Iris\.\n\n.*tucano__lembrar/s)
+    expect(withGateway[withGateway.indexOf('--system-prompt-override') + 1]).toMatch(/^You are Iris\.\n\n.*arara__lembrar/s)
     expect(args).toContain('--no-subagents')
     expect(args).toContain('--no-plan')
     expect(args).toContain('--no-wait-for-background')
@@ -716,7 +716,7 @@ describe('Grok config', () => {
 
   it('writes the prompt as text, or as ACP blocks when an image exists', () => {
     expect(grokPrompt({ prompt: 'oi' })).toEqual({ name: 'prompt.txt', body: 'oi' })
-    const dir = mkdtempSync(join(tmpdir(), 'tucano-grok-img-'))
+    const dir = mkdtempSync(join(tmpdir(), 'arara-grok-img-'))
     const png = join(dir, 'a.png')
     writeFileSync(png, Buffer.from([1, 2, 3]))
     const withImage = grokPrompt({ prompt: 'veja', images: [{ block: 0, path: png, mime: 'image/png' }, { block: 1, path: join(dir, 'gone.png'), mime: 'image/png' }] })
@@ -730,7 +730,7 @@ describe('Grok config', () => {
 
   it('points the turn config at the gateway and turns the other scans off', () => {
     const c = grokConfig({ mcpUrl: 'http://127.0.0.1:1/mcp/x"y' })
-    expect(c).toContain('[mcp_servers.tucano]')
+    expect(c).toContain('[mcp_servers.arara]')
     expect(c).toContain('url = "http://127.0.0.1:1/mcp/x\\"y"')
     expect(c).toContain('enabled = true')
     expect(c).toContain('[compat.claude]')
@@ -757,9 +757,9 @@ describe('Grok config', () => {
     const dirs = grokTurnDirs()
     expect(existsSync(dirs.work)).toBe(true)
     expect(dirs.work.startsWith(dirs.root)).toBe(true)
-    expect(dirs.root).toContain('tucano-grok-')
+    expect(dirs.root).toContain('arara-grok-')
     expect(dirs.socket.length).toBeLessThanOrEqual(100)
-    const auth = join(mkdtempSync(join(tmpdir(), 'tucano-grok-auth-')), 'auth.json')
+    const auth = join(mkdtempSync(join(tmpdir(), 'arara-grok-auth-')), 'auth.json')
     writeFileSync(auth, 'secret')
     writeFileSync(join(dirs.root, 'config.toml'), 'x')
     grokCleanup(dirs)
@@ -770,7 +770,7 @@ describe('Grok config', () => {
 
 describe.skipIf(process.platform === 'win32')('Grok engine', () => {
   const fakeCli = (): string => {
-    const dir = mkdtempSync(join(tmpdir(), 'tucano-grok-cli-'))
+    const dir = mkdtempSync(join(tmpdir(), 'arara-grok-cli-'))
     const bin = join(dir, 'grok')
     writeFileSync(
       bin,
@@ -788,7 +788,7 @@ for a in "$@"; do
   prev=$a
 done
 mcp=no
-if [ -f "$GROK_HOME/config.toml" ] && grep -q 'mcp_servers.tucano' "$GROK_HOME/config.toml"; then mcp=yes; fi
+if [ -f "$GROK_HOME/config.toml" ] && grep -q 'mcp_servers.arara' "$GROK_HOME/config.toml"; then mcp=yes; fi
 img=no
 if [ -n "$prompt" ] && grep -q '"type":"image"' "$prompt"; then img=yes; fi
 printf '%s\\n' "{\\"type\\":\\"text\\",\\"data\\":\\"key=$key cfg=$cfg mem=$mem pflag=$pflag mcp=$mcp img=$img home=$GROK_HOME userhome=$HOME cwd=$(pwd) auth=$auth\\"}"
@@ -800,7 +800,7 @@ printf '%s\\n' '{"type":"end","stopReason":"end_turn","usage":{"input_tokens":4,
   }
 
   const run = async (bin: string | undefined, extra: { images?: { block: number; path: string; mime: string }[]; shell?: NodeJS.ProcessEnv } = {}): Promise<EngineEvent[]> => {
-    const cwd = mkdtempSync(join(tmpdir(), 'tucano-grok-cwd-'))
+    const cwd = mkdtempSync(join(tmpdir(), 'arara-grok-cwd-'))
     const turn = { model: 'grok-4.7', effort: 'medium' as const, system: 'You are Iris.', prompt: 'Oi', images: extra.images, cwd, mcpUrl: 'http://127.0.0.1:9/mcp/abc', signal: new AbortController().signal }
     const out: EngineEvent[] = []
     for await (const ev of grokEngine(() => bin, async () => extra.shell ?? {}).run(turn)) out.push(ev)
@@ -813,7 +813,7 @@ printf '%s\\n' '{"type":"end","stopReason":"end_turn","usage":{"input_tokens":4,
   })
 
   it("runs in its own home, drops an API key when the login file is named, and removes the turn folder", async () => {
-    const authDir = mkdtempSync(join(tmpdir(), 'tucano-grok-real-'))
+    const authDir = mkdtempSync(join(tmpdir(), 'arara-grok-real-'))
     const auth = join(authDir, 'auth.json')
     writeFileSync(auth, 'secret')
     const done = (await run(fakeCli(), { shell: { GROK_HOME: authDir, XAI_API_KEY: 'secret', GROK_CONFIG: '/nope' } })).find((e) => e.type === 'done')
@@ -837,7 +837,7 @@ printf '%s\\n' '{"type":"end","stopReason":"end_turn","usage":{"input_tokens":4,
   })
 
   it('sends an existing image as an ACP block', async () => {
-    const png = join(mkdtempSync(join(tmpdir(), 'tucano-grok-pic-')), 'p.png')
+    const png = join(mkdtempSync(join(tmpdir(), 'arara-grok-pic-')), 'p.png')
     writeFileSync(png, 'x')
     const done = (await run(fakeCli(), { images: [{ block: 0, path: png, mime: 'image/png' }] })).find((e) => e.type === 'done')
     expect(done && done.type === 'done' && done.text).toContain('img=yes')

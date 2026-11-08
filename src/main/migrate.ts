@@ -1,4 +1,4 @@
-// Tucano was first called agent-desk, and two things on the Mac kept that name: the folder
+// Arara was first called agent-desk, and two things on the Mac kept that name: the folder
 // with everyone's data, and the Keychain key that encrypts what's saved in it (connector
 // logins, tokens, the agents' browser sessions). On the first open after the rename both
 // come over, so nothing is lost: the key is copied under the new name (the encrypted data
@@ -13,7 +13,7 @@ export type Moved = 'nothing' | 'moved' | 'old-app-open' | 'keychain-denied'
 export function moveFromAgentDesk(opts: { appData: string; dataDir: string; name: string; appPath: string; old?: string }): Moved {
   const was = opts.old ?? 'agent-desk' // a test passes another, so it never reads the real Keychain
   const old = join(opts.appData, was)
-  if (existsSync(join(opts.dataDir, 'tucano.db')) || !existsSync(join(old, `${was}.db`))) return 'nothing'
+  if (existsSync(join(opts.dataDir, 'arara.db')) || !existsSync(join(old, `${was}.db`))) return 'nothing'
   if (stillOpen(old)) return 'old-app-open'
   if (!copyKey(was, opts.name, opts.appPath)) return 'keychain-denied'
 
@@ -22,7 +22,7 @@ export function moveFromAgentDesk(opts: { appData: string; dataDir: string; name
   renameSync(old, opts.dataDir)
   for (const ext of ['.db', '.db-wal', '.db-shm']) {
     const from = join(opts.dataDir, `${was}${ext}`)
-    if (existsSync(from)) renameSync(from, join(opts.dataDir, `tucano${ext}`))
+    if (existsSync(from)) renameSync(from, join(opts.dataDir, `arara${ext}`))
   }
   for (const f of ['SingletonLock', 'SingletonCookie', 'SingletonSocket']) rmSync(join(opts.dataDir, f), { force: true })
   return 'moved'
@@ -70,5 +70,5 @@ function copyKey(from: string, to: string, appPath: string): boolean {
   }
 }
 
-// /Applications/Tucano.app/Contents/MacOS/Tucano → /Applications/Tucano.app
+// /Applications/Arara.app/Contents/MacOS/Arara → /Applications/Arara.app
 export const bundleOf = (execPath: string): string => dirname(dirname(dirname(execPath)))

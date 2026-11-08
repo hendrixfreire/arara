@@ -140,8 +140,8 @@ export function friendly(e: unknown, ctx: FriendlyContext = {}): Friendly {
   if (BUSY.test(raw))
     return mapped(
       L(
-        "O Tucano está ocupado salvando. Tente de novo em instantes.",
-        "Tucano is busy saving. Try again in a moment."
+        "A Arara está ocupada salvando. Tente de novo em instantes.",
+        "Arara is busy saving. Try again in a moment."
       )
     );
   // A file the system wouldn't open, said with the file: the generic "restart" wouldn't help.
@@ -197,8 +197,8 @@ export function friendly(e: unknown, ctx: FriendlyContext = {}): Friendly {
     const doing = ctx.doing ? L(` ao ${ctx.doing}`, ` while ${ctx.doing}`) : "";
     return {
       text: L(
-        `Algo deu errado${doing}. Tente de novo; se continuar, reinicie o Tucano.`,
-        `Something went wrong${doing}. Try again; if it keeps happening, restart Tucano.`
+        `Algo deu errado${doing}. Tente de novo; se continuar, reinicie a Arara.`,
+        `Something went wrong${doing}. Try again; if it keeps happening, restart Arara.`
       ),
       detail: raw || undefined,
     };
@@ -243,11 +243,11 @@ export function errorFor(e: unknown, owner: boolean): string {
   return ours
     ? withoutPaths(f.text)
     : L(
-        "Algo deu errado. Tente de novo; se continuar, avise quem cuida deste Tucano.",
-        "Something went wrong. Try again; if it keeps happening, tell whoever runs this Tucano."
+        "Algo deu errado. Tente de novo; se continuar, avise quem cuida desta Arara.",
+        "Something went wrong. Try again; if it keeps happening, tell whoever runs this Arara."
       );
 }
 
-// "/srv/tucano/x", "~/x", "C:\x": a place on the machine, said as "…".
+// "/srv/arara/x", "~/x", "C:\x": a place on the machine, said as "…".
 const withoutPaths = (text: string): string =>
   text.replace(/(^|[\s"'`(=])(?:~?\/|[A-Za-z]:[\\/])[^\s"'`)]*/g, "$1…");

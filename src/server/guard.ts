@@ -57,7 +57,7 @@ export class Doors {
 // owner's token, or a person's key). A valid credential always opens, even from an address that
 // waits after many wrong guesses (a shared office address, someone's old key retrying), as long
 // as it can't be guessed: a person's key (256 random bits) or the token the server made itself.
-// A token the operator chose (TUCANO_TOKEN) may be weak: from a waiting address it waits too.
+// A token the operator chose (ARARA_TOKEN) may be weak: from a waiting address it waits too.
 // Every wrong credential answers the same: unauthorized, or blocked once the address waits.
 // A removed person's key (the core knows it was one) is "signed out": never a guess.
 export type SignIn = { status: 'link' | 'owner' | 'removed' | 'blocked' | 'unauthorized' } | { status: 'person'; person: Person }
@@ -96,7 +96,7 @@ export async function signIn(o: {
   return guess()
 }
 
-// Who is asking. Behind a reverse proxy (TUCANO_TRUST_PROXY=1) every request comes from the
+// Who is asking. Behind a reverse proxy (ARARA_TRUST_PROXY=1) every request comes from the
 // proxy, so the address it was asked from is the last one it added to X-Forwarded-For. Without
 // it, that header is the asker's own word and counts for nothing.
 export function clientIp(req: Pick<IncomingMessage, 'headers' | 'socket'>, trustProxy: boolean): string {
@@ -107,7 +107,7 @@ export function clientIp(req: Pick<IncomingMessage, 'headers' | 'socket'>, trust
   return last || direct
 }
 
-// A page of another origin (another person's Tucano on a sibling subdomain, for one) may not
+// A page of another origin (another person's Arara on a sibling subdomain, for one) may not
 // talk to this one. A browser always says where a fetch or an EventSource comes from; with no
 // Origin it's a navigation or a program, which the token alone decides.
 export function sameOrigin(req: Pick<IncomingMessage, 'headers'>): boolean {

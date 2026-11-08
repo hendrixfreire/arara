@@ -1,4 +1,4 @@
-// The app's guide, which the Tuca reads to explain how Tucano works: a page per topic in
+// The app's guide, which the Tuca reads to explain how Arara works: a page per topic in
 // src/core/guide/, each starting with "# Title" and a "> one-line summary". He sees the list in
 // his prompt and reads a page with ler_guia before explaining it, so he doesn't make things up.
 import type { ToolDef } from './gateway'
@@ -27,8 +27,8 @@ export const LER_GUIA: ToolDef = {
   name: 'ler_guia',
   get description() {
     return L(
-      'Lê uma página do guia do Tucano (a lista está no seu prompt). Leia antes de explicar como algo funciona, e explique só o que a página diz.',
-      "Reads a page of Tucano's guide (the list is in your prompt). Read it before explaining how something works, and explain only what the page says."
+      'Lê uma página do guia da Arara (a lista está no seu prompt). Leia antes de explicar como algo funciona, e explique só o que a página diz.',
+      "Reads a page of Arara's guide (the list is in your prompt). Read it before explaining how something works, and explain only what the page says."
     )
   },
   get inputSchema() {

@@ -1,4 +1,4 @@
-// Tucano Team v1, fourth round: what the real core answers each person over its API (fake engines).
+// Arara Team v1, fourth round: what the real core answers each person over its API (fake engines).
 // One core for the whole file: the describes run in order and build on each other.
 import { rmSync } from 'node:fs'
 import { isAbsolute } from 'node:path'

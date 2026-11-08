@@ -32,7 +32,7 @@ describe('ownAppGuide', () => {
     expect(g.idPlaceholder).toMatch(/apps\.googleusercontent\.com/)
   })
 
-  it("gives Slack's app link with the Tucano's own return address", () => {
+  it("gives Slack's app link with the Arara's own return address", () => {
     const url = 'https://ana.tucano.sh/oauth/callback'
     expect(ownAppGuide('slack', url).steps[0]!.link).toBe(slackAppLink(url))
   })

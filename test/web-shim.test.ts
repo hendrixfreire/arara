@@ -72,7 +72,7 @@ function page(lang: string, answer: () => Promise<{ status: number }>): { access
     const n: Node = { tag, textContent: '', style: { cssText: '' }, children: [], append: (...c) => void n.children.push(...c) }
     return n
   }
-  const document = { documentElement: { lang }, title: 'Tucano', createElement: el, body: { replaceChildren: (...n: Node[]) => void body.splice(0, body.length, ...n) } }
+  const document = { documentElement: { lang }, title: 'Arara', createElement: el, body: { replaceChildren: (...n: Node[]) => void body.splice(0, body.length, ...n) } }
   const fetch = (url: string) => (asked.push(url), answer())
   const access = new Function('document', 'fetch', `${ACCESS_SHIM}; return access`)(document, fetch)
   return { access, body, asked }
@@ -86,10 +86,10 @@ describe('the page when its access ends', () => {
     expect(pt.body).toEqual([])
     expect(pt.access.answer(401)).toBe(true)
     expect(pt.access.gone).toBe(true)
-    expect(text(pt.body[0]!)).toContain('Você não tem mais acesso a este Tucano')
+    expect(text(pt.body[0]!)).toContain('Você não tem mais acesso a esta Arara')
     const en = page('en', async () => ({ status: 200 }))
     en.access.answer(401)
-    expect(text(en.body[0]!)).toContain('You no longer have access to this Tucano')
+    expect(text(en.body[0]!)).toContain('You no longer have access to this Arara')
   })
 
   it('a dropped line asks the server whether it still gets in; a network error is not a refusal', async () => {

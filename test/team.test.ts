@@ -64,12 +64,12 @@ describe('the team as a file', () => {
 
   it("keeps a backup named after the workspace, beside a week of older ones", () => {
     const dir = mkdtempSync(join(tmpdir(), 'bk-'))
-    for (let d = 1; d <= 7; d++) writeFileSync(join(dir, `tucano-2026-10-0${d}-09-00.db`), '')
+    for (let d = 1; d <= 7; d++) writeFileSync(join(dir, `arara-2026-10-0${d}-09-00.db`), '')
     const file = backup(fresh(), dir, 'Empresa São Paulo')
     expect(file.endsWith('-Empresa-Sao-Paulo.db')).toBe(true)
     expect(existsSync(file)).toBe(true)
     expect(readdirSync(dir)).toHaveLength(7)
-    expect(existsSync(join(dir, 'tucano-2026-10-01-09-00.db'))).toBe(false) // the oldest went
+    expect(existsSync(join(dir, 'arara-2026-10-01-09-00.db'))).toBe(false) // the oldest went
   })
 })
 

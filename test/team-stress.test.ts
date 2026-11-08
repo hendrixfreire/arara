@@ -1,4 +1,4 @@
-// Tucano Team v1, what three stress batteries found: privacy between people (DMs, notes made in a
+// Arara Team v1, what three stress batteries found: privacy between people (DMs, notes made in a
 // DM, the wiki, the team's log, export, purge), who changes a channel, unread for one person exactly
 // as before, routed replies in a busy channel, and the small things a person reads.
 import { existsSync, mkdtempSync, readFileSync } from 'node:fs'
@@ -23,7 +23,7 @@ import { exportTeam, importTeam } from '../src/core/team'
 import { Wiki } from '../src/core/wiki'
 import { WikiCurator } from '../src/core/wiki-curator'
 
-const dir = (): string => mkdtempSync(join(tmpdir(), 'tucano-stress-'))
+const dir = (): string => mkdtempSync(join(tmpdir(), 'arara-stress-'))
 const agent = (id: string, handle: string, extra: Partial<Agent> = {}): Agent => ({ id, name: handle[0]!.toUpperCase() + handle.slice(1), handle, role: '', color: 'sky', instructions: '', modelId: 'sonnet', effort: 'low', limit: 1_000_000, used: 0, grants: {}, memory: 'auto', computer: false, archived: false, ...extra })
 const ready = { installed: true, loggedIn: true }
 const settings = (name = 'Ana'): Settings => ({ workspaceName: name, context: '', engines: { claude: ready, codex: ready, opencode: ready, pi: ready, gemini: ready, cursor: ready, grok: ready }, routerModel: 'haiku', memoryModel: 'haiku', memoryLearning: 'auto', defaultLimit: 1000, approvalTtlHours: 24, theme: 'system', language: 'pt' })
@@ -176,7 +176,7 @@ describe("an agent's note made in a DM (4)", () => {
   it('from before this change: a DM note becomes its person\'s by the migration', async () => {
     const { DatabaseSync } = await import('node:sqlite')
     const { MIGRATIONS } = await import('../src/core/db')
-    const file = join(dir(), 'tucano.db')
+    const file = join(dir(), 'arara.db')
     const raw = new DatabaseSync(file)
     const at = MIGRATIONS.findIndex((m) => m.includes('CREATE TABLE unread'))
     for (const m of MIGRATIONS.slice(0, at)) raw.exec(m)
@@ -280,7 +280,7 @@ describe('exporting and importing the team (6)', () => {
     expect(text).toContain('Rotina da Dani')
     expect(text).toContain('Rotina do canal')
 
-    // Into another Tucano where the agent has Bia's DM only: Dani's routine goes into a DM of Dani's own.
+    // Into another Arara where the agent has Bia's DM only: Dani's routine goes into a DM of Dani's own.
     const other = team()
     other.db.saveAgent(agent('a1', 'lia'))
     other.db.createConversation({ id: 'bia-dm', kind: 'dm', name: 'a1', members: ['a1'], owner: other.bia.id })
@@ -407,7 +407,7 @@ describe('who manages invites and people (13)', () => {
     const adminInvite = people.createInvite(ana, { role: 'admin' })
     const memberInvite = people.createInvite(dani, { role: 'member' })
     const hash = (code: string): string => hashSecret(code)
-    expect(() => people.revokeInvite(dani, hash(adminInvite.code))).toThrow('Só o dono do Tucano pode fazer isso.')
+    expect(() => people.revokeInvite(dani, hash(adminInvite.code))).toThrow('Só o dono da Arara pode fazer isso.')
     expect(() => people.revokeInvite(bia, hash(memberInvite.code))).toThrow('Só um admin pode fazer isso.')
     people.revokeInvite(dani, hash(memberInvite.code))
     people.revokeInvite(ana, hash(adminInvite.code))
@@ -421,10 +421,10 @@ describe('who manages invites and people (13)', () => {
     const { people, ana, dani } = team()
     const other = people.join(people.createInvite(ana, { role: 'admin' }).code, 'Edu')
     if (!('person' in other)) throw new Error(other.error)
-    expect(() => people.setRole(dani, other.person.id, 'member')).toThrow('Só o dono do Tucano pode fazer isso.')
-    expect(() => must(dani, { kind: 'person', target: ana })).toThrow("O acesso do dono do Tucano não muda.")
-    expect(() => people.setRole(dani, dani.id, 'member')).toThrow('Seu próprio acesso quem muda é o dono do Tucano.')
-    expect(() => people.createInvite(dani, { role: 'admin' })).toThrow('Só o dono do Tucano pode fazer isso.')
+    expect(() => people.setRole(dani, other.person.id, 'member')).toThrow('Só o dono da Arara pode fazer isso.')
+    expect(() => must(dani, { kind: 'person', target: ana })).toThrow("O acesso do dono da Arara não muda.")
+    expect(() => people.setRole(dani, dani.id, 'member')).toThrow('Seu próprio acesso quem muda é o dono da Arara.')
+    expect(() => people.createInvite(dani, { role: 'admin' })).toThrow('Só o dono da Arara pode fazer isso.')
     expect(() => people.remove(dani, other.person.id)).toThrow('Só o dono remove um admin.')
   })
 })

@@ -1,4 +1,4 @@
-// What differs between the systems Tucano runs on, in one place: the rest of the
+// What differs between the systems Arara runs on, in one place: the rest of the
 // code asks "open a terminal with this", "where is Chrome?", "how do I spawn this
 // CLI?", and never checks the platform itself. Most answers are a plain function
 // of the system, so they're tested for every system on any machine.
@@ -94,7 +94,7 @@ export const findChrome = (os: Os = osOf(), exists: (p: string) => boolean = exi
 // keyring locked, with nobody to open it, so every navigation hangs for good: the page's address is
 // set, the tab stays blank and nothing says why. The profile is the app's own, so on a server Chrome
 // uses its built-in store instead. A desktop keeps the keyring: its profiles' cookies are in it already.
-export const chromeKeyringFlags = (os: Os = osOf(), env: NodeJS.ProcessEnv = process.env): string[] => (os === 'linux' && env['TUCANO_SERVER'] === '1' ? ['--password-store=basic'] : [])
+export const chromeKeyringFlags = (os: Os = osOf(), env: NodeJS.ProcessEnv = process.env): string[] => (os === 'linux' && env['ARARA_SERVER'] === '1' ? ['--password-store=basic'] : [])
 
 // What a headless Chrome tells sites about the machine, matching the real one.
 export const userAgentPlatform = (os: Os = osOf(), arch: string = process.arch): { platform: string; platformVersion: string; architecture: string } => ({
@@ -104,11 +104,11 @@ export const userAgentPlatform = (os: Os = osOf(), arch: string = process.arch):
 })
 
 // Opening at login on Linux: a desktop entry in ~/.config/autostart, the freedesktop way.
-export const autostartFile = (home = homedir(), env: NodeJS.ProcessEnv = process.env): string => join(env['XDG_CONFIG_HOME'] || join(home, '.config'), 'autostart', 'tucano.desktop')
+export const autostartFile = (home = homedir(), env: NodeJS.ProcessEnv = process.env): string => join(env['XDG_CONFIG_HOME'] || join(home, '.config'), 'autostart', 'arara.desktop')
 
 export function autostartEntry(exec: string): string {
   const q = /[\s"'\\$`]/.test(exec) ? `"${exec.replace(/(["\\$`])/g, '\\$1')}"` : exec
-  return ['[Desktop Entry]', 'Type=Application', 'Name=Tucano', `Exec=${q}`, 'Icon=tucano', 'Terminal=false', 'X-GNOME-Autostart-enabled=true', ''].join('\n')
+  return ['[Desktop Entry]', 'Type=Application', 'Name=Arara', `Exec=${q}`, 'Icon=arara', 'Terminal=false', 'X-GNOME-Autostart-enabled=true', ''].join('\n')
 }
 
 // The executable names a command may have on this system: on Windows, its PATHEXT
@@ -268,7 +268,7 @@ export function shellCommand(command: string, env: NodeJS.ProcessEnv = process.e
 // the paths go in environment variables, which Windows hands over intact.
 export function openWindowsConsole(script: string, lines: string[], env: Record<string, string> = {}): void {
   writeFileSync(script, `@echo off\r\n${lines.join('\r\n')}\r\n`)
-  spawn(process.env['ComSpec'] || 'cmd.exe', ['/d', '/c', 'start', '"Tucano"', 'cmd.exe', '/k', `"${script}"`], {
+  spawn(process.env['ComSpec'] || 'cmd.exe', ['/d', '/c', 'start', '"Arara"', 'cmd.exe', '/k', `"${script}"`], {
     detached: true,
     stdio: 'ignore',
     windowsVerbatimArguments: true,

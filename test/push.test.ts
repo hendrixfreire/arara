@@ -51,7 +51,7 @@ describe('Push', () => {
 
   it('reads the relay from the environment', () => {
     expect(pushUrl({})).toBe('https://tucano.sh/api/push')
-    expect(pushUrl({ TUCANO_PUSH_URL: 'https://mine.example/push/' })).toBe('https://mine.example/push')
-    expect(pushUrl({ TUCANO_PUSH_URL: 'off' })).toBeUndefined()
+    expect(pushUrl({ ARARA_PUSH_URL: 'https://mine.example/push/' })).toBe('https://mine.example/push')
+    expect(pushUrl({ ARARA_PUSH_URL: 'off' })).toBeUndefined()
   })
 })

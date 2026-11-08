@@ -111,7 +111,7 @@ export function geminiHome(appDir: string, turn: Pick<Turn, 'system' | 'mcpUrl' 
   // gateway needs nothing here).
   for (const f of ['oauth_creds.json', 'google_accounts.json']) linkOrCopy(join(userHome, f), join(dot, f))
 
-  // The agent is Tucano's: its instructions are the system prompt (GEMINI_SYSTEM_MD
+  // The agent is Arara's: its instructions are the system prompt (GEMINI_SYSTEM_MD
   // points the CLI at this file, see geminiEnv).
   writeFileSync(join(home, 'system.md'), turn.system)
 

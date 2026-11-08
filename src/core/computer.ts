@@ -43,7 +43,7 @@ export function checkFolder(path: string, opts: { home?: string; dataDir: string
   // Library on a Mac, AppData on Windows: settings, caches and credentials of every app.
   if (top === 'Library' || top.toLowerCase() === 'appdata' || top.startsWith('.')) return L('Essa pasta guarda configurações e credenciais do sistema; não dá pra usar.', "That folder holds the system's settings and credentials; it can't be used.")
   const data = existsSync(opts.dataDir) ? realpathSync(opts.dataDir) : opts.dataDir
-  if (data === real || data.startsWith(real + sep) || real.startsWith(data + sep)) return L('Essa pasta tem os dados do próprio Tucano; não dá pra usar.', "That folder holds Tucano's own data; it can't be used.")
+  if (data === real || data.startsWith(real + sep) || real.startsWith(data + sep)) return L('Essa pasta tem os dados da própria Arara; não dá pra usar.', "That folder holds Arara's own data; it can't be used.")
   return null
 }
 
@@ -385,8 +385,8 @@ export class Computers {
 
   constructor(private deps: ComputerDeps) {
     this.mac = new MacComputer({ db: deps.db, dataDir: deps.dataDir, emit: deps.emit, shoot: deps.shoot })
-    this.prefix = prefixOf(deps.dataDir, 'tucano')
-    // Before the app was called Tucano its data folder, next to this one, was agent-desk.
+    this.prefix = prefixOf(deps.dataDir, 'arara')
+    // Before the app was called Arara its data folder, next to this one, was agent-desk.
     this.legacy = prefixOf(join(dirname(deps.dataDir), 'agent-desk'), 'agentdesk')
   }
 
@@ -478,7 +478,7 @@ export class Computers {
     const name = this.name(agentId)
     const mounts = mountArgs(name, this.deps.db.agent(agentId)?.folders ?? [])
     const sig = mounts.length ? createHash('sha1').update(JSON.stringify(mounts)).digest('hex').slice(0, 12) : ''
-    let state = await docker(['inspect', '-f', '{{.State.Running}} {{index .Config.Labels "tucano.mounts"}}', name], { timeoutMs: 15_000 })
+    let state = await docker(['inspect', '-f', '{{.State.Running}} {{index .Config.Labels "arara.mounts"}}', name], { timeoutMs: 15_000 })
     const [running, raw = ''] = state.stdout.trim().split(' ')
     const label = raw === '<no' ? '' : raw // "<no value>": made before folders existed
     // Folders are mounted when the container is made: lending or returning one makes it again, from its saved state.
@@ -524,9 +524,9 @@ export class Computers {
           'run', '-d',
           '--name', name,
           '--hostname', agent?.handle || 'agente',
-          '--label', 'tucano=1',
-          '--label', `tucano.agent=${agentId}`,
-          '--label', `tucano.mounts=${sig}`,
+          '--label', 'arara=1',
+          '--label', `arara.agent=${agentId}`,
+          '--label', `arara.mounts=${sig}`,
           '--init',
           '--memory', '3g',
           '--cpus', '2',
@@ -636,7 +636,7 @@ export class Computers {
     if (osOf() !== 'linux' || !process.getuid || !process.getgid) return null
     const known = this.owners.get(agentId)
     if (known !== undefined) return known
-    const probe = join(this.folder(agentId), `.tucano-owner-${randomUUID()}`)
+    const probe = join(this.folder(agentId), `.arara-owner-${randomUUID()}`)
     const r = await docker(['exec', this.name(agentId), 'touch', `${WORK}/${basename(probe)}`], { timeoutMs: 15_000 })
     if (r.code !== 0) return null // not running yet: ask again next time
     let owner: { uid: number; gid: number } | null = null
@@ -658,7 +658,7 @@ export class Computers {
     if (rows.length === 0) return []
     const ports = this.ports.get(agentId) ?? {}
     const r = await docker(
-      ['exec', this.name(agentId), 'bash', '-c', rows.map((s) => `kill -0 "$(cat /run/tucano/${s.name}.pid 2>/dev/null)" 2>/dev/null && echo ${s.name}`).join('; ') + '; true'],
+      ['exec', this.name(agentId), 'bash', '-c', rows.map((s) => `kill -0 "$(cat /run/arara/${s.name}.pid 2>/dev/null)" 2>/dev/null && echo ${s.name}`).join('; ') + '; true'],
       { timeoutMs: 10_000 }
     )
     const alive = new Set(r.stdout.split('\n').filter(Boolean))
@@ -673,7 +673,7 @@ export class Computers {
 
   async stopService(agentId: string, name: string): Promise<boolean> {
     if (this.onMac(agentId)) return this.mac.stopService(agentId, name)
-    const pid = `/run/tucano/${name}.pid`
+    const pid = `/run/arara/${name}.pid`
     const r = await docker(
       ['exec', this.name(agentId), 'bash', '-c', `p=$(cat ${pid} 2>/dev/null) || exit 3; kill -TERM -- -$p 2>/dev/null; for i in 1 2 3 4 5 6; do kill -0 $p 2>/dev/null || exit 0; sleep 0.5; done; kill -KILL -- -$p 2>/dev/null; exit 0`],
       { timeoutMs: 20_000 }
@@ -695,9 +695,9 @@ export class Computers {
 
     if (this.deps.db.services(agentId).some((s) => s.name === name)) await this.stopService(agentId, name)
     const log = `${WORK}/.logs/${name}.log`
-    await docker(['exec', this.name(agentId), 'bash', '-c', `mkdir -p /run/tucano ${WORK}/.logs && : > ${q(log)}`], { timeoutMs: 10_000 })
+    await docker(['exec', this.name(agentId), 'bash', '-c', `mkdir -p /run/arara ${WORK}/.logs && : > ${q(log)}`], { timeoutMs: 10_000 })
     // setsid gives the service its own process group, so stopping it stops its children too.
-    const script = `echo $$ > /run/tucano/${name}.pid; cd ${WORK}; exec bash -lc ${q(command)} >> ${q(log)} 2>&1`
+    const script = `echo $$ > /run/arara/${name}.pid; cd ${WORK}; exec bash -lc ${q(command)} >> ${q(log)} 2>&1`
     const start = await docker(['exec', '-d', this.name(agentId), 'setsid', 'bash', '-c', script], { timeoutMs: 15_000 })
     if (start.code !== 0) return { result: textResult(L(`Não consegui iniciar: ${start.stderr.trim()}`, `I couldn't start it: ${start.stderr.trim()}`), true) }
     this.deps.db.saveService(agentId, { name, command, port, startedAt: Date.now(), conversationId })
@@ -707,7 +707,7 @@ export class Computers {
     let alive = true
     for (let i = 0; i < 60 && !signal?.aborted; i++) {
       const r = await docker(
-        ['exec', this.name(agentId), 'bash', '-c', `cat /proc/net/tcp /proc/net/tcp6 2>/dev/null; echo ---; kill -0 "$(cat /run/tucano/${name}.pid)" 2>/dev/null && echo alive`],
+        ['exec', this.name(agentId), 'bash', '-c', `cat /proc/net/tcp /proc/net/tcp6 2>/dev/null; echo ---; kill -0 "$(cat /run/arara/${name}.pid)" 2>/dev/null && echo alive`],
         { timeoutMs: 10_000 }
       )
       const [net = '', tail = ''] = r.stdout.split('---')

@@ -2,7 +2,7 @@
 # build, on macOS, Linux and Windows, so a change can't break one of them unnoticed.
 # Windows runs the same tests several times slower, so they're split across four
 # runners there. A pull request runs the heaviest randomized tests with fewer rounds
-# (TUCANO_QUICK_TESTS); main runs them all.
+# (ARARA_QUICK_TESTS); main runs them all.
 name: CI
 
 on:
@@ -36,7 +36,7 @@ jobs:
     env:
       # The tests and the build don't run Electron itself.
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
-      TUCANO_QUICK_TESTS: ${{ github.event_name == 'pull_request' && '1' || '' }}
+      ARARA_QUICK_TESTS: ${{ github.event_name == 'pull_request' && '1' || '' }}
     steps:
       # Defender scans every file the tests write (databases, temp folders), which is
       # most of Windows' extra time. The runner is thrown away after the job.

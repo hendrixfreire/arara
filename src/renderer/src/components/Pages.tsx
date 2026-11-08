@@ -89,7 +89,7 @@ import { hasServers, ServersCard } from './Servers'
 import { HomePhoneCard } from './HomePhone'
 import { useWorkspaceList } from './Workspaces'
 import { workspaceLabel } from '../../../shared/workspaces'
-import exportSkill from '../assets/tucano-export-skill.md?raw'
+import exportSkill from '../assets/arara-export-skill.md?raw'
 
 export function Page({ title, subtitle, actions, children }: { title: ReactNode; subtitle?: ReactNode; actions?: ReactNode; children: ReactNode }): ReactNode {
   return (
@@ -1902,8 +1902,8 @@ function TeamCard(): ReactNode {
     URL.revokeObjectURL(a.href)
     setNote(
       L(
-        'Baixei o SKILL.md. No Grok Bot, dê a skill a um dos seus agentes (ou cole o texto numa conversa com ele) e peça: "Exporte meus agentes pro Tucano". Ele te devolve um .zip, que você abre em "Importar de outro app…". É experimental: ainda não foi testada dentro do Grok Bot, então confira o resumo da importação.',
-        'I downloaded SKILL.md. In Grok Bot, give the skill to one of your agents (or paste its text in a chat with it) and ask: "Export my agents to Tucano". It gives you back a .zip, which you open with "Import from another app…". It\'s experimental: it hasn\'t been tried inside Grok Bot yet, so check the import summary.'
+        'Baixei o SKILL.md. No Grok Bot, dê a skill a um dos seus agentes (ou cole o texto numa conversa com ele) e peça: "Exporte meus agentes pra Arara". Ele te devolve um .zip, que você abre em "Importar de outro app…". É experimental: ainda não foi testada dentro do Grok Bot, então confira o resumo da importação.',
+        'I downloaded SKILL.md. In Grok Bot, give the skill to one of your agents (or paste its text in a chat with it) and ask: "Export my agents to Arara". It gives you back a .zip, which you open with "Import from another app…". It\'s experimental: it hasn\'t been tried inside Grok Bot yet, so check the import summary.'
       )
     )
   }
@@ -1916,7 +1916,7 @@ function TeamCard(): ReactNode {
         .replace(/[^a-z0-9]+/gi, '-')
         .replace(/^-+|-+$/g, '')
         .slice(0, 40) || 'workspace'
-      const file = `${L('time-tucano', 'tucano-team')}-${safe}-${new Date().toISOString().slice(0, 10)}.md`
+      const file = `${L('time-arara', 'arara-team')}-${safe}-${new Date().toISOString().slice(0, 10)}.md`
       const a = document.createElement('a')
       a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown' }))
       a.download = file
@@ -1934,7 +1934,7 @@ function TeamCard(): ReactNode {
   const fromApp = (file?: File): void => {
     if (!file) return
     setNote(L('Lendo o arquivo…', 'Reading the file…'))
-    const path = window.tucano.pathOf?.(file)
+    const path = window.arara.pathOf?.(file)
     if (path) return void importAgents({ path }).then(setNote, failed)
     if (file.size > MAX_UPLOAD) return setNote(L('Arquivo grande demais pra mandar pelo navegador. Importe no app do computador, ou exporte sem os arquivos.', 'File too big to send through the browser. Import it in the desktop app, or export without the files.'))
     void file
@@ -1960,8 +1960,8 @@ function TeamCard(): ReactNode {
         <label
           className="btn btn--sm"
           title={L(
-            'OpenBot: Configurações do servidor → Transfer → Export from this server, com os arquivos. Grok Bot: o .zip feito com a skill do Tucano.',
-            "OpenBot: Server settings → Transfer → Export from this server, with the files. Grok Bot: the .zip made with Tucano's skill."
+            'OpenBot: Configurações do servidor → Transfer → Export from this server, com os arquivos. Grok Bot: o .zip feito com a skill da Arara.',
+            "OpenBot: Server settings → Transfer → Export from this server, with the files. Grok Bot: the .zip made with Arara's skill."
           )}
         >
           {L('Importar de outro app…', 'Import from another app…')}
@@ -1978,7 +1978,7 @@ function TeamCard(): ReactNode {
         <button
           className="btn btn--sm"
           onClick={grokSkill}
-          title={L('Experimental: a skill que exporta seus agentes do Grok Bot pro Tucano. Ainda não foi testada dentro do Grok Bot.', "Experimental: the skill that exports your agents from Grok Bot to Tucano. It hasn't been tried inside Grok Bot yet.")}
+          title={L('Experimental: a skill que exporta seus agentes do Grok Bot pra Arara. Ainda não foi testada dentro do Grok Bot.', "Experimental: the skill that exports your agents from Grok Bot to Arara. It hasn't been tried inside Grok Bot yet.")}
         >
           {L('Skill pro Grok Bot (experimental)', 'Skill for Grok Bot (experimental)')}
         </button>
@@ -1997,7 +1997,7 @@ function WorkspaceDangerArea(): ReactNode {
   const remove = async (): Promise<void> => {
     setBusy(true)
     setError('')
-    try { await window.tucano.workspaces?.delete() }
+    try { await window.arara.workspaces?.delete() }
     catch (e) { setError(e instanceof Error ? e.message : String(e)) }
     finally { setBusy(false) }
   }
@@ -2012,7 +2012,7 @@ function WorkspaceDangerArea(): ReactNode {
         </div>
         {note && <p className="small muted">{note}</p>}
       </div>
-      {window.tucano.workspaces && <div className="workspace-danger__section">
+      {window.arara.workspaces && <div className="workspace-danger__section">
         <h3>{L('Excluir workspace', 'Delete workspace')}</h3>
         <p className="small muted">{defaultWorkspace ? L('O workspace padrão não pode ser excluído. Você ainda pode fazer backup ou duplicá-lo.', 'The default workspace cannot be deleted. You can still back it up or duplicate it.') : L(`Excluir “${name}” apaga também seus backups locais, agentes, conversas, memórias, credenciais e rotinas. Copie o backup para fora deste workspace antes. Os outros workspaces e suas pastas de projetos ficam intactos.`, `Deleting “${name}” also deletes its local backups, agents, conversations, memories, credentials and routines. Copy your backup outside this workspace first. Other workspaces and project folders are kept.`)}</p>
         <button className="btn btn--danger btn--sm" disabled={busy || defaultWorkspace} onClick={() => void remove()}>{busy ? L('Aguarde…', 'Please wait…') : L('Excluir workspace e todos os dados', 'Delete workspace and all data')}</button>
@@ -2028,10 +2028,10 @@ function WorkspaceTelegramNotice(): ReactNode {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const switchWorkspace = async (): Promise<void> => {
-    if (!workspace || !window.tucano.workspaces) return
+    if (!workspace || !window.arara.workspaces) return
     setBusy(true)
     setError('')
-    try { await window.tucano.workspaces.switch(workspace.id) }
+    try { await window.arara.workspaces.switch(workspace.id) }
     catch (e) { setError(e instanceof Error ? e.message : String(e)) }
     finally { setBusy(false) }
   }
@@ -2245,11 +2245,11 @@ export function SettingsPage(): ReactNode {
         {pane('atividade') && admin && <ActivityPane />}
         {/* A member's own: the language, the theme and the sounds (their name is in Pessoas). */}
         {pane('geral') && !admin && (
-          <Card title={L('Pra você', 'Yours')} lead={L('Como o Tucano aparece pra você. Muda só pra você.', 'How Tucano looks to you. It changes only for you.')}>
+          <Card title={L('Pra você', 'Yours')} lead={L('Como a Arara aparece pra você. Muda só pra você.', 'How Arara looks to you. It changes only for you.')}>
             <div className="field">
               <span className="field__label">Idioma · Language</span>
               <LanguagePicker />
-              <span className="hint">{L('O idioma do app pra você. Os agentes respondem no idioma do Tucano.', 'The app’s language for you. The agents reply in the Tucano’s language.')}</span>
+              <span className="hint">{L('O idioma do app pra você. Os agentes respondem no idioma da Arara.', 'The app’s language for you. The agents reply in the Arara’s language.')}</span>
             </div>
             <div className="field">
               <span className="field__label">{L('Tema', 'Theme')}</span>
@@ -2261,13 +2261,13 @@ export function SettingsPage(): ReactNode {
                 ))}
               </div>
             </div>
-            <AdminOnly>{L('Só um admin muda os modelos, os agentes, o contexto e as outras configurações do Tucano.', 'Only an admin changes the models, the agents, the context and the Tucano’s other settings.')}</AdminOnly>
+            <AdminOnly>{L('Só um admin muda os modelos, os agentes, o contexto e as outras configurações da Arara.', 'Only an admin changes the models, the agents, the context and the Arara’s other settings.')}</AdminOnly>
           </Card>
         )}
         {pane('geral') && admin && (
           <Card title="Workspace">
             <p className="muted small">{L('Agentes, conversas, conectores e memórias ficam neste workspace. Os logins do Claude Code e OpenCode continuam compartilhados no computador. Um workspace não é uma sandbox do sistema.', 'Agents, conversations, connectors and memories stay in this workspace. Claude Code and OpenCode sign-ins are still shared on this computer. A workspace is not an OS sandbox.')}</p>
-            {window.tucano.workspaces && (
+            {window.arara.workspaces && (
               <Field label={L('Nome do workspace', 'Workspace name')}>
                 <input value={settings.workspaceLabel ?? ''} placeholder={settings.workspaceName} maxLength={120} onChange={(e) => updateSettings({ workspaceLabel: e.target.value })} />
               </Field>
@@ -2329,8 +2329,8 @@ export function SettingsPage(): ReactNode {
           <Card
             title="Harnesses"
             lead={L(
-              'Os programas em que os agentes rodam, cada um como você configurou: no seu plano, no gateway da empresa ou nos seus provedores. O Tucano nunca vê nem guarda as suas credenciais.',
-              'The programs the agents run on, each one the way you set it up: on your plan, your company’s gateway or your providers. Tucano never sees or stores your credentials.'
+              'Os programas em que os agentes rodam, cada um como você configurou: no seu plano, no gateway da empresa ou nos seus provedores. A Arara nunca vê nem guarda as suas credenciais.',
+              'The programs the agents run on, each one the way you set it up: on your plan, your company’s gateway or your providers. Arara never sees or stores your credentials.'
             )}
             action={
               <button className="btn btn--ghost btn--sm" onClick={refreshEngines}>
@@ -2346,8 +2346,8 @@ export function SettingsPage(): ReactNode {
           <Card
             title={L('Contas', 'Accounts')}
             lead={L(
-              'Mais de um login do Claude Code ou do Codex, como a conta do trabalho e a pessoal. Cada agente escolhe a conta na página dele. O login acontece no próprio CLI: o Tucano não vê nem guarda a senha.',
-              'More than one Claude Code or Codex login, like a work account and a personal one. Each agent picks its account on its page. You sign in through the CLI itself: Tucano never sees or stores the password.'
+              'Mais de um login do Claude Code ou do Codex, como a conta do trabalho e a pessoal. Cada agente escolhe a conta na página dele. O login acontece no próprio CLI: a Arara não vê nem guarda a senha.',
+              'More than one Claude Code or Codex login, like a work account and a personal one. Each agent picks its account on its page. You sign in through the CLI itself: Arara never sees or stores the password.'
             )}
           >
             <AccountsCard />
@@ -2399,7 +2399,7 @@ export function SettingsPage(): ReactNode {
         )}
 
         {pane('integracoes') && work && <OutsideGateway what={L('as aprovações, as perguntas dos agentes e o fim das rotinas vão pro seu Telegram, com o texto de cada uma.', 'approvals, the agents’ questions and routine results go to your Telegram, with the text of each.')} />}
-        {pane('integracoes') && window.tucano.phone && <HomePhoneCard />}
+        {pane('integracoes') && window.arara.phone && <HomePhoneCard />}
         {pane('integracoes') && (defaultWorkspace ? <PhoneCard info={settings.telegram} /> : <WorkspaceTelegramNotice />)}
 
         {pane('modelos') && (

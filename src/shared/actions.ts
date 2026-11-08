@@ -81,7 +81,7 @@ export function cleanRules(value: unknown): ActionRules {
 // ---------- levels ----------
 
 // careful: asks before anything that changes something. normal: asks before what's sensitive
-// (sending, deleting, paying…), as Tucano always has. free: does everything on its own.
+// (sending, deleting, paying…), as Arara always has. free: does everything on its own.
 export type Autonomy = 'careful' | 'normal' | 'free'
 export const AUTONOMY_LEVELS: readonly Autonomy[] = ['careful', 'normal', 'free']
 export const isAutonomy = (v: unknown): v is Autonomy => typeof v === 'string' && (AUTONOMY_LEVELS as readonly string[]).includes(v)

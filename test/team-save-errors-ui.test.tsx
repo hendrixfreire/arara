@@ -1,4 +1,4 @@
-// Tucano Team v1: an agent the core refuses to save (its name or @ is a person's) says why on the
+// Arara Team v1: an agent the core refuses to save (its name or @ is a person's) says why on the
 // screen it was saved from, the agent's page or the new-agent wizard, and nothing goes uncaught.
 import { parseHTML } from 'linkedom'
 import { act } from 'react'

@@ -95,7 +95,7 @@ export type Fetcher = (url: string, init: { headers: Record<string, string>; sig
 // safe-fetch) unless the caller passes the plain fetch: the desktop's own person, on their computer.
 export async function extractLink(url: string, fetcher: Fetcher = safeFetch()): Promise<{ title: string; text: string }> {
   if (!/^https?:\/\//i.test(url)) throw new Error(L('O link precisa começar com http:// ou https://.', 'The link must start with http:// or https://.'))
-  const res = await fetcher(url, { headers: { 'user-agent': 'Mozilla/5.0 (Tucano wiki)', accept: 'text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8' }, signal: AbortSignal.timeout(30_000) })
+  const res = await fetcher(url, { headers: { 'user-agent': 'Mozilla/5.0 (Arara wiki)', accept: 'text/html,application/xhtml+xml,application/pdf;q=0.9,*/*;q=0.8' }, signal: AbortSignal.timeout(30_000) })
   if (!res.ok) throw new Error(L(`A página respondeu ${res.status}.`, `The page answered ${res.status}.`))
   const type = res.headers.get('content-type') ?? ''
   const buf = Buffer.from(await res.arrayBuffer())

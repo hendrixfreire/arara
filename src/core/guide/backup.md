@@ -11,7 +11,7 @@ No card **Time** (Team):
 ## De outro app
 **Importar de outro app…** aceita um .zip:
 - **OpenBot**: em Configurações do servidor → Transfer → Export from this server, com os arquivos.
-- **Grok Bot**: ele não exporta sozinho. **Skill pro Grok Bot (experimental)** baixa uma skill: dê ela a um dos seus agentes de lá (ou cole o texto numa conversa) e peça "Exporte meus agentes pro Tucano". Ele devolve um .zip. É experimental: confira o resumo da importação.
+- **Grok Bot**: ele não exporta sozinho. **Skill pro Grok Bot (experimental)** baixa uma skill: dê ela a um dos seus agentes de lá (ou cole o texto numa conversa) e peça "Exporte meus agentes pra Arara". Ele devolve um .zip. É experimental: confira o resumo da importação.
 
 Os agentes importados entram sem nenhum conector, com a busca na web desligada, as rotinas desligadas e as memórias esperando você confirmar. Um servidor MCP do outro app só aparece no resumo; nunca vira conector sozinho.
 

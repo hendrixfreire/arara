@@ -1,6 +1,6 @@
 // Every method of the core's API, called with junk (nothing, null, the wrong types): each one
 // answers (a result or an error) and the core goes on. Nothing reaches the process as an
-// unhandled rejection or exception: on a server, one of those would take everyone's Tucano down.
+// unhandled rejection or exception: on a server, one of those would take everyone's Arara down.
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'

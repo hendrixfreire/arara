@@ -1,4 +1,4 @@
-// Settings › Servers: Tucanos that run on a server (yours, or your company's), shown in this
+// Settings › Servers: Araras that run on a server (yours, or your company's), shown in this
 // window over the app. Desktop only; the pairing link comes from the server (`server.js link`).
 import { useEffect, useState, type ReactNode } from 'react'
 import { L } from '../../../shared/lang'
@@ -8,10 +8,10 @@ import { Icon } from './ui'
 
 type Server = { id: string; name: string; origin: string; open: boolean }
 
-export const hasServers = (): boolean => !!window.tucano?.servers
+export const hasServers = (): boolean => !!window.arara?.servers
 
 export function ServersCard(): ReactNode {
-  const api = window.tucano.servers!
+  const api = window.arara.servers!
   const [list, setList] = useState<Server[]>([])
   const [link, setLink] = useState('')
   const [error, setError] = useState('')
@@ -32,12 +32,12 @@ export function ServersCard(): ReactNode {
     setBusy(true)
     const r = await api.pair(link).finally(() => setBusy(false))
     if (r === 'paired') return setLink('')
-    if (r === 'invalid') setError(L('Esse não é um link de conexão. Ele começa com tucano://connect e sai do servidor.', "That's not a connection link. It starts with tucano://connect and comes from the server."))
+    if (r === 'invalid') setError(L('Esse não é um link de conexão. Ele começa com arara://connect e sai do servidor.', "That's not a connection link. It starts with arara://connect and comes from the server."))
   }
   const forget = async (s: Server): Promise<void> => {
     const ok = await confirmDialog({
-      title: L(`Esquecer o Tucano em ${s.name}?`, `Forget the Tucano at ${s.name}?`),
-      body: L('Só este computador esquece o acesso. O Tucano do servidor continua lá, com tudo.', 'Only this computer forgets the access. The Tucano on the server stays there, with everything.'),
+      title: L(`Esquecer a Arara em ${s.name}?`, `Forget the Arara at ${s.name}?`),
+      body: L('Só este computador esquece o acesso. A Arara do servidor continua lá, com tudo.', 'Only this computer forgets the access. The Arara on the server stays there, with everything.'),
       confirm: L('Esquecer', 'Forget'),
       danger: true
     })
@@ -49,15 +49,15 @@ export function ServersCard(): ReactNode {
       <Card
         title={L('Servidores', 'Servers')}
         lead={L(
-          'Um Tucano que roda num servidor, ligado o tempo todo, aberto aqui mesmo: escolha na lista do topo da barra lateral, e volte pela faixa de cima. Os agentes e as conversas são os de lá; nada deste computador vai pra ele.',
-          'A Tucano running on a server, always on, opened right here: pick it in the list at the top of the sidebar, and come back from the bar above it. The agents and conversations are the server’s; nothing on this computer goes to it.'
+          'Uma Arara que roda num servidor, ligada o tempo todo, aberta aqui mesmo: escolha na lista do topo da barra lateral, e volte pela faixa de cima. Os agentes e as conversas são os de lá; nada deste computador vai pra ela.',
+          'A Arara running on a server, always on, opened right here: pick it in the list at the top of the sidebar, and come back from the bar above it. The agents and conversations are the server’s; nothing on this computer goes to it.'
         )}
       >
         <div className="key-row">
           <Icon name="laptop" />
           <div className="grow">
             <strong>{L('Este computador', 'This computer')}</strong>
-            <p className="muted small">{L('O Tucano desta janela: os agentes, as rotinas e os apps deste computador.', 'The Tucano in this window: the agents, routines and apps of this computer.')}</p>
+            <p className="muted small">{L('A Arara desta janela: os agentes, as rotinas e os apps deste computador.', 'The Arara in this window: the agents, routines and apps of this computer.')}</p>
           </div>
         </div>
         {list.map((s) => (
@@ -81,8 +81,8 @@ export function ServersCard(): ReactNode {
       <Card
         title={L('Conectar a um servidor', 'Connect to a server')}
         lead={L(
-          'Cole o link de conexão que o servidor deu (tucano://connect…). Quem tem o link controla os agentes de lá: cole só links seus ou de quem você confia.',
-          'Paste the connection link the server gave you (tucano://connect…). Whoever has the link controls the agents there: paste only links of your own or from someone you trust.'
+          'Cole o link de conexão que o servidor deu (arara://connect…). Quem tem o link controla os agentes de lá: cole só links seus ou de quem você confia.',
+          'Paste the connection link the server gave you (arara://connect…). Whoever has the link controls the agents there: paste only links of your own or from someone you trust.'
         )}
       >
         <form
@@ -92,7 +92,7 @@ export function ServersCard(): ReactNode {
             if (link.trim() && !busy) void connect()
           }}
         >
-          <input className="grow" type="password" autoComplete="off" spellCheck={false} placeholder="tucano://connect?url=…" value={link} onChange={(e) => (setLink(e.target.value), setError(''))} />
+          <input className="grow" type="password" autoComplete="off" spellCheck={false} placeholder="arara://connect?url=…" value={link} onChange={(e) => (setLink(e.target.value), setError(''))} />
           <button className="btn btn--sm btn--primary" type="submit" disabled={!link.trim() || busy}>
             {L('Conectar', 'Connect')}
           </button>
@@ -105,7 +105,7 @@ export function ServersCard(): ReactNode {
 
 // The servers, live: the list and which one is on screen.
 export function useServers(): Server[] {
-  const api = window.tucano?.servers
+  const api = window.arara?.servers
   const [list, setList] = useState<Server[]>([])
   useEffect(() => {
     if (!api) return
@@ -121,18 +121,18 @@ export function useServers(): Server[] {
   return list
 }
 
-// Over a server's page, which fills the rest of the window: which Tucano it is, the other
+// Over a server's page, which fills the rest of the window: which Arara it is, the other
 // servers, and the way back to this computer's (src/main/servers.ts keeps BAR px for it).
 export function ServerBar(): ReactNode {
   const servers = useServers()
   const on = servers.find((s) => s.open)
   if (!on) return null
-  const api = window.tucano.servers!
+  const api = window.arara.servers!
   return (
     <div className="server-bar">
       <Icon name="globe" size={14} />
       <span className="server-bar__name">
-        {L('Tucano em', 'Tucano at')} <strong>{on.name}</strong>
+        {L('Arara em', 'Arara at')} <strong>{on.name}</strong>
       </span>
       <span className="grow" />
       {servers

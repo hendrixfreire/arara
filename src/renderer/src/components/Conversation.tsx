@@ -1575,7 +1575,7 @@ async function prepareImage(file: File): Promise<Attached | string> {
 const drafts = new Map<string, { text: string; images: Attached[] }>()
 // On a server the page reloads to reconnect (src/server's bridge): the texts are kept in this
 // tab for that moment, and come back once. Images aren't: attach them again.
-const RELOAD_KEY = 'tucano-drafts'
+const RELOAD_KEY = 'arara-drafts'
 try {
   const kept = JSON.parse(sessionStorage.getItem(RELOAD_KEY) ?? '{}') as Record<string, string>
   for (const [k, text] of Object.entries(kept)) if (typeof text === 'string' && text.trim()) drafts.set(k, { text, images: [] })
@@ -1691,8 +1691,8 @@ export function useDictation(insert: (text: string) => void, setNote: (note: str
           setNote(
             name === 'NotAllowedError'
               ? platform === 'mac'
-                ? L('O microfone está bloqueado. Libere o Tucano em Ajustes do Sistema › Privacidade e Segurança › Microfone.', 'The microphone is blocked. Allow Tucano in System Settings › Privacy & Security › Microphone.')
-                : L('O microfone está bloqueado. Libere o Tucano nas configurações de privacidade do sistema.', 'The microphone is blocked. Allow Tucano in the system’s privacy settings.')
+                ? L('O microfone está bloqueado. Libere a Arara em Ajustes do Sistema › Privacidade e Segurança › Microfone.', 'The microphone is blocked. Allow Arara in System Settings › Privacy & Security › Microphone.')
+                : L('O microfone está bloqueado. Libere a Arara nas configurações de privacidade do sistema.', 'The microphone is blocked. Allow Arara in the system’s privacy settings.')
             : name === 'NotFoundError' ? L('Não encontrei um microfone.', "I couldn't find a microphone.")
             : e instanceof Error ? e.message.replace(/^Error invoking.*?: /, '') : String(e)
           )
@@ -1865,8 +1865,8 @@ export function Composer({ conversationId, threadId, members, placeholder }: { c
   live.current = { text, images }
   useEffect(() => {
     const save = (): void => keepForReload({ key, text: live.current.text })
-    window.addEventListener('tucano:reloading', save)
-    return () => window.removeEventListener('tucano:reloading', save)
+    window.addEventListener('arara:reloading', save)
+    return () => window.removeEventListener('arara:reloading', save)
   }, [key])
   // Opened: the agent that answers here gets its process up while the person reads.
   useEffect(() => typing(conversationId, threadId, true), [conversationId, threadId])
@@ -1887,7 +1887,7 @@ export function Composer({ conversationId, threadId, members, placeholder }: { c
     if (!all.length) return
     // On a server, a file that isn't an image goes up to it (~/Enviados) and the message says where:
     // an agent on that computer opens it there, and the link brings it back down.
-    const upload = window.tucano.upload
+    const upload = window.arara.upload
     const files = upload ? all.filter((f) => IMAGE_MIMES.includes(f.type)) : all
     const others = upload ? all.filter((f) => !IMAGE_MIMES.includes(f.type)) : []
     if (others.length && upload) {
@@ -2132,7 +2132,7 @@ export function Composer({ conversationId, threadId, members, placeholder }: { c
               if (e.target.value.trim()) typing(conversationId, threadId)
             }}
             onPaste={(e) => {
-              const files = [...e.clipboardData.files].filter((f) => window.tucano.upload || f.type.startsWith('image/'))
+              const files = [...e.clipboardData.files].filter((f) => window.arara.upload || f.type.startsWith('image/'))
               if (!files.length) return
               e.preventDefault()
               void addFiles(files)
@@ -2159,13 +2159,13 @@ export function Composer({ conversationId, threadId, members, placeholder }: { c
         </div>
         <div className="composer__bar">
           <VoiceButton controls={voiceControls} state={voice} />
-          <button className="icon-btn" title={window.tucano.upload ? L('Anexar arquivo (ou arraste e solte, ou cole)', 'Attach a file (or drag and drop, or paste)') : L('Anexar imagem (ou arraste e solte, ou cole)', 'Attach an image (or drag and drop, or paste)')} onClick={() => picker.current?.click()}>
+          <button className="icon-btn" title={window.arara.upload ? L('Anexar arquivo (ou arraste e solte, ou cole)', 'Attach a file (or drag and drop, or paste)') : L('Anexar imagem (ou arraste e solte, ou cole)', 'Attach an image (or drag and drop, or paste)')} onClick={() => picker.current?.click()}>
             <Icon name="image" size={15} />
           </button>
           <input
             ref={picker}
             type="file"
-            accept={window.tucano.upload ? undefined : 'image/*'}
+            accept={window.arara.upload ? undefined : 'image/*'}
             multiple
             hidden
             onChange={(e) => {

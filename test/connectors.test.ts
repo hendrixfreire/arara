@@ -27,7 +27,7 @@ beforeEach(async () => {
   })
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
   base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`
-  db = new Db(join(mkdtempSync(join(tmpdir(), 'tucano-connectors-')), 'test.db'))
+  db = new Db(join(mkdtempSync(join(tmpdir(), 'arara-connectors-')), 'test.db'))
   connectors = new ConnectorManager({ db, secrets: new Secrets(db, plainCipher), emit: () => {}, openUrl: () => {}, oauthCallbackUrl: () => 'http://127.0.0.1:1/oauth/callback' })
 })
 
@@ -49,7 +49,7 @@ describe('OAuth on a server that takes no new apps', () => {
 })
 
 // The same, with dynamic registration and a token endpoint: an app may sign in.
-describe('OAuth signed in from a page on another machine (Tucano as a server)', () => {
+describe('OAuth signed in from a page on another machine (Arara as a server)', () => {
   let auth: Server
   let authBase: string
   const tokenCalls: string[] = []
@@ -61,7 +61,7 @@ describe('OAuth signed in from a page on another machine (Tucano as a server)', 
       if (req.url?.startsWith('/.well-known/oauth-protected-resource')) return json({ resource: `${authBase}/mcp`, authorization_servers: [authBase] })
       if (req.url?.startsWith('/.well-known/oauth-authorization-server'))
         return json({ issuer: authBase, authorization_endpoint: `${authBase}/authorize`, token_endpoint: `${authBase}/token`, registration_endpoint: `${authBase}/register`, response_types_supported: ['code'], code_challenge_methods_supported: ['S256'] })
-      if (req.url === '/register') return json({ client_id: 'tucano-test', redirect_uris: ['http://127.0.0.1:1/oauth/callback'] }, 201)
+      if (req.url === '/register') return json({ client_id: 'arara-test', redirect_uris: ['http://127.0.0.1:1/oauth/callback'] }, 201)
       if (req.url === '/token') {
         let body = ''
         req.on('data', (c: Buffer) => (body += c))

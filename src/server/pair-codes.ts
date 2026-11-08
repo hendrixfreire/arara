@@ -1,5 +1,5 @@
 // One-time codes that sign a device in (a phone, a browser, the desktop app) as a person of this
-// Tucano. A code is made on a page already signed in (Settings › Pessoas › Conectar um celular) for
+// Arara. A code is made on a page already signed in (Settings › Pessoas › Conectar um celular) for
 // whoever is asking, or by `server.js pair` on the server for the owner, and is good once, for a few
 // minutes. Spent at POST /pair (the phone's JSON, or the form the browser's /?code= page posts), it
 // becomes a key of that person's own (the core makes it, like an invite's): one per device, so one

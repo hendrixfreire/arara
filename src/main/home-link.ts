@@ -1,4 +1,4 @@
-// The phone at home: the desktop app opens its Tucano to the iPhone app on the same Wi-Fi, as the
+// The phone at home: the desktop app opens its Arara to the iPhone app on the same Wi-Fi, as the
 // owner. Off until the owner turns it on (Settings › Celular › Seu iPhone); then an HTTPS address on
 // this computer's network, with a certificate of its own (self-signed.ts) whose fingerprint rides
 // in the QR code, so the phone knows it's talking to this Mac.
@@ -145,7 +145,7 @@ export class HomeLink {
       const url = new URL(req.url ?? '/', 'https://x')
       const ip = req.socket.remoteAddress ?? ''
       if (url.pathname === '/pair' && req.method === 'POST') return void this.pair(req, res, ip)
-      const key = /(?:^|;\s*)tucano=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
+      const key = /(?:^|;\s*)arara=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]
       if (this.doors.blocked('signin', ip)) return void res.writeHead(429, { ...BASE_HEADERS, 'retry-after': '600' }).end()
       const core = this.o.core()
       if (!core) return void res.writeHead(503, BASE_HEADERS).end()
@@ -182,7 +182,7 @@ export class HomeLink {
     const key = spent ? await this.o.core()?.deviceKey(deviceLabel(asked?.name, asked?.platform)) : undefined
     if (!key) {
       this.doors.fail('join', ip)
-      return json(res, 410, { error: 'Esse código já foi usado ou passou do prazo. Gere outro no Tucano do computador. · That code was already used or has expired. Make a new one in Tucano on your computer.' })
+      return json(res, 410, { error: 'Esse código já foi usado ou passou do prazo. Gere outro na Arara do computador. · That code was already used or has expired. Make a new one in Arara on your computer.' })
     }
     json(res, 200, { key })
     this.o.onChange?.()

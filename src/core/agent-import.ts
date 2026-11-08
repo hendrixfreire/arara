@@ -9,8 +9,8 @@
 // OpenBot's code is used.
 //
 // Apps with no export of their own (Grok Bot): the person gives one of their agents there our skill
-// (assets/tucano-export-skill.md), and it writes a .zip in Tucano's own format (`tucano-import.json`,
-// format "tucano-agent-import", version 1), read by `readTucanoImport`.
+// (assets/arara-export-skill.md), and it writes a .zip in Arara's own format (`arara-import.json`,
+// format "arara-agent-import", version 1), read by `readAraraImport`.
 import { randomUUID } from 'node:crypto'
 import { L } from '../shared/lang'
 import { channelName, codexValue, customModel, MAX_AGENT_ROUTINES, type Agent, type Effort, type EngineId, type Memory, type Routine, type Schedule } from '../shared/types'
@@ -86,7 +86,7 @@ function attempt<T>(read: () => T, fallback: T, note: string, notes: string[]): 
 const inside = (path: unknown, prefix: string): string | undefined =>
   typeof path === 'string' && path.startsWith(prefix) && !path.split('/').some((p) => p === '..' || p === '') ? path : undefined
 const KEY = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/ // OpenBot's agent keys
-const OUR_KEY = /^[a-z][a-z0-9-]{0,39}$/ // tucano-import.json's
+const OUR_KEY = /^[a-z][a-z0-9-]{0,39}$/ // arara-import.json's
 
 // The picture, as a data URL, when it's a kind and a size this app shows.
 function readPicture(zip: Zip, path: unknown, prefix: string, notes: string[]): string | undefined {
@@ -94,7 +94,7 @@ function readPicture(zip: Zip, path: unknown, prefix: string, notes: string[]): 
   if (!avatar) return undefined
   const type = ({ png: 'png', jpg: 'jpeg', jpeg: 'jpeg', webp: 'webp' } as Record<string, string>)[avatar.split('.').pop()!.toLowerCase()]
   if (!type) {
-    notes.push(L('a foto (formato que o Tucano não mostra)', "the picture (a format Tucano doesn't show)"))
+    notes.push(L('a foto (formato que a Arara não mostra)', "the picture (a format Arara doesn't show)"))
     return undefined
   }
   const entry = zip.entries.get(avatar)
@@ -152,7 +152,7 @@ export function readOpenBot(zip: Zip): ForeignTeam {
     throw new Error(L('O arquivo de exportação do OpenBot está corrompido.', "The OpenBot export file is corrupted."))
   }
   if (m['format'] !== 'openbot-instance-transfer') throw new Error(L('Esse .zip não é uma exportação do OpenBot.', "That .zip isn't an OpenBot export."))
-  if (m['version'] !== 1) throw new Error(L('Essa exportação vem de uma versão do OpenBot que o Tucano ainda não lê.', "That export comes from an OpenBot version Tucano doesn't read yet."))
+  if (m['version'] !== 1) throw new Error(L('Essa exportação vem de uma versão do OpenBot que a Arara ainda não lê.', "That export comes from an OpenBot version Arara doesn't read yet."))
 
   const notes: string[] = []
   const agents = capped(m['agents'], IMPORT_CAPS.agents, agentsOver, notes).flatMap((item, i) => {
@@ -228,14 +228,14 @@ function openBotAgent(zip: Zip, a: Record<string, unknown>): ForeignAgent | unde
   }
 }
 
-// The same CLI keeps the model; a provider Tucano doesn't run leaves the agent on the default.
+// The same CLI keeps the model; a provider Arara doesn't run leaves the agent on the default.
 function openBotModel(provider: string, model: string): { modelId?: string; note?: string } {
   const engines: Record<string, EngineId> = { claude: 'claude', codex: 'codex', opencode: 'opencode', pi: 'pi', gemini: 'gemini', cursor: 'cursor' }
   const engine = engines[provider]
   if (engine === 'claude') return { modelId: /opus/i.test(model) ? 'opus' : /haiku/i.test(model) ? 'haiku' : 'sonnet' }
   if (engine === 'codex') return model ? { modelId: codexValue(model) } : {}
   if (engine) return model ? { modelId: customModel(engine, model) } : {}
-  return { note: L(`o modelo ${model || provider} (${provider} não roda no Tucano: ficou o modelo padrão)`, `the ${model || provider} model (${provider} doesn't run on Tucano: it got the default model)`) }
+  return { note: L(`o modelo ${model || provider} (${provider} não roda na Arara: ficou o modelo padrão)`, `the ${model || provider} model (${provider} doesn't run on Arara: it got the default model)`) }
 }
 
 function openBotEffort(v: unknown): Effort {
@@ -245,7 +245,7 @@ function openBotEffort(v: unknown): Effort {
   return v === 'none' || v === 'minimal' || v === 'low' ? 'low' : 'medium'
 }
 
-// Tucano runs a routine at a time on some weekdays; the rest (hourly, monthly, intervals, cron) has no match.
+// Arara runs a routine at a time on some weekdays; the rest (hourly, monthly, intervals, cron) has no match.
 export function openBotSchedule(s: Record<string, unknown>): Schedule | undefined {
   const t = time(s['time'])
   switch (s['kind']) {
@@ -258,7 +258,7 @@ export function openBotSchedule(s: Record<string, unknown>): Schedule | undefine
       return t && typeof d === 'number' && Number.isInteger(d) && d >= 0 && d <= 6 ? { days: [d], time: t } : undefined
     }
     case 'once': {
-      // Tucano's "once" runs at the next matching weekday: right only within the coming week.
+      // Arara's "once" runs at the next matching weekday: right only within the coming week.
       const date = typeof s['date'] === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s['date']) ? new Date(`${s['date']}T${t ?? '00:00'}:00`) : undefined
       const ahead = date ? date.getTime() - Date.now() : -1
       return t && date && ahead > 0 && ahead < 7 * 86_400_000 ? { days: [date.getDay()], time: t, once: true } : undefined
@@ -287,23 +287,23 @@ export function hueColor(h: number): string {
   return '#' + [f(0), f(8), f(4)].map((x) => Math.round(x * 255).toString(16).padStart(2, '0')).join('')
 }
 
-// ---------- Tucano's own format (Grok Bot, and any app with no export) ----------
+// ---------- Arara's own format (Grok Bot, and any app with no export) ----------
 
-export const TUCANO_IMPORT = 'tucano-import.json'
+export const ARARA_IMPORT = 'arara-import.json'
 const SOURCES: Record<string, string> = { 'grok-bot': 'Grok Bot' }
 const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
-export function readTucanoImport(zip: Zip): ForeignTeam {
-  const raw = zip.read(TUCANO_IMPORT, MAX_MANIFEST)
-  if (!raw) throw new Error(L('Esse .zip não é uma exportação pro Tucano.', "That .zip isn't an export for Tucano."))
+export function readAraraImport(zip: Zip): ForeignTeam {
+  const raw = zip.read(ARARA_IMPORT, MAX_MANIFEST)
+  if (!raw) throw new Error(L('Esse .zip não é uma exportação pra Arara.', "That .zip isn't an export for Arara."))
   let m: Record<string, unknown>
   try {
     m = obj(JSON.parse(raw.toString('utf8')))
   } catch {
-    throw new Error(L('O arquivo tucano-import.json está corrompido.', 'The tucano-import.json file is corrupted.'))
+    throw new Error(L('O arquivo arara-import.json está corrompido.', 'The arara-import.json file is corrupted.'))
   }
-  if (m['format'] !== 'tucano-agent-import') throw new Error(L('Esse .zip não é uma exportação pro Tucano.', "That .zip isn't an export for Tucano."))
-  if (m['version'] !== 1) throw new Error(L('Essa exportação é de uma versão mais nova do formato. Atualize o Tucano.', 'That export is from a newer version of the format. Update Tucano.'))
+  if (m['format'] !== 'arara-agent-import') throw new Error(L('Esse .zip não é uma exportação pra Arara.', "That .zip isn't an export for Arara."))
+  if (m['version'] !== 1) throw new Error(L('Essa exportação é de uma versão mais nova do formato. Atualize a Arara.', 'That export is from a newer version of the format. Update Arara.'))
   const app = str(m['source'], 40)
   const source = SOURCES[app] ?? (app || L('outro app', 'another app'))
 
@@ -311,7 +311,7 @@ export function readTucanoImport(zip: Zip): ForeignTeam {
   const keys = new Set<string>()
   const agents = capped(m['agents'], IMPORT_CAPS.agents, agentsOver, notes).flatMap((item, i) => {
     try {
-      const a = tucanoAgent(zip, obj(item), source)
+      const a = araraAgent(zip, obj(item), source)
       if (!a || keys.has(a.key)) {
         notes.push(L(`o agente nº ${i + 1} (sem nome, ou com a chave inválida ou repetida)`, `agent #${i + 1} (no name, or a key that's invalid or repeated)`))
         return []
@@ -334,7 +334,7 @@ export function readTucanoImport(zip: Zip): ForeignTeam {
   return { source, agents, servers: [], notes, channels }
 }
 
-function tucanoAgent(zip: Zip, a: Record<string, unknown>, source: string): ForeignAgent | undefined {
+function araraAgent(zip: Zip, a: Record<string, unknown>, source: string): ForeignAgent | undefined {
   const key = str(a['key'], 40)
   const name = str(a['name'], 80)
   if (!OUR_KEY.test(key) || !name) return undefined
@@ -349,7 +349,7 @@ function tucanoAgent(zip: Zip, a: Record<string, unknown>, source: string): Fore
     const rname = str(r['name'], 120)
     const prompt = str(r['prompt'], 20_000)
     if (!rname || !prompt) return []
-    const schedule = tucanoSchedule(r)
+    const schedule = araraSchedule(r)
     if (!schedule) {
       notes.push(L(`a rotina "${rname}" (horário sem equivalente aqui)`, `the routine "${rname}" (a schedule with no match here)`))
       return []
@@ -373,7 +373,7 @@ function tucanoAgent(zip: Zip, a: Record<string, unknown>, source: string): Fore
 }
 
 // { days: ["mon", "wed"], time: "08:30", once?: true }: what a routine here already is, with day names.
-export function tucanoSchedule(r: Record<string, unknown>): Schedule | undefined {
+export function araraSchedule(r: Record<string, unknown>): Schedule | undefined {
   const t = time(r['time'])
   const days = arr(r['days']).map((d) => (typeof d === 'string' ? DAYS.indexOf(d.toLowerCase().slice(0, 3)) : -1))
   if (!t || !days.length || days.some((d) => d < 0)) return undefined
@@ -542,7 +542,7 @@ export function applyForeignTeam(db: Db, team: ForeignTeam, opts: { defaultLimit
 // Reads whichever app the .zip came from.
 export function readForeignZip(zip: Zip): ForeignTeam {
   if (isOpenBotTransfer(zip)) return readOpenBot(zip)
-  if (zip.entries.has(TUCANO_IMPORT)) return readTucanoImport(zip)
-  if (zip.entries.has('openbot-import.json')) throw new Error(L('Esse .zip foi feito pro OpenBot. Pra trazer do Grok Bot, use a skill de exportação do Tucano (botão "Skill pro Grok Bot").', 'That .zip was made for OpenBot. To bring agents from Grok Bot, use Tucano\'s export skill (the "Skill for Grok Bot" button).'))
-  throw new Error(L('Não reconheci esse .zip. O Tucano importa a exportação do OpenBot (Configurações do servidor → Transfer → Export) e a do Grok Bot feita com a skill do Tucano.', "I didn't recognize that .zip. Tucano imports OpenBot's export (Server settings → Transfer → Export) and Grok Bot's, made with Tucano's skill."))
+  if (zip.entries.has(ARARA_IMPORT)) return readAraraImport(zip)
+  if (zip.entries.has('openbot-import.json')) throw new Error(L('Esse .zip foi feito pro OpenBot. Pra trazer do Grok Bot, use a skill de exportação da Arara (botão "Skill pro Grok Bot").', 'That .zip was made for OpenBot. To bring agents from Grok Bot, use Arara\'s export skill (the "Skill for Grok Bot" button).'))
+  throw new Error(L('Não reconheci esse .zip. A Arara importa a exportação do OpenBot (Configurações do servidor → Transfer → Export) e a do Grok Bot feita com a skill da Arara.', "I didn't recognize that .zip. Arara imports OpenBot's export (Server settings → Transfer → Export) and Grok Bot's, made with Arara's skill."))
 }

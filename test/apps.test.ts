@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { setLang } from '../src/shared/lang'
-import { appStep, appTools, DesktopApps, grantOf, isTucano, itemize, keyFor, parseLsappinfo, parseMdls, pick, riskyClick, riskyKey, run, typeKeys, type Cli, type Envelope } from '../src/core/apps'
+import { appStep, appTools, DesktopApps, grantOf, isArara, itemize, keyFor, parseLsappinfo, parseMdls, pick, riskyClick, riskyKey, run, typeKeys, type Cli, type Envelope } from '../src/core/apps'
 import type { Agent } from '../src/shared/types'
 
 // A Notes window as agent-desktop describes it.
@@ -176,13 +176,13 @@ describe('what an agent may do with an app', () => {
 
 })
 
-describe('Tucano itself', () => {
+describe('Arara itself', () => {
   it('is never an app an agent drives, which could click its own approval', () => {
-    expect(isTucano({ name: 'Tucano' })).toBe(true)
-    expect(isTucano({ name: 'Tucano.exe' })).toBe(true)
-    expect(isTucano({ name: 'Electron' })).toBe(true)
-    expect(isTucano({ name: 'Algo', bundleId: 'dev.tucano.app' })).toBe(true)
-    expect(isTucano({ name: 'Notas', bundleId: 'com.apple.Notes' })).toBe(false)
+    expect(isArara({ name: 'Arara' })).toBe(true)
+    expect(isArara({ name: 'Arara.exe' })).toBe(true)
+    expect(isArara({ name: 'Electron' })).toBe(true)
+    expect(isArara({ name: 'Algo', bundleId: 'dev.arara.app' })).toBe(true)
+    expect(isArara({ name: 'Notas', bundleId: 'com.apple.Notes' })).toBe(false)
   })
 })
 

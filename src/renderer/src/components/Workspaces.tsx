@@ -8,7 +8,7 @@ import { useServers } from './Servers'
 export function useWorkspaceList(): { list: WorkspaceList | null; error: string } {
   const [list, setList] = useState<WorkspaceList | null>(null)
   const [error, setError] = useState('')
-  const api = window.tucano.workspaces
+  const api = window.arara.workspaces
   useEffect(() => {
     if (!api) return
     let active = true
@@ -30,7 +30,7 @@ export function WorkspaceSelector(): ReactNode {
   const [error, setError] = useState('')
   const root = useRef<HTMLDivElement>(null)
   const button = useRef<HTMLButtonElement>(null)
-  const api = window.tucano.workspaces
+  const api = window.arara.workspaces
   useEffect(() => {
     if (!open) return
     const outside = (event: MouseEvent): void => { if (!root.current?.contains(event.target as Node)) setOpen(false) }
@@ -76,7 +76,7 @@ export function WorkspaceSelector(): ReactNode {
         </button>)}
         {servers.length > 0 && <>
           <div className="workspace-picker__head workspace-picker__head--servers"><span className="muted small">{L('Servidores', 'Servers')}</span></div>
-          {servers.map((s) => <button key={s.id} className="menu__item" role="menuitemradio" aria-checked={s.open} disabled={busy} onClick={() => { setOpen(false); window.tucano.servers!.open(s.id) }}>
+          {servers.map((s) => <button key={s.id} className="menu__item" role="menuitemradio" aria-checked={s.open} disabled={busy} onClick={() => { setOpen(false); window.arara.servers!.open(s.id) }}>
             <span className="workspace-picker__check" aria-hidden="true"><Icon name="globe" size={14} /></span>
             <span className="grow">{s.name}</span>
           </button>)}

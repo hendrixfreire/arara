@@ -443,7 +443,7 @@ export function Sidebar(): ReactNode {
         </Section>
       </nav>
 
-      {/* The missions set the Tucano up and walk through it: the owner's. */}
+      {/* The missions set the Arara up and walk through it: the owner's. */}
       {owner && settings.onboarding?.done && !settings.onboarding.checklistHidden && <MissionsCard />}
       <ContextMenu menu={menu} onClose={closeMenu} />
       <div className="sidebar__foot">

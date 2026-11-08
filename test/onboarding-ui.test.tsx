@@ -12,7 +12,7 @@ import type { State } from '../src/renderer/src/store'
 
 const { window, document } = parseHTML('<!doctype html><html><body><div id="root"></div></body></html>')
 Object.assign(globalThis, { window, document, HTMLElement: window.HTMLElement, Node: window.Node, IS_REACT_ACT_ENVIRONMENT: true, matchMedia: () => ({ matches: true }) })
-Object.assign(window, { tucano: {} })
+Object.assign(window, { arara: {} })
 // The conversation under "Ajustar com o Tuca" watches its size.
 Object.assign(globalThis, { ResizeObserver: class { observe(): void {} unobserve(): void {} disconnect(): void {} } })
 // React reads typing from the input event only where the document says it has one (linkedom doesn't).
@@ -114,10 +114,10 @@ describe('the first run', () => {
     expect(text()).toContain('Seu time de IA')
     await click(/^Começar$/)
     expect(text()).toContain('Conectar a IA')
-    expect(text()).toContain('O login é feito no site deles. O Tucano nunca vê a sua senha.')
+    expect(text()).toContain('O login é feito no site deles. A Arara nunca vê a sua senha.')
     expect(text()).toContain('Uso chave de API, gateway da empresa ou outro programa')
     await click(/Não assino nenhuma/)
-    expect(text()).toContain('você paga direto pra empresa, não pro Tucano')
+    expect(text()).toContain('você paga direto pra empresa, não pra Arara')
     await click(button(/Ver os planos/))
     expect(store.openExternal).toHaveBeenCalledWith('https://chatgpt.com/pricing')
     await click(/ChatGPT/)
@@ -391,7 +391,7 @@ describe('the sidebar and the missions', () => {
     expect(store.updateSettings).toHaveBeenCalledWith({ onboarding: { done: true, fresh: true, seen: ['connectors'] } })
   })
 
-  it('is whole for someone who already used Tucano, and after "Mostrar tudo de uma vez"', async () => {
+  it('is whole for someone who already used Arara, and after "Mostrar tudo de uma vez"', async () => {
     for (const onboarding of [undefined, { done: true }, { done: true, fresh: true, showAll: true }]) {
       fake = state({ agents: [lia], conversations: [geral], settings: { onboarding } })
       await render(<Sidebar />)

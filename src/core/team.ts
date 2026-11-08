@@ -11,7 +11,7 @@ import { describeSchedule, MAX_AGENT_ROUTINES, modelInfo, type Agent, type Agent
 import { cleanLook } from './agent-look'
 import type { Db } from './db'
 
-const FENCE = 'tucano-team'
+const FENCE = 'arara-team'
 const OLD_FENCE = 'agent-desk-team' // teams exported before the rename
 const KEEP_BACKUPS = 7
 const DAY = 86_400_000
@@ -81,7 +81,7 @@ export function exportTeam(db: Db, by = db.ownerId()): string {
   }
 
   const md = [
-    L('# Time do Tucano', '# Tucano team'),
+    L('# Time da Arara', '# Arara team'),
     '',
     L(
       `Exportado em ${new Date().toLocaleString(locale())}. Sem credenciais, memórias nem conversas. Pra usar em outro computador: Configurações → Time → Importar.`,
@@ -121,7 +121,7 @@ export function exportTeam(db: Db, by = db.ownerId()): string {
 // agent, never into someone else's; what comes in is theirs.
 export function importTeam(db: Db, text: string, defaultLimit: number, by = db.ownerId()): string {
   const m = new RegExp('```json (?:' + FENCE + '|' + OLD_FENCE + ')\\n([\\s\\S]*?)\\n```').exec(text)
-  if (!m) throw new Error(L('Esse arquivo não é um time exportado pelo Tucano.', "That file isn't a team exported by Tucano."))
+  if (!m) throw new Error(L('Esse arquivo não é um time exportado pela Arara.', "That file isn't a team exported by Arara."))
   let data: TeamFile
   try {
     data = JSON.parse(m[1]!) as TeamFile
@@ -234,11 +234,11 @@ export function backup(db: Db, dir: string, workspaceName?: string): string {
     .replace(/[^a-z0-9]+/gi, '-')
     .replace(/^-+|-+$/g, '')
     .slice(0, 40)
-  const file = join(dir, `tucano-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}${safe ? `-${safe}` : ''}.db`)
+  const file = join(dir, `arara-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}${safe ? `-${safe}` : ''}.db`)
   if (existsSync(file)) rmSync(file)
   db.backupTo(file)
   const old = readdirSync(dir)
-    .filter((f) => /^(tucano|agent-desk)-.*\.db$/.test(f)) // and the ones from before the rename
+    .filter((f) => /^(arara|agent-desk)-.*\.db$/.test(f)) // and the ones from before the rename
     .sort()
     .slice(0, -KEEP_BACKUPS)
   for (const f of old) rmSync(join(dir, f), { force: true })

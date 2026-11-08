@@ -34,7 +34,7 @@ export type PromptOpts = {
   builderGuide?: string // how to propose agents, teams, routines and channels, and the Tuca's guide (stable)
   wiki?: { pages: number; kinds: string[] } // the wiki it may read
   connectors?: boolean // it has connector tools (Slack, Databricks…)
-  people?: Person[] // the Tucano's people; with more than one, the agent is told who they are
+  people?: Person[] // the Arara's people; with more than one, the agent is told who they are
   github?: GitHubAccess // a GitHub connector it has access to: how it publishes, and what waits for the person
 }
 
@@ -63,8 +63,8 @@ export function systemPrompt(opts: PromptOpts): string {
 
   return [
     L(
-      `Você é ${agent.name} (@${agent.handle}), um agente de IA no Tucano, um app de chat onde ${me} conversa com um time de agentes em canais e DMs.`,
-      `You are ${agent.name} (@${agent.handle}), an AI agent in Tucano, a chat app where ${me} talks with a team of agents in channels and DMs.`
+      `Você é ${agent.name} (@${agent.handle}), um agente de IA na Arara, um app de chat onde ${me} conversa com um time de agentes em canais e DMs.`,
+      `You are ${agent.name} (@${agent.handle}), an AI agent in Arara, a chat app where ${me} talks with a team of agents in channels and DMs.`
     ),
     agent.role && L(`Seu papel: ${agent.role}.`, `Your role: ${agent.role}.`),
     people && people.length > 1 && peopleSection(people),
@@ -214,10 +214,10 @@ export const NO_LIVE = (): string =>
 // With more than one person, who they are: names in the transcript are theirs, and `me` (what the
 // rest of the prompt calls "the person") is whoever this reply is for.
 function peopleSection(people: Person[]): string {
-  const role = (p: Person): string => (p.role === 'owner' ? L('dono do Tucano', "the Tucano's owner") : p.role === 'admin' ? 'admin' : L('membro', 'member'))
+  const role = (p: Person): string => (p.role === 'owner' ? L('dono da Arara', "the Arara's owner") : p.role === 'admin' ? 'admin' : L('membro', 'member'))
   return [
     L('## As pessoas', '## The people'),
-    L('Este Tucano é de um time. Cada mensagem diz quem escreveu.', 'This Tucano belongs to a team. Each message says who wrote it.'),
+    L('Esta Arara é de um time. Cada mensagem diz quem escreveu.', 'This Arara belongs to a team. Each message says who wrote it.'),
     ...people.map((p) => `- ${p.name} (${role(p)})${p.about.trim() ? `: ${p.about.trim()}` : ''}`)
   ].join('\n')
 }

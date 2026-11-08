@@ -8,7 +8,7 @@ afterAll(() => setLang('pt'))
 describe('keyArg: the argument that says what a call did', () => {
   it('picks the SQL, the path or the search over the rest', () => {
     expect(keyArg({ warehouse_id: 'abc', statement: 'select 1' })).toBe('select 1')
-    expect(keyArg({ limit: 10, Query: 'tucano' })).toBe('tucano')
+    expect(keyArg({ limit: 10, Query: 'arara' })).toBe('arara')
     expect(keyArg({ path: '/tmp/a.csv', encoding: 'utf8' })).toBe('/tmp/a.csv')
   })
   it('falls back to the first text argument, never the reason the agent gave', () => {

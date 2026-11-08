@@ -6,7 +6,7 @@ import { join } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { ChromeBrowsers, hasChrome } from '../src/core/chrome'
 
-// Tucano as a server: taking the agent's browser over keeps it headless, and
+// Arara as a server: taking the agent's browser over keeps it headless, and
 // what I do on its picture in the panel reaches the page.
 const PAGE = `<!doctype html><title>start</title>
 <input id="q" style="position:fixed;top:0;left:0;width:100vw;height:100px;font-size:40px">
@@ -24,7 +24,7 @@ describe.skipIf(!hasChrome())('a windowless browser driven from the panel', () =
     server = createServer((_req, res) => void res.writeHead(200, { 'content-type': 'text/html' }).end(PAGE))
     await new Promise<void>((r) => server.listen(0, '127.0.0.1', r))
     url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/`
-    chrome = new ChromeBrowsers(mkdtempSync(join(tmpdir(), 'tucano-chrome-')), (_id, s) => shown.push(s), undefined, undefined, true)
+    chrome = new ChromeBrowsers(mkdtempSync(join(tmpdir(), 'arara-chrome-')), (_id, s) => shown.push(s), undefined, undefined, true)
   })
 
   afterAll(async () => {

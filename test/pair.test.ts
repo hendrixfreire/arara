@@ -10,7 +10,7 @@ import { browserName, CODE_MINUTES, codeMinutes, deviceLabel, MAX_CODE_MINUTES, 
 import { Doors, signIn } from '../src/server/guard'
 import { pairingLink, parsePairing } from '../src/shared/servers'
 
-const file = (): string => join(mkdtempSync(join(tmpdir(), 'tucano-pair-')), 'pair-codes.json')
+const file = (): string => join(mkdtempSync(join(tmpdir(), 'arara-pair-')), 'pair-codes.json')
 
 describe('one-time pairing codes', () => {
   it('are good once, for whom they were made, and the file keeps only their hash', () => {
@@ -69,7 +69,7 @@ describe('one-time pairing codes', () => {
 
 describe('the link a code makes', () => {
   it('carries the code, not a token, and the token link still reads', () => {
-    expect(pairingLink({ origin: 'https://ana.example.com', code: 'abcDEF123_-abcDEF123_-ab' })).toBe('tucano://connect?url=https%3A%2F%2Fana.example.com&code=abcDEF123_-abcDEF123_-ab')
+    expect(pairingLink({ origin: 'https://ana.example.com', code: 'abcDEF123_-abcDEF123_-ab' })).toBe('arara://connect?url=https%3A%2F%2Fana.example.com&code=abcDEF123_-abcDEF123_-ab')
     const p = { origin: 'https://ana.example.com', token: 'abcdefghijklmnopqrstuvwxyz' }
     expect(parsePairing(pairingLink(p))).toEqual(p)
   })
